@@ -1,0 +1,71 @@
+#header {
+    text-align: center;
+    background-image: linear-gradient(#00D261, black);
+    padding: 3em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#dropdown {
+    border-radius: 1.5em;
+}
+
+.ui.selection.active.dropdown > .menu {
+    border-radius: 0em 0em 1.5em 1.5em;
+}
+
+#action-bar {
+    width: 20em;
+    margin: 2em 0em;
+}
+
+#footer {
+    text-align: center;
+    margin: 20px auto;
+    padding: 1em 0em;
+    border-top: 2px solid lightgray;
+    width: 40%;
+}
+
+#footer > hr {
+    width: 50%;
+    margin: 1em auto;
+}
+
+#disableDiv {
+    margin: 10px 0px;
+}
+
+.centeredMessageDiv {
+    text-align: center;
+}
+
+#popButton {
+    box-shadow: none !important;
+    padding: 5px;
+}
+
+#footer-links {
+    display: flex;
+    justify-content: center;
+    margin: 20px auto;
+}
+
+#footer-links button {
+    margin: 0 10px;
+    display: flex;
+}
+
+#footer-links a {
+    text-decoration: none;
+}
+
+.ui.modal .scrolling.content {
+    color: black;
+}
+
+ol {
+    margin-left: 20px;
+}
