@@ -337,7 +337,7 @@ export default function Dashboard({code}) {
                     <Modal.Actions>
                     </Modal.Actions>
                 </Modal>
-                <a href="#" target="_blank" rel="noreferrer">
+                <a href="https://github.com/HannahGuo/RankedRecords" target="_blank" rel="noreferrer">
                     <Button basic inverted color="grey"><Icon name="github"/>Github</Button>
                 </a>
                 <a href="https://developer.spotify.com/" target="_blank" rel="noreferrer">
