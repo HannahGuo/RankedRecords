@@ -279,6 +279,7 @@ export default function Dashboard({code}) {
         <CustomTable loading={artistID && !doneLoadingFinalTrackList} data={finalTrackList} artistID={artistID}></CustomTable>
 
         <div id="footer">
+            <hr/>
             <div>Made with ❤ by <a href="https://hannahguo.me/" target="_blank" rel="noreferrer">Hannah Guo️</a></div>
 
             <div id="footer-links">
@@ -287,7 +288,6 @@ export default function Dashboard({code}) {
                     onClose={() => setFaqOpen(false)}
                     onOpen={() => setFaqOpen(true)}
                     trigger={<Button basic inverted color="grey"><Icon name="question"/>FAQs</Button>}>
-
                     <Modal.Header>💿 Ranked Records FAQs</Modal.Header>
                     <Modal.Content scrolling>
                         <Modal.Description>
@@ -337,12 +337,16 @@ export default function Dashboard({code}) {
                     <Modal.Actions>
                     </Modal.Actions>
                 </Modal>
-                <a href="https://github.com/HannahGuo/RankedRecords" target="_blank" rel="noreferrer">
-                    <Button basic inverted color="grey"><Icon name="github"/>Github</Button>
-                </a>
-                <a href="https://developer.spotify.com/" target="_blank" rel="noreferrer">
-                    <Button basic inverted color="grey"><Icon name="spotify"/>Spotify Developer Docs</Button>
-                </a>
+                <div>
+                    <a href="https://github.com/HannahGuo/RankedRecords" target="_blank" rel="noreferrer">
+                        <Button basic inverted color="grey"><Icon name="github"/>Github</Button>
+                    </a>
+                </div>
+                <div>
+                    <a href="https://developer.spotify.com/" target="_blank" rel="noreferrer">
+                        <Button basic inverted color="grey"><Icon name="spotify"/>Spotify Developer Docs</Button>
+                    </a>
+                </div>
             </div>
         </div>
     </div>

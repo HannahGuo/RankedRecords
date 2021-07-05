@@ -25,13 +25,12 @@
     text-align: center;
     margin: 20px auto;
     padding: 1em 0em;
-    border-top: 2px solid lightgray;
-    width: 40%;
 }
 
 #footer > hr {
     width: 50%;
     margin: 1em auto;
+    border-top: 2px solid lightgray;
 }
 
 #disableDiv {
