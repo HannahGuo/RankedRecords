@@ -1,0 +1,189 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+@font-face {
+    font-family: Cabin;
+    src: url(./Cabin-Medium.ttf);
+    font-display: swap;
+}
+
+body,
+html {
+    height: 100%;
+}
+
+body {
+    background-color: black;
+    color: white;
+    font-family: Cabin, Arial, sans-serif;
+    font-weight: normal;
+    font-size: 18px;
+}
+
+@media only screen and (min-width: 1141px) {
+    h1 {
+        font-size: 142px;
+    }
+
+    h2 {
+        font-size: 44px;
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+
+    #buttonContainer {
+        display: flex;
+        align-items: center;
+    }
+
+    #buttonContainer .colorHover {
+        margin-left: 20px;
+    }
+
+    #backgroundArtists {
+        font-size: 120px;
+    }
+
+}
+
+@media only screen and (max-width: 1140px) {
+    h1 {
+        font-size: 100px;
+    }
+
+    h2 {
+        font-size: 32px;
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+
+    #buttonContainer {
+        display: flex;
+        align-items: center;
+    }
+
+    #buttonContainer .colorHover {
+        margin-left: 20px;
+    }
+
+    #backgroundArtists {
+        font-size: 100px;
+    }
+}
+
+@media only screen and (max-width: 640px) {
+    h1 {
+        font-size: 50px;
+    }
+
+    h2 {
+        font-size: 24px;
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+
+    #headerText > span {
+        font-size: 16px;
+    }
+
+    #buttonContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    #buttonContainer .colorHover {
+        margin-top: 20px;
+        margin-left: 0px;
+    }
+
+    #backgroundArtists {
+        font-size: 80px;
+    }
+}
+
+h1,
+h2 {
+    font-weight: normal;
+}
+
+a,
+a:hover,
+a:visited,
+a:active {
+    color: inherit;
+    text-decoration: none;
+}
+
+#container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: auto 80px;
+}
+
+#textContainer {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.whiteButton {
+    background-color: white;
+    color: black;
+    padding: 15px;
+    width: 100px;
+    border-radius: 50px;
+    text-align: center;
+}
+
+.whiteButton:hover {
+    cursor: pointer;
+    background-color: black;
+    color: #1DD05D;
+    transition: all 0.4s ease;
+}
+
+.colorHover {
+    border-radius: 100%;
+}
+
+.colorHover:hover {
+    cursor: pointer;
+    color: black;
+    transition: all 0.4s ease;
+}
+
+/* because the github icon isn't really a circle */
+.colorHover:hover .imGreen {
+    position: absolute;
+    z-index: -1;
+    background-color: #1DD05D;
+    height: 2.8em;
+    width: 2.7em;
+    margin: 0.1em 0.1em;
+    border-radius: 100%;
+}
+
+#backgroundArtists {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -5;
+    overflow: hidden;
+    word-wrap: break-word;
+    opacity: 0.15;
+}
+
+.green {
+    color: #1DD05D;
+}
+
+.white {
+    color: white;
+}
