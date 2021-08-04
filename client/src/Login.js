@@ -1,4 +1,7 @@
 import React from "react"
+import { Button } from 'semantic-ui-react'
+import {CURRENT_URL} from "./constants";
+import "./Dashboard.css"
 
 function createAuthURL(settings){
     let authStr = "https://accounts.spotify.com/authorize?";
@@ -9,23 +12,25 @@ function createAuthURL(settings){
         }
     }
     return authStr.slice(0, -1);
-    
 }
 
 const auth_settings = {
     "client_id": "261761120bec41c0a86bdfeb8f0c43f9",
     "response_type": "code",
-    "redirect_uri": "https://spotify-ranked-records.herokuapp.com/",
-    "scope": `streaming%20user-read-email%20user-read-private%20user-library-read%20
-              user-library-modify%20user-read-playback-state%20user-modify-playback-state`
+    "redirect_uri": CURRENT_URL + "login",
+    "scope": `streaming%20user-read-email%20user-library-modify%20playlist-modify-public`
 }
 
 const auth_url = createAuthURL(auth_settings);
 
-export default function Login() {
-    return(
-    <div>
-        <a href={auth_url}>Login with Spotify</a>
-    </div>
+export default function Login({setUserLogin}) {
+    function handleClick(){
+        setUserLogin(true);
+    }
+
+    return (
+        <a href={auth_url}>
+            <Button onClick={handleClick} id="loginButton">Connect with Spotify</Button>
+        </a>
     );
 }

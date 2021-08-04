@@ -1,15 +1,37 @@
 #header {
     text-align: center;
-    background-image: linear-gradient(#00D261, black);
-    padding: 3em;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding: 2em;
+}
+
+#greenGradiant {
+    background-image: linear-gradient(#006931, black);
+    height: 5em;
+    width: 100%;
+    top: 0;
+    z-index: -10;
+    position: absolute;
 }
 
 #dropdown {
     border-radius: 1.5em;
+    flex: 5;
+}
+
+#createRP {
+    border-radius: 5em;
+    flex: 2;
+    background-color: white;
+    color: black;
+}
+
+#createRP:hover {
+    background: black;
+    color: #1DD05D;
+    transition: all 0.4s ease;
 }
 
 .ui.selection.active.dropdown > .menu {
@@ -17,8 +39,14 @@
 }
 
 #action-bar {
-    width: 20em;
+    width: 40em;
     margin: 2em 0em;
+    display: flex;
+    justify-content: space-between;
+}
+
+#action-bar > div {
+    margin: 0em 1em; 
 }
 
 #footer {
@@ -35,6 +63,7 @@
 
 #disableDiv {
     margin: 10px 0px;
+    color: red;
 }
 
 .centeredMessageDiv {
@@ -67,4 +96,23 @@
 
 ol {
     margin-left: 20px;
+}
+
+#generateButton, #loginButton {
+    color: #006931;
+    background-color: white;
+    border: 2px solid #006931;
+}
+
+#generateButton:hover, #loginButton:hover {
+    transition: all 0.3s ease;
+    background-color: #006931;
+    color: white;
+}
+
+#loadingButtonNotice {
+    margin: 0 auto;
+}
+.ui.modal>.actions {
+    padding: 1em;
 }

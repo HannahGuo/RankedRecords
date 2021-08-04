@@ -3,7 +3,7 @@
   src: local('Cabin'), url("../src/static/Cabin/Cabin-Regular.ttf") format('truetype');
 }
 
-* { 
+* {
   margin: 0;
   padding: 0;
 }
@@ -15,7 +15,8 @@ body {
   font-size: 1.2em;
 }
 
-a, a:visited {
+a,
+a:visited {
   color: white;
   text-decoration: underline;
 }
@@ -24,4 +25,22 @@ a:hover {
   color: white;
   text-decoration: underline;
   cursor: pointer;
+}
+
+.ui.button {
+  font-family: "Cabin", sans-serif;
+  font-weight: 600;
+}
+
+.ui.avatar.image,
+.ui.avatar.image img,
+.ui.avatar.image svg,
+.ui.avatar.images .image,
+.ui.avatar.images img,
+.ui.avatar.images svg {
+  margin-right: 0.5em;
+}
+
+.ui.modal>.actions {
+  text-align: center;
 }

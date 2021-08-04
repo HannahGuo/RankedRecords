@@ -1,21 +1,28 @@
 import { useState, useEffect } from "react"
 import axios from "axios"
+import { CURRENT_SERVER_URL } from "./constants";
 
-export default function useAuth(code){
+export default function useAuth(code, isLog){
     const [accessToken, setAccessToken] = useState("");
-    const [expiresIn, setExpiresIn] = useState(0);
-    const currentURL = "http://localhost:3001/";
-    // const currentURL = "https://spotify-ranked-records.herokuapp.com/";
+    // const [expiresIn, setExpiresIn] = useState(0);
 
     useEffect(() => {
-        axios.post(currentURL).then(res => {
-            console.log("og", res.data);
-            setAccessToken(res.data.accessToken);
-            setExpiresIn(res.data.expiresIn);
-        }).catch((err) => { 
-            console.log("home err", err)
-        })
-    }, [code])
+        if(!isLog) {
+            axios.post(CURRENT_SERVER_URL).then(res => {
+                setAccessToken(res.data.accessToken);
+                // setExpiresIn(res.data.expiresIn);    
+            }).catch((err) => { 
+                console.log("home err reg", err)
+            })
+        } else if(code){
+            axios.post(CURRENT_SERVER_URL + "login/", {code}).then(res => {
+                setAccessToken(res.data.accessToken);
+                // setExpiresIn(res.data.expiresIn);    
+            }).catch((err) => { 
+                console.log("home err log", err,)
+            })
+        }
+    }, [code, isLog])
 
     // useEffect(() => {
     //     if (!expiresIn) return
