@@ -116,3 +116,25 @@ ol {
 .ui.modal>.actions {
     padding: 1em;
 }
+
+#firstLoginModal {
+    color: black;
+}
+
+.Toastify__toast-body  {
+    font-family: "Cabin", sans-serif;
+    color: black;
+}
+
+.Toastify__toast.Toastify__toast--default {
+    border-radius: 50px;
+    min-height: unset;
+}
+
+.Toastify__toast-container--top-right.Toastify__toast-container{
+    width: auto;
+}
+
+.Toastify__close-button--default {
+    display: none;
+}

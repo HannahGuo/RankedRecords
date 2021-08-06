@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import axios from "axios"
-import { CURRENT_SERVER_URL } from "./constants";
+import { CURRENT_SERVER_URL } from "../constants";
 
 export default function useAuth(code, isLog){
     const [accessToken, setAccessToken] = useState("");

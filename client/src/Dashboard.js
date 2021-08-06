@@ -1,20 +1,26 @@
 import React, {useState, useEffect} from "react"
-import useAuth from "./useAuth"
+import useAuth from "./hooks/useAuth"
 import SpotifyWebApi from "spotify-web-api-node"
-import { Dropdown, Button, Popup, Modal, Icon, Image } from 'semantic-ui-react'
+import { Dropdown, Button, Popup, Modal, Icon, Image, Label } from 'semantic-ui-react'
+import { ToastContainer, toast } from 'react-toastify';
 import CustomTable from "./CustomTable";
 import Login from "./Login"
+import { FAQModalContent } from "./ModalContent";
+import 'react-toastify/dist/ReactToastify.css';
 import "./Dashboard.css"
+
 const codeURL =  new URLSearchParams(window.location.search).get("code")
 
 const spotifyApi = new SpotifyWebApi({
     clientId: "261761120bec41c0a86bdfeb8f0c43f9"
 })
 
-// something tells me i can rewrite this whole thing with async await LOL but for now everything works
-// and i'm still marveling about how cool it is that it does work and i don't want to break it.
+// something tells me that in a year i'm going to come back to look at this and think
+// "what was I doing"
 
 export default function Dashboard({code}) {    
+    const [firstLoginModalOpen, setFirstLoginModalOpen] = useState(true)
+
     const [userLogin, setUserLogin] = useState(false)
     const [currentUser, setCurrentUser] = useState({})
 
@@ -48,6 +54,16 @@ export default function Dashboard({code}) {
 
     const accessTokenReg = useAuth(code, false)
     const accessTokenLog = useAuth(codeURL, true);
+
+    const loginConfirm = (userName) => toast(`✅ Logged in as ${userName}`, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        progress: undefined,
+    });         
 
     function resetFields() {
         setSearchResults([]);
@@ -121,9 +137,32 @@ export default function Dashboard({code}) {
         });
     }
 
+    function userWidget() {
+        return <>{userLogin && accessTokenLog && currentUser && currentUser.images ? 
+            <div>
+                <Image src={currentUser.images[0].url} avatar />
+                <span>Logged in as {currentUser.display_name}</span>
+            </div>
+            :
+            <>
+                Connect your account with Spotify to create playlists!
+            </>
+        }</>
+    }
+
+    function loginButton() {
+        return <>{!userLogin && !accessTokenLog && 
+                <Login setUserLogin={setUserLogin} currentUser={currentUser.display_name}/>}</>;
+    }
+
+    // This hook handles local storage - basically whenever the search changes, the current artist in stored in local storage. 
+    // Then if someone just authenticated, we can load it immediately (unfortunately the tracks need to be reloaded, can't really store
+    // that in localStorage).
     useEffect(() => {
         if(codeURL) {
             setUserLogin(true);
+            
+            localStorage.setItem("userAuthToken", codeURL);
 
             let counter = 0;
 
@@ -156,14 +195,22 @@ export default function Dashboard({code}) {
                 setDefaultDropVal(artistID);    
             }
         } else {
-            setUserLogin(false);
             setArtistID("");
             localStorage.setItem("currentArtistID", null);
             localStorage.setItem("currentArtistName", null);
             localStorage.setItem("currentArtistImage", null);
+
+            // would expire after, needs to be fixed
+            // if(localStorage.getItem("userAuthToken")) {
+            //     setUserLogin(true);
+            // } else {
+                setUserLogin(false);
+            // }
         }
     }, [])
 
+    // We have two seperate access tokens - one with login (Log), and one regular (Reg)
+    // This is because I really wanted the site to have the option to be used with/without auth.
     useEffect(() => {
         if(!accessTokenReg) return;
 
@@ -174,27 +221,35 @@ export default function Dashboard({code}) {
         }
     }, [userLogin, accessTokenLog, accessTokenReg])
 
+
+    // Attempts to get the current logged in user - well, hopefully it works.
     useEffect(() => {
         if(userLogin && accessTokenLog) {
             spotifyApi.getMe().then(res => {
                 setCurrentUser(res.body);
-                setPlaylistCreatorOpen(true);
+                loginConfirm(res.body.display_name);
+                let artistName = localStorage.getItem("currentArtistName");
+                setPlaylistCreatorOpen(artistName && artistName !== "null");
             }).catch((err) => {
                 console.log('Something went wrong!', err);
             });
         }
     }, [userLogin, accessTokenLog]);
 
+    // Remove the access code that was in the URL after auth
     useEffect(() => {
         window.history.pushState({}, null, "/")
     }, [userLogin]);
 
+    // Hahaha every hook after this gets messy
+    // This one loads the search results - it's a little laggy because of how many queries are being made
+    // Hence the limit of 5
     useEffect(() => {
         if(disableEntering) return;
         if(!searchValue || searchValue === "") return;
         if(!accessTokenReg) return;
 
-        spotifyApi.searchArtists(searchValue).then(res => {
+        spotifyApi.searchArtists(searchValue, {limit: 5}).then(res => {
             setSearchResults(res)
             
             if(res === [] || !searchResults.body) return;
@@ -222,6 +277,11 @@ export default function Dashboard({code}) {
 
     }, [disableEntering, searchValue, accessTokenReg, searchResults]);
 
+
+    // Once we have an artist selected, it's time to do the big work.
+    // This hook gets all of an artist's albums, filtering out compilations
+    // This needs to be a hook because of artistAlbumOffset - we need to increase
+    // the offset each load so that we can get the next set of albums
     useEffect(() => {
         if(!artistID) return;
 
@@ -247,6 +307,11 @@ export default function Dashboard({code}) {
         })
     }, [artistID, artistAlbumOffset, doneLoadingAlbums])
 
+
+    // Similar to the hook above, but this time, we get all the tracks off of all the albums
+    // This might not need to be a hook come to think of it but currently I'm operating off of the
+    // "if it's not broken don't fix it" mentality - and there's nothing glaringly wrong with this approach
+    // from what I can tell
     useEffect(() => {
         if(!doneLoadingAlbums) return; 
 
@@ -279,6 +344,9 @@ export default function Dashboard({code}) {
         return () => {albumArr = []};
     }, [doneLoadingAlbums, albumTrackOffset, albumList, artistID])
 
+
+    // Final step - get all the tracks and get their popularity. Each track comes with a bunch of other information
+    // that I don't need so I filter it out a bit.
     useEffect(() => {
         if(!doneLoadingTracks) return;
 
@@ -321,6 +389,7 @@ export default function Dashboard({code}) {
         return () => {trackArr = []};
     }, [doneLoadingTracks, trackOffset, doneLoadingTracksPop, trackList]);
 
+    // The easiest step - sort all the tracks by popularity!
     useEffect(() => {
         if(!doneLoadingTracksPop) return;
 
@@ -342,12 +411,35 @@ export default function Dashboard({code}) {
         return () => {tempArr = []}
     }, [doneLoadingTracksPop, trackListPop])
 
+    // And now we can allow further actions :) 
     useEffect(() => {
         if(doneLoadingFinalTrackList) setDisableEntering(false);
     }, [doneLoadingFinalTrackList])
 
-    return(
+    return (
     <div>
+        <ToastContainer
+            position="top-right"
+            autoClose={3000}
+            hideProgressBar
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss={false}
+            draggable={false}
+            pauseOnHover={false}
+            />
+        <Modal id={"firstLoginModal"} closeIcon 
+                open={firstLoginModalOpen && !accessTokenLog} onClose={() => setFirstLoginModalOpen(false)}>
+            <Modal.Content>
+                <h1>Welcome to Ranked Records! 💿</h1>
+                <p>This site lets you view all the top songs by your favorite artists, ranked by popularity!</p>
+                <p>You can create a playlist of these songs if you connect with Spotify - which you can do now, or later when you want to create a playlist.</p>
+            </Modal.Content>
+            <Modal.Actions>
+                {loginButton()}
+            </Modal.Actions>
+        </Modal>
         <div id="header">
             <div id="greenGradiant"></div>
             <h1>Ranked Records</h1>
@@ -394,32 +486,23 @@ export default function Dashboard({code}) {
                     <Modal.Header>🔀 Playlist Generation </Modal.Header>
                     <Modal.Content scrolling>
                         <Modal.Description>
-                            {userLogin && accessTokenLog && currentUser && currentUser.images ? 
-                                <>
-                                <div>
-                                    <Image src={currentUser.images[0].url} avatar />
-                                    <span>Logged in as {currentUser.display_name}</span>
-                                </div>
-                                </> :
-                                <>
-                                    Connect your account with Spotify to create playlists!
-                                </>
-                            
-                            }
-                            {!doneLoadingFinalTrackList && artistID && 
-                                <Button id={"loadingButtonNotice"} disabled={true}>Loading tracks, one moment... Close this window to see progress...</Button> }
+                            {userWidget()}
                         </Modal.Description>
                     </Modal.Content>
                     <Modal.Actions id="connectActions">
-                    {userLogin && accessTokenLog ?
-                        (<Button disabled={!doneLoadingFinalTrackList} 
-                                onClick={createPlaylist} 
-                                id={"generateButton"}>
-                                    {artistName ? 
-                                        <>Create Playlist for {artistName}</> : 
-                                        <>Select an Artist to Generate a Playlist!</>}
-                        </Button>) :
-                    <Login setUserLogin={setUserLogin} currentUser={currentUser.display_name}/> 
+                    {loginButton()}
+
+                    {accessTokenLog && userLogin && artistName ? 
+                         <>{!doneLoadingFinalTrackList && artistID ?
+                        <Label id={"loadingButtonNotice"} disabled={true}>Loading tracks, one moment... Close this window to see progress...</Label>
+                        :
+                        <Button disabled={!doneLoadingFinalTrackList} 
+                            onClick={createPlaylist} 
+                            id={"generateButton"}>
+                            Create Playlist for {artistName}
+                        </Button>
+                        }</>
+                    : accessTokenLog && <Label color='grey'>Close this Window to Select an Artist!</Label>
                     }
                     </Modal.Actions>
                 </Modal>
@@ -454,47 +537,7 @@ export default function Dashboard({code}) {
                     <Modal.Header>💿 Ranked Records FAQs</Modal.Header>
                     <Modal.Content scrolling>
                         <Modal.Description>
-                            <h4>🎶 What's the point of this site?</h4>
-                            <p>Spotify shows the top 10 most popular songs; this one shows all of them.</p>
-
-                            <h4>🎶 Why is the top 10 list here different than the top 10 on Spotify?</h4>
-                            <p>This app sorts <em>every song</em> from an artist, which Spotify doesn't always account for. The lists are generally pretty similar though.</p>
-
-                            <h4>🎶 Why does the site sort by popularity and not another stat, like listens?</h4>
-                            <p>Spotify's API doesn't have listens 😢</p>
-
-                            <h4>🎶 Why are there so many albums?</h4>
-                            <p>An "album" here also includes singles, features and any album they've appeared on.</p>
-
-                            <h4>🎶 Why does it take so long for the songs to load?</h4>
-                            <p>This application making three types of requests:</p>
-                            <ol>
-                                <li>
-                                    <strong>GET all albums from an artist</strong>
-                                    <p>All songs from an artist can't be retrieved directly, but albums can.</p>
-                                </li>
-
-                                <li>
-                                    <strong>GET all tracks off the albums</strong>
-                                    <p>This would be the last step... if popularity were stored in the tracks retrieved from the album. 
-                                        Unfortunately, those can only be accessed by directly getting the track. 
-                                        Instead, the application stores all the IDs of all the album songs for the next step.</p>
-                                </li>
-
-                                <li>
-                                    <strong>GET all tracks by ID</strong>
-                                    <p>Using the track IDs from the previous step, the application gets all the tracks (with popularity) which are then sorted, filtered and displayed.</p>
-                                </li>
-                            </ol>
-                            <br/>
-                            <p>You also might notice that there is some grouping while loading (first step goes up  in 20s, third step goes up in 50s, etc.)
-                                This is to reduce the number of Spotify API calls.</p>
-
-                            <h4>🎶 Why does the number of songs loaded differ from the amount displayed in the final table?</h4>
-                            <p>I do some filtering to make sure there aren't any repeats (taking the track with the higher popularity score).</p>
-
-                            <h4>🎶 Why is X so laggy?</h4>
-                            <p>I'm working on it :)</p>
+                            <FAQModalContent/>
                         </Modal.Description>
                     </Modal.Content>
                 </Modal>
