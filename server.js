@@ -1,7 +1,8 @@
 const express = require("express")
 const cors = require("cors")
 const path = require('path')
-const secret = require('./secret').clientSecret
+const secret = process.env.SECRET || require('./secret').clientSecret
+const redirectUri = process.env.LOGIN_URL || "http://localhost:3000/login"
 const clientId = "261761120bec41c0a86bdfeb8f0c43f9"
 const SpotifyWebApi = require("spotify-web-api-node")
 
@@ -37,8 +38,7 @@ app.post("/login", (req, res) => {
     const spotifyApi = new SpotifyWebApi({
         clientId: clientId,
         clientSecret: secret,
-        // redirectUri: "http://localhost:3000/login"
-        redirectUri: "https://spotify-ranked-records.herokuapp.com/login"
+        redirectUri: redirectUri
     })
 
     spotifyApi.authorizationCodeGrant(code)
