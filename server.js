@@ -1,6 +1,9 @@
 const express = require("express")
 const cors = require("cors")
 const path = require('path')
+
+require('dotenv').config()
+
 const secret = process.env.SECRET || require('./secret').clientSecret
 const redirectUri = process.env.LOGIN_URL || "http://localhost:3000/login"
 const clientId = "261761120bec41c0a86bdfeb8f0c43f9"
