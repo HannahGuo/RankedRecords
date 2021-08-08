@@ -55,7 +55,7 @@ export default function Dashboard({code}) {
     const accessTokenReg = useAuth(code, false)
     const accessTokenLog = useAuth(codeURL, true);
 
-    const loginConfirm = (userName) => toast(`✅ Logged in as ${userName}`, {
+    const toastContent = (message) => toast(message, {
         position: "top-right",
         autoClose: 3000,
         hideProgressBar: true,
@@ -63,8 +63,8 @@ export default function Dashboard({code}) {
         pauseOnHover: false,
         draggable: false,
         progress: undefined,
-    });         
-
+    });   
+    
     function resetFields() {
         setSearchResults([]);
 
@@ -101,13 +101,19 @@ export default function Dashboard({code}) {
 
     function handleClose(e, data) {
         setSearchValue(undefined);
-        console.log({searchValue, artistResults, artistID, e})
     }
 
     function customSearch(options, query) {
         if(query === "") return [];
         return options;
     }   
+
+    function logOut() {
+        setCurrentUser({});
+        setUserLogin(false);
+        toastContent(`❌ Logged out!`);
+        window.open("https://accounts.spotify.com/logout", '_blank');
+    }
 
     async function createPlaylist() {
         let today = new Date().toISOString().slice(0, 10);
@@ -141,7 +147,8 @@ export default function Dashboard({code}) {
         return <>{userLogin && accessTokenLog && currentUser && currentUser.images ? 
             <div>
                 <Image src={currentUser.images[0].url} avatar />
-                <span>Logged in as {currentUser.display_name}</span>
+                <span>Logged in as {currentUser.display_name} </span>
+                <div id="logOutSpan" onClick={logOut}>(Log out - please note that due to technical limitations, pressing log out here will log you out of ALL Spotify applications.)</div>
             </div>
             :
             <>
@@ -150,8 +157,15 @@ export default function Dashboard({code}) {
         }</>
     }
 
+    function generationWidget() {
+        return <>{accessTokenLog && userLogin && artistName && 
+        <div id="generationWidget">
+            <h3>Playlist Generation Settings</h3>
+        </div>}</>
+    }
+
     function loginButton() {
-        return <>{!userLogin && !accessTokenLog && 
+        return <>{!userLogin && 
                 <Login setUserLogin={setUserLogin} currentUser={currentUser.display_name}/>}</>;
     }
 
@@ -227,7 +241,7 @@ export default function Dashboard({code}) {
         if(userLogin && accessTokenLog) {
             spotifyApi.getMe().then(res => {
                 setCurrentUser(res.body);
-                loginConfirm(res.body.display_name);
+                toastContent(`✅ Logged in as ${res.body.display_name}`);
                 let artistName = localStorage.getItem("currentArtistName");
                 setPlaylistCreatorOpen(artistName && artistName !== "null");
             }).catch((err) => {
@@ -487,6 +501,7 @@ export default function Dashboard({code}) {
                     <Modal.Content scrolling>
                         <Modal.Description>
                             {userWidget()}
+                            {generationWidget()}
                         </Modal.Description>
                     </Modal.Content>
                     <Modal.Actions id="connectActions">
@@ -494,7 +509,9 @@ export default function Dashboard({code}) {
 
                     {accessTokenLog && userLogin && artistName ? 
                          <>{!doneLoadingFinalTrackList && artistID ?
-                        <Label id={"loadingButtonNotice"} disabled={true}>Loading tracks, one moment... Close this window to see progress...</Label>
+                        <Label id={"loadingButtonNotice"} 
+                            color="red"
+                            onClick={() => setPlaylistCreatorOpen(false)}>Reloading tracks, one moment... Close this window to see progress...</Label>
                         :
                         <Button disabled={!doneLoadingFinalTrackList} 
                             onClick={createPlaylist} 
@@ -502,7 +519,10 @@ export default function Dashboard({code}) {
                             Create Playlist for {artistName}
                         </Button>
                         }</>
-                    : accessTokenLog && <Label color='grey'>Close this Window to Select an Artist!</Label>
+                    : userLogin && 
+                    <Button color='red' onClick={() => setPlaylistCreatorOpen(false)}>
+                        Close this Window to Select an Artist!
+                    </Button>
                     }
                     </Modal.Actions>
                 </Modal>

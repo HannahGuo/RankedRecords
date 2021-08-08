@@ -18,7 +18,7 @@ const auth_settings = {
     "client_id": "261761120bec41c0a86bdfeb8f0c43f9",
     "response_type": "code",
     "redirect_uri": CURRENT_URL + "login",
-    "scope": `streaming%20user-read-email%20user-library-modify%20playlist-modify-public`
+    "scope": `streaming%20user-read-email%20user-library-modify%20playlist-modify-public%20`
 }
 
 const auth_url = createAuthURL(auth_settings);

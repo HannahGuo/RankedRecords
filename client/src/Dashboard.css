@@ -132,9 +132,22 @@ ol {
 }
 
 .Toastify__toast-container--top-right.Toastify__toast-container{
-    width: auto;
+    width: 15em;
 }
 
 .Toastify__close-button--default {
     display: none;
+}
+
+#generationWidget {
+    padding-top: 1em;
+}
+
+#logOutSpan {
+    color: red;
+    text-decoration: underline;
+}
+
+#logOutSpan:hover {
+    cursor: pointer;
 }
