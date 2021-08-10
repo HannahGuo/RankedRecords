@@ -151,3 +151,11 @@ ol {
 #logOutSpan:hover {
     cursor: pointer;
 }
+
+#filterSelect {
+    z-index: 20;
+}
+
+.longModalDescription {
+    padding-bottom: 20px;
+}
