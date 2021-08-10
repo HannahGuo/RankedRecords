@@ -49,11 +49,12 @@ export default function Dashboard({code}) {
     const [doneLoadingFinalTrackList, setDoneLoadingFinalTrackList] = useState(false);
 
     const [disableEntering, setDisableEntering] = useState(false);
-    const [faqOpen, setFaqOpen] = useState(false)
-    const [playlistCreatorOpen, setPlaylistCreatorOpen] = useState(false)
+    const [faqOpen, setFaqOpen] = useState(false);
+    const [playlistCreatorOpen, setPlaylistCreatorOpen] = useState(false);
 
-    const [newPlaylist, setNewPlaylist] = useState({})
-    const [defaultDropVal, setDefaultDropVal] = useState(undefined)
+    const [newPlaylist, setNewPlaylist] = useState({});
+    const [playlistModalOpen, setPlaylistModalOpen] = useState(false);
+    const [defaultDropVal, setDefaultDropVal] = useState(undefined);
     const [playlistFilters, setPlaylistFilters] = useState([]);
     const [trackMax, setTrackMax] = useState("All");
 
@@ -84,6 +85,7 @@ export default function Dashboard({code}) {
         setTrackListPop([]);
         setFinalTrackList([]);
 
+        setNewPlaylist({});
         setFilteredPlaylist([]);
         setPlaylistFilters([]);
         setTrackMax("All");
@@ -134,7 +136,7 @@ export default function Dashboard({code}) {
         window.open("https://accounts.spotify.com/logout", '_blank');
     }
 
-    async function createPlaylist() {
+    function createPlaylist() {
         let today = new Date().toISOString().slice(0, 10);
         let playlistTitle = `The ${artistName} Master Playlist`;
         let playlistDescBeginning = `All of ${artistName}'s songs`;
@@ -154,7 +156,6 @@ export default function Dashboard({code}) {
                                   'public': true
                                 }).then(async (data) => {  
 
-            setNewPlaylist(data.body);
             let playlistID = data.body.id;
             let songURIs = filteredPlaylist.length <= finalTrackList.length ? filteredPlaylist : finalTrackList.map((val) => val.uri);
             
@@ -172,10 +173,13 @@ export default function Dashboard({code}) {
                 })
             }
 
-            alert("Playlist created, check your account! (This alert will be replaced with a proper notification soon)")
+            setNewPlaylist(data.body);
         }).catch((err) => {
             console.log({err});
+            alert("An error occurred, please try refreshing the page or contacting the developer")
         });
+
+        console.log({newPlaylist})
     }
 
     function userWidget() {
@@ -260,10 +264,19 @@ export default function Dashboard({code}) {
     }
 
     useEffect(() => {
+        if(newPlaylist.external_urls) {
+            console.log({newPlaylist});
+            setPlaylistModalOpen(true);
+        }
+    }, [newPlaylist])
+
+    useEffect(() => {
         let tempPlaylist = finalTrackList.map((val) => {
             if(!playlistFilters.some(fil => val.name.toLowerCase().includes(fil.toLowerCase()))) {
                 return val.uri;
             }
+
+            return null;
         }).filter(val => val);
 
         setFilteredPlaylist(tempPlaylist)
@@ -278,7 +291,7 @@ export default function Dashboard({code}) {
     // that in localStorage).
     useEffect(() => {
         if(codeURL) {
-            // setUserLogin(true);
+            setUserLogin(true);
             
             localStorage.setItem("userAuthToken", codeURL);
 
@@ -350,6 +363,7 @@ export default function Dashboard({code}) {
                 setPlaylistCreatorOpen(artistName && artistName !== "null");
             }).catch((err) => {
                 console.log('Something went wrong!', err);
+                alert("An error occurred, please try refreshing the page or contacting the developer")
             });
         }
     }, [userLogin, accessTokenLog]);
@@ -391,6 +405,7 @@ export default function Dashboard({code}) {
 
         }).catch((err) => {
             console.log({err})
+            alert("An error occurred, please try refreshing the page or contacting the developer")
         })
 
     }, [disableEntering, searchValue, accessTokenReg, searchResults]);
@@ -422,6 +437,7 @@ export default function Dashboard({code}) {
             }
         }).catch((err) => {
             console.log({err});
+            alert("An error occurred, please try refreshing the page or contacting the developer")
         })
     }, [artistID, artistAlbumOffset, doneLoadingAlbums])
 
@@ -457,6 +473,7 @@ export default function Dashboard({code}) {
             }
         }).catch((err) => {
             console.log({err});
+            alert("An error occurred, please try refreshing the page or contacting the developer")
         })
 
         return () => {albumArr = []};
@@ -502,6 +519,7 @@ export default function Dashboard({code}) {
             }
         }).catch((err) => {
             console.log({err});
+            alert("An error occurred, please try refreshing the page or contacting the developer")
         })
 
         return () => {trackArr = []};
@@ -633,6 +651,23 @@ export default function Dashboard({code}) {
                 </Modal>
             </div>
         </div>
+
+        <Modal
+            closeIcon
+            open={playlistModalOpen}
+            onClose={() => setPlaylistModalOpen(false)}
+            onOpen={() => setPlaylistModalOpen(true)}
+            >
+            <Modal.Content>
+                {newPlaylist && newPlaylist.external_urls && 
+                <>
+                    <p>Your new playlist has been created - click the link below, or check your Spotify account!</p>
+                    <p>Close this window to create a new playlist!</p>
+                    <a href={newPlaylist.external_urls.spotify} target="_blank" rel="noreferrer">{newPlaylist.external_urls.spotify}</a>
+                </>
+                }
+            </Modal.Content>
+        </Modal>
 
         {artistID && !doneLoadingFinalTrackList && 
             <div className={"centeredMessageDiv"}>

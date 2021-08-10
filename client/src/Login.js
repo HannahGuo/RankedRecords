@@ -1,4 +1,4 @@
-import React from "react"
+import React, {useState} from "react"
 import { Button } from 'semantic-ui-react'
 import {CURRENT_URL} from "./constants";
 import "./Dashboard.css"
@@ -21,20 +21,31 @@ const auth_settings = {
     "scope": `streaming%20user-read-email%20user-library-modify%20playlist-modify-public%20`
 }
 
-const auth_url = createAuthURL(auth_settings);
-
 export default function Login({setUserLogin}) {
+    const [betaAccess, setBetaAccess] = useState(false);
+    const auth_url = createAuthURL(auth_settings);
+
     function handleClick(){
-        setUserLogin(true);
+        let betaPrompt = prompt("If you do not have beta access, please close the pop-ups to proceed to the site.")
+
+        // if you're looking at the source code for the prompt, sorry to disappoint but
+        // entering it will still break the site as your email is not authenticated in the Spotify dashboard :)
+        // this isn't meant to be super secure secret - just a way to avoid problems for the average user
+
+        setBetaAccess(betaPrompt === "RR");
+
+        if(betaPrompt === "RR") {
+            window.location.href = auth_url;
+        }
+
+        setUserLogin(betaPrompt === "RR");
     }
 
     return (
-        <a href={auth_url}>
-            <Button onClick={handleClick} id="loginButton" disabled={true}>
-                Connect with Spotify
-                <br/> 
-                Due to this app still being in development mode (essentially a beta), user authentication is not currently active. Searching is though, so close this window and get to it! :)
-            </Button>
-        </a>
+        <Button onClick={handleClick} id="loginButton" disabled={betaAccess}>
+            Connect with Spotify (beta, requires access code)
+            <br/> 
+            Close this window to search! :)
+        </Button>
     );
 }

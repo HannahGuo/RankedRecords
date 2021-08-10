@@ -13,33 +13,18 @@ export default function useAuth(code, isLog){
                 // setExpiresIn(res.data.expiresIn);    
             }).catch((err) => { 
                 console.log("home err reg", err)
+                alert("An error occurred, please try refreshing the page or contacting the developer")
             })
         } else if(code){
             axios.post(CURRENT_SERVER_URL + "login/", {code}).then(res => {
                 setAccessToken(res.data.accessToken);
                 // setExpiresIn(res.data.expiresIn);    
             }).catch((err) => { 
-                console.log("home err log", err,)
+                console.log("home err log", err,);
+                alert("An error occurred, please try refreshing the page or contacting the developer")
             })
         }
     }, [code, isLog])
-
-    // useEffect(() => {
-    //     if (!expiresIn) return
-    //     const interval = setInterval(() => {
-    //       axios
-    //         .post(currentURL + "refresh")
-    //         .then(res => {
-    //           setAccessToken(res.data.accessToken)
-    //           setExpiresIn(res.data.expiresIn)
-    //         })
-    //         .catch(() => {
-    //           window.location = "/"
-    //         })
-    //     }, (expiresIn - 60) * 1000)
-    
-    //     return () => clearInterval(interval)
-    //   }, [expiresIn])
     
     return accessToken;
 }
