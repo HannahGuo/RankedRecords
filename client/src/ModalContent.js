@@ -3,6 +3,13 @@ export function FAQModalContent() {
         <h4>🎶 What's the point of this site?</h4>
         <p>Spotify shows the top 10 most popular songs; this one shows all of them.</p>
 
+        <h4>🎶 Do you collect my data?</h4>
+        <p>
+            Nope. Regardless if you authenticate with Spotify or not, I don't store anything on my end. The project is also completely open source so you can see what's running the app. 
+        <br/><br/>
+            Any playlists that are generated are by default public on your Spotify profile - but if you'd like, you can change it to private (and alter the title/description).
+        </p>
+
         <h4>🎶 Why is the top 10 list here different than the top 10 on Spotify?</h4>
         <p>This app sorts <em>every song</em> from an artist, which Spotify doesn't always account for. The lists are generally pretty similar though.</p>
 
@@ -34,7 +41,7 @@ export function FAQModalContent() {
         </ol>
         <br/>
         <p>You also might notice that there is some grouping while loading (first step goes up  in 20s, third step goes up in 50s, etc.)
-            This is to reduce the number of Spotify API calls.</p>
+            This is to reduce the number of Spotify API calls - it's still a sizeable amount though.</p>
 
         <h4>🎶 Why does the number of songs loaded differ from the amount displayed in the final table?</h4>
         <p>I do some filtering to make sure there aren't any repeats (taking the track with the higher popularity score).</p>

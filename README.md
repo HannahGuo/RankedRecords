@@ -15,6 +15,12 @@ I referenced [this YouTube tutorial](https://www.youtube.com/watch?v=Xcet6msf3eE
 
 Spotify shows the top 10 most popular songs; this one shows all of them.
 
+#### 🎶 Do you collect my data?
+
+Nope. Regardless if you authenticate with Spotify or not, I don't store anything on my end. The project is also completely open source so you can see what's running the app. 
+
+Any playlists that are generated are by default public on your Spotify profile - but if you'd like, you can change it to private (and alter the title/description).
+
 #### 🎶 Why is the top 10 list here different than the top 10 on Spotify?
 
 This app sorts _every song_ from an artist, which Spotify doesn't always account for. The lists are generally pretty similar though.
