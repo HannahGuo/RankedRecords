@@ -30,7 +30,7 @@ export default function Login({setUserLogin}) {
 
     return (
         <a href={auth_url}>
-            <Button onClick={handleClick} id="loginButton" disabled="true">
+            <Button onClick={handleClick} id="loginButton" disabled={true}>
                 Connect with Spotify
                 <br/> 
                 Due to this app still being in development mode (essentially a beta), user authentication is not currently active. Searching is though, so close this window and get to it! :)
