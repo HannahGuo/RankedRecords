@@ -577,6 +577,24 @@ export default function Dashboard({code}) {
                 {loginButton()}
             </Modal.Actions>
         </Modal>
+
+        <Modal
+            closeIcon
+            open={playlistModalOpen}
+            onClose={() => setPlaylistModalOpen(false)}
+            onOpen={() => setPlaylistModalOpen(true)}
+            >
+            <Modal.Content>
+                {newPlaylist && newPlaylist.external_urls && 
+                <>
+                    <p>Your new playlist has been created - click the link below, or check your Spotify account!</p>
+                    <p>Close this window to create a new playlist!</p>
+                    <a href={newPlaylist.external_urls.spotify} target="_blank" rel="noreferrer">{newPlaylist.external_urls.spotify}</a>
+                </>
+                }
+            </Modal.Content>
+        </Modal>
+
         <div id="header">
             <div id="greenGradiant"></div>
             <h1>Ranked Records</h1>
@@ -651,23 +669,6 @@ export default function Dashboard({code}) {
                 </Modal>
             </div>
         </div>
-
-        <Modal
-            closeIcon
-            open={playlistModalOpen}
-            onClose={() => setPlaylistModalOpen(false)}
-            onOpen={() => setPlaylistModalOpen(true)}
-            >
-            <Modal.Content>
-                {newPlaylist && newPlaylist.external_urls && 
-                <>
-                    <p>Your new playlist has been created - click the link below, or check your Spotify account!</p>
-                    <p>Close this window to create a new playlist!</p>
-                    <a href={newPlaylist.external_urls.spotify} target="_blank" rel="noreferrer">{newPlaylist.external_urls.spotify}</a>
-                </>
-                }
-            </Modal.Content>
-        </Modal>
 
         {artistID && !doneLoadingFinalTrackList && 
             <div className={"centeredMessageDiv"}>
