@@ -278,7 +278,7 @@ export default function Dashboard({code}) {
     // that in localStorage).
     useEffect(() => {
         if(codeURL) {
-            setUserLogin(true);
+            // setUserLogin(true);
             
             localStorage.setItem("userAuthToken", codeURL);
 
