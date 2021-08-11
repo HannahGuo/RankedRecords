@@ -37,7 +37,7 @@ function addHTMLFormatting(array) {
     let newArr = [];
 
     for(let i = 0; i < array.length; i++) {
-        let color = i % 2 === 0 ? "green" : "white";
+        let color = i % 2 === 0 ? "purple" : "white";
         newArr.push(`<span class="${color}">${array[i].replace(/\s+/g, '')}</span>`)
     }
 

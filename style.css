@@ -142,8 +142,8 @@ a:active {
 
 .whiteButton:hover {
     cursor: pointer;
-    background-color: black;
-    color: #1DD05D;
+    background-color: #5e4791;
+    color: white;
     transition: all 0.4s ease;
 }
 
@@ -153,7 +153,7 @@ a:active {
 
 .colorHover:hover {
     cursor: pointer;
-    color: black;
+    color: #5e4791;
     transition: all 0.4s ease;
 }
 
@@ -161,7 +161,7 @@ a:active {
 .colorHover:hover .imGreen {
     position: absolute;
     z-index: -1;
-    background-color: #1DD05D;
+    background-color: white;
     height: 2.8em;
     width: 2.7em;
     margin: 0.1em 0.1em;
@@ -177,11 +177,11 @@ a:active {
     z-index: -5;
     overflow: hidden;
     word-wrap: break-word;
-    opacity: 0.10;
+    opacity: 0.15;
 }
 
-.green {
-    color: #1DD05D;
+.purple {
+    color: #5e4791;
 }
 
 .white {
