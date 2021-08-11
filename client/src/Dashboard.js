@@ -599,7 +599,7 @@ export default function Dashboard({code}) {
             <div id="greenGradiant"></div>
             <h1>Ranked Records</h1>
             <div id="header-desc">Find all the Spotify songs by your favourite artists, ranked by popularity
-                <Popup trigger={<Button circular basic inverted id="popButton" icon='question circle'/>}>
+                <Popup trigger={<Button circular basic inverted id="popButton" icon='question circle' aria-label="about-popularity"/>}>
                     <Popup.Content>
                     <b>From the Spotify Web API: </b>
                     <p>The popularity of a track is a value between 0 and 100, with 100 being the most popular.</p>
@@ -631,6 +631,7 @@ export default function Dashboard({code}) {
                     selectOnNavigation={false}
                     searchQuery={searchValue}
                     value={defaultDropVal}
+                    label={"search-artists"}
                     />
                 
                 <Modal closeIcon 

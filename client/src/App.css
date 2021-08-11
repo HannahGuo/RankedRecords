@@ -1,6 +1,7 @@
 @font-face {
   font-family: 'Cabin';
   src: local('Cabin'), url("../src/static/Cabin/Cabin-Regular.ttf") format('truetype');
+  font-display: swap;
 }
 
 * {
