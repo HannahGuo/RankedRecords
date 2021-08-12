@@ -202,3 +202,12 @@ ol {
 .ui.modal>.content>* { 
     color: black;
 }
+
+#loginButtonsDiv {
+    display: flex;
+    flex-direction: column;
+}
+
+#betaAccessButton {
+    margin-top: 15px;
+}

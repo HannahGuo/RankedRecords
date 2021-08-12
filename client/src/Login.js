@@ -41,11 +41,20 @@ export default function Login({setUserLogin}) {
         setUserLogin(betaPrompt === "RR");
     }
 
+    function handleBetaAccessClick() {
+        window.open('https://forms.gle/mrxbKuwLkqWujC5t9', '_blank');
+    }
+
     return (
+        <div id="loginButtonsDiv">
         <Button onClick={handleClick} id="loginButton" disabled={betaAccess}>
             Connect with Spotify (beta, requires access code)
             <br/> 
             Close this window to search! :)
         </Button>
+        <Button onClick={handleBetaAccessClick} id="betaAccessButton" color="violet">
+            Request Beta Access (Playlist Creation)
+        </Button>
+        </div>
     );
 }
