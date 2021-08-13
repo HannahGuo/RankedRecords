@@ -9,11 +9,13 @@ The app is still in it's first version and has some code that isn't functional y
 
 I referenced [this YouTube tutorial](https://www.youtube.com/watch?v=Xcet6msf3eE) to get started.
 
+## Contributing
+Contributing for this project is currently **closed**. However, I do plan on adding it in the future, so you can star this repository to get notified when that happens!
+
 ## FAQs
 
 #### 🎶 What's the point of this site?
-
-Spotify shows the top 10 most popular songs; this one shows all of them.
+<a href="https://community.spotify.com/t5/Live-Ideas/Desktop-Full-Discography-Reinstatement/idi-p/5178453" rel="noreferrer" target="_blank">Spotify does not have a method of retrieving all of an artist's songs</a>. This site does that, while adding some snazzy filters and sort options.
 
 #### 🎶 Do you collect my data?
 

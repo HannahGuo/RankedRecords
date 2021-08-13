@@ -1,8 +1,8 @@
 import React from 'react'
-import { Table } from 'semantic-ui-react'
+import { Table, Popup, Button } from 'semantic-ui-react'
 import "./CustomTable.css"
 
-const CustomTable = ({data, artistID, loading}) => {
+const CustomTable = ({data, artistID, loading, sortMethod}) => {
   if(loading || !artistID || (!data[0] || !data[0].artists)) {
     return <div className="defaultTableDiv">Results will appear here!</div>;
   }
@@ -10,12 +10,22 @@ const CustomTable = ({data, artistID, loading}) => {
   if(data.length === 0 && !loading) {
     return <div className="defaultTableDiv">No results found.</div>
   }
-  
+    
   return <Table celled padded id="customTable">
     <Table.Header>
       <Table.Row>
         <Table.HeaderCell>
-          Popularity
+          {sortMethod === "popularity" ? 
+          <>Popularity 
+          <Popup trigger={<Button circular basic inverted id="popButton" icon='question circle' aria-label="about-popularity"/>}>
+              <Popup.Content>
+              <b>From the Spotify Web API: </b>
+              <p>The popularity of a track is a value between 0 and 100, with 100 being the most popular.</p>
+              <p>It is calculated by algorithm and is based, in the most part, on the total number of plays the track has had and how recent those plays are.</p>
+              <p><em>To learn more, check out the <b>FAQ</b> section below.</em></p>
+              </Popup.Content>
+          </Popup>
+          </> : <>Release Date<br/>(YYYY-MM-DD)</>}
         </Table.HeaderCell>
         <Table.HeaderCell>Song Name</Table.HeaderCell>
         <Table.HeaderCell>Artist(s)</Table.HeaderCell>
@@ -30,7 +40,7 @@ const CustomTable = ({data, artistID, loading}) => {
 
         return <Table.Row key={songEntry.name + artistID}>
         <Table.Cell>
-            {songEntry.popularity}
+            {songEntry[sortMethod]}
         </Table.Cell>
         <Table.Cell singleLine>
           <a href={songEntry.ext_spotify_url} target="_blank" rel="noreferrer">{songEntry.name}</a>

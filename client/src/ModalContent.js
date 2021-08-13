@@ -1,7 +1,8 @@
 export function FAQModalContent() {
     return <>
         <h4>🎶 What's the point of this site?</h4>
-        <p>Spotify shows the top 10 most popular songs; this one shows all of them.</p>
+        <p><a href="https://community.spotify.com/t5/Live-Ideas/Desktop-Full-Discography-Reinstatement/idi-p/5178453" rel="noreferrer" target="_blank" id="blackLink">Spotify does not have a method of retrieving all of an artist's songs</a> 
+        &nbsp; This site does that, while adding some snazzy filters and sort options.</p>
 
         <h4>🎶 Do you collect my data?</h4>
         <p>
