@@ -1,13 +1,18 @@
+![What is this](readmeimg.png)
+
 # 🎵 Ranked Records 🎵
 *Find all the Spotify songs by your favourite artists, ranked by popularity.*
 
-Ranked Records is my first real full-stack application. The code here is a variation of (with secrets omitted) the version hosted with Heroku at [https://ranked-records.herokuapp.com/](https://ranked-records.herokuapp.com/). 
+Ranked Records is my first real full-stack application, hosted with Heroku at [https://ranked-records.herokuapp.com/](https://ranked-records.herokuapp.com/). 
 
-Since Heroku takes a while to load on free tier, I created a [landing page](https://hannahguo.me/RankedRecords/) explaining this (also found on the landing-page branch of this repository).
+Since Heroku takes a while to load on free tier, I created a [landing page](https://hannahguo.me/RankedRecords/) explaining this (also found on the landing-page branch of this repository). This turned out to be sort of unnecessary, but it looks pretty so I keep it around.
 
 The app is still in it's first version and has some code that isn't functional yet, but I'm getting there.
 
 I referenced [this YouTube tutorial](https://www.youtube.com/watch?v=Xcet6msf3eE) to get started.
+
+## Issues
+If you have feedback/issues/feature requests, you can create an issue or [submit it in this Google Form](https://docs.google.com/forms/d/e/1FAIpQLSfuvloB2JpKfFJ1BMfxofnguX7seRUcm8TCa1O59jnErDJmzA/viewform).
 
 ## Contributing
 Contributing for this project is currently **closed**. However, I do plan on adding it in the future, so you can star this repository to get notified when that happens!

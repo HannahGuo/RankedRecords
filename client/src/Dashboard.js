@@ -22,6 +22,10 @@ const spotifyApi = new SpotifyWebApi({
 // something tells me that in a year i'm going to come back to look at this and think
 // "what was I doing"
 
+// Honestly I would not look at this file if I were you. Just appreciate the magic it does :) 
+
+const errorStr = `Please try refreshing the page - your session may have timed out. If the problem persists, please contact the developer.`;
+
 export default function Dashboard({code}) {    
     const [firstLoginModalOpen, setFirstLoginModalOpen] = useState(true)
 
@@ -79,6 +83,15 @@ export default function Dashboard({code}) {
           },
   
     ]
+
+    const defaultFilterOptions = [
+        {label: 'remix', value: 'remix'},
+        {label: 'commentary', value: 'commentary'},
+        {label: 'karaoke', value: 'karaoke'},
+        {label: 'instrumental', value: 'instrumental'},
+        {label: 'acoustic', value: 'acoustic'},
+        {label: 'voice memo', value: 'voice memo'},
+    ];
 
     const toastContent = (message) => toast(message, {
         position: "top-right",
@@ -148,6 +161,7 @@ export default function Dashboard({code}) {
 
     function handleSortChange(e, data) {
         setSortMethod(data.value);
+        window.localStorage.setItem("sortMethod", data.value);
     }
 
     function logOut() {
@@ -197,7 +211,7 @@ export default function Dashboard({code}) {
             setNewPlaylist(data.body);
         }).catch((err) => {
             console.log({err});
-            alert("An error occurred, please try refreshing the page or contacting the developer")
+            alert(errorStr)
         });
 
         console.log({newPlaylist})
@@ -221,15 +235,6 @@ export default function Dashboard({code}) {
     }
 
     function generationWidget() {
-        const defaultFilterOptions = [
-            {label: 'remix', value: 'remix'},
-            {label: 'commentary', value: 'commentary'},
-            {label: 'karaoke', value: 'karaoke'},
-            {label: 'instrumental', value: 'instrumental'},
-            {label: 'acoustic', value: 'acoustic'},
-            {label: 'voice memo', value: 'voice memo'},
-        ];
-
         let divideWidget = [];
 
         for(let i = 50; i < filteredPlaylist.length; i += 50) {
@@ -289,7 +294,6 @@ export default function Dashboard({code}) {
 
     useEffect(() => {
         if(newPlaylist.external_urls) {
-            console.log({newPlaylist});
             setPlaylistModalOpen(true);
         }
     }, [newPlaylist])
@@ -324,6 +328,7 @@ export default function Dashboard({code}) {
             let artistName = localStorage.getItem("currentArtistName");
             let artistID = localStorage.getItem("currentArtistID");
             let artistImage = localStorage.getItem("currentArtistImage");
+            let loadedSort = window.localStorage.getItem("sortMethod");
 
             if(artistName && artistName !== "null") {
                 setArtistName(artistName);
@@ -339,7 +344,12 @@ export default function Dashboard({code}) {
                 counter++;
             }
 
-            if(counter === 3) {
+            if(loadedSort && artistImage !== "null") {
+                setSortMethod(loadedSort);
+                counter++;
+            }
+
+            if(counter === 4) {
                 let newObj = {
                     image: {src: artistImage},
                     key: artistName + artistID,
@@ -354,6 +364,8 @@ export default function Dashboard({code}) {
             localStorage.setItem("currentArtistID", null);
             localStorage.setItem("currentArtistName", null);
             localStorage.setItem("currentArtistImage", null);
+            localStorage.setItem("userAuthToken", null);
+            localStorage.setItem("sortMethod", null);
 
             // would expire after, needs to be fixed
             // if(localStorage.getItem("userAuthToken")) {
@@ -387,7 +399,7 @@ export default function Dashboard({code}) {
                 setPlaylistCreatorOpen(artistName && artistName !== "null");
             }).catch((err) => {
                 console.log('Something went wrong!', err);
-                alert("An error occurred, please try refreshing the page or contacting the developer")
+                alert(errorStr)
             });
         }
     }, [userLogin, accessTokenLog]);
@@ -429,7 +441,7 @@ export default function Dashboard({code}) {
 
         }).catch((err) => {
             console.log({err})
-            alert("An error occurred, please try refreshing the page or contacting the developer")
+            alert(errorStr)
         })
 
     }, [disableEntering, searchValue, accessTokenReg, searchResults]);
@@ -461,7 +473,7 @@ export default function Dashboard({code}) {
             }
         }).catch((err) => {
             console.log({err});
-            alert("An error occurred, please try refreshing the page or contacting the developer")
+            alert(errorStr)
         })
     }, [artistID, artistAlbumOffset, doneLoadingAlbums])
 
@@ -497,7 +509,7 @@ export default function Dashboard({code}) {
             }
         }).catch((err) => {
             console.log({err});
-            alert("An error occurred, please try refreshing the page or contacting the developer")
+            alert(errorStr)
         })
 
         return () => {albumArr = []};
@@ -524,7 +536,6 @@ export default function Dashboard({code}) {
             res.body.tracks.forEach((track) => {
                 setTrackListPop(oldTrack => {
                     if(track.external_urls.spotify) {
-                        console.log({track})
                         return [...oldTrack, 
                                 {"name": track.name, 
                                 "popularity": track.popularity, 
@@ -545,7 +556,7 @@ export default function Dashboard({code}) {
             }
         }).catch((err) => {
             console.log({err});
-            alert("An error occurred, please try refreshing the page or contacting the developer")
+            alert(errorStr)
         })
 
         return () => {trackArr = []};
@@ -658,7 +669,7 @@ export default function Dashboard({code}) {
                 <Dropdown fluid selection deburr closeOnChange
                     selectOnBlur={false}
                     options={sortOptions} 
-                    placeholder={"Search for an artist..."}
+                    placeholder={"Select a sort method..."}
                     onChange={(e, data) => handleSortChange(e, data)}
                     id={"sortDropdown"}
                     disabled={disableEntering}
@@ -762,6 +773,11 @@ export default function Dashboard({code}) {
                 <div>
                     <a href="https://github.com/HannahGuo/RankedRecords/releases" target="_blank" rel="noreferrer">
                         <Button basic inverted color="grey"><Icon name="newspaper outline"/>What's New?</Button>
+                    </a>
+                </div>
+                <div>
+                    <a href="https://forms.gle/nigc6Bwdq5hZETRY9" target="_blank" rel="noreferrer">
+                        <Button basic inverted color="grey"><Icon name="inbox"/>Contact</Button>
                     </a>
                 </div>
             </div>
