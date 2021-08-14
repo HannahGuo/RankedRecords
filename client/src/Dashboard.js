@@ -619,8 +619,8 @@ export default function Dashboard({code}) {
                 open={firstLoginModalOpen && !accessTokenLog} onClose={() => setFirstLoginModalOpen(false)}>
             <Modal.Content>
                 <h1>Welcome to Ranked Records! 💿</h1>
-                <p>This site lets you view all the top songs by your favorite artists, ranked by popularity!</p>
-                <p>You can create a playlist of these songs if you connect with Spotify - which you can do now, or later when you want to create a playlist.</p>
+                <p>This site lets you view <strong>all</strong> the songs by your favorite artists, which you can sort by chronology or popularity!</p>
+                <p>You can create a playlist of these songs (with filters!) if you connect with Spotify - which you can do now, or later when you want to create a playlist (it's faster if you do it now, but your choice 😉).</p>
             </Modal.Content>
             <Modal.Actions>
                 {loginButton()}

@@ -1,8 +1,8 @@
 export function FAQModalContent() {
     return <>
         <h4>🎶 What's the point of this site?</h4>
-        <p><a href="https://community.spotify.com/t5/Live-Ideas/Desktop-Full-Discography-Reinstatement/idi-p/5178453" rel="noreferrer" target="_blank" id="blackLink">Spotify does not have a method of retrieving all of an artist's songs</a> 
-        &nbsp; This site does that, while adding some snazzy filters and sort options.</p>
+        <p><a href="https://community.spotify.com/t5/Live-Ideas/Desktop-Full-Discography-Reinstatement/idi-p/5178453" rel="noreferrer" target="_blank" class="blackLink">Spotify does not have an easy method of retrieving all of an artist's songs</a> 
+        &nbsp; This site does that, while adding playlist creation with some snazzy filters and sort options.</p>
 
         <h4>🎶 Do you collect my data?</h4>
         <p>
@@ -37,7 +37,7 @@ export function FAQModalContent() {
 
             <li>
                 <strong>GET all tracks by ID</strong>
-                <p>Using the track IDs from the previous step, the application gets all the tracks (with popularity) which are then sorted, filtered and displayed.</p>
+                <p>Using the track IDs from the previous step, the application gets all the tracks (with popularity and release date) which are then sorted, filtered and displayed.</p>
             </li>
         </ol>
         <br/>
@@ -45,9 +45,9 @@ export function FAQModalContent() {
             This is to reduce the number of Spotify API calls - it's still a sizeable amount though.</p>
 
         <h4>🎶 Why does the number of songs loaded differ from the amount displayed in the final table?</h4>
-        <p>I do some filtering to make sure there aren't any repeats (taking the track with the higher popularity score).</p>
+        <p>I do some filtering to make sure there aren't any repeats (taking the track with the higher popularity score or first occurance chronologically).</p>
 
-        <h4>🎶 Why is X so laggy?</h4>
-        <p>I'm working on it :)</p>
+        <h4>🎶 My question isn't here!</h4>
+        <p>Contact me <a class="blackLink" href="https://forms.gle/nigc6Bwdq5hZETRY9" target="_blank" rel="noreferrer">here</a> and I'll try my best to answer!</p>
     </>;
 }
