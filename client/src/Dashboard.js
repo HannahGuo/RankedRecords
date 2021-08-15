@@ -224,7 +224,7 @@ export default function Dashboard({code}) {
             setNewPlaylist(data.body);
         }).catch((err) => {
             console.log({err});
-            alert(errorStr)
+            alert(errorStr + " Playlist Creation")
         });
 
         console.log({newPlaylist})
@@ -233,7 +233,7 @@ export default function Dashboard({code}) {
     function userWidget() {
         return <>{userLogin && accessTokenLog && currentUser && currentUser.images ? 
             <div>
-                <Image src={currentUser.images[0].url} avatar />
+                {currentUser.images[0] && currentUser.images[0].hasOwnProperty("url") && <Image src={currentUser.images[0].url} avatar />}
                 <span>Logged in as {currentUser.display_name} &nbsp;
                 <span id="logOutSpan" onClick={logOut}> 
                    (Log out - due to technical limitations, logging out here will log you out of ALL Spotify applications.)
@@ -411,15 +411,17 @@ export default function Dashboard({code}) {
                 let artistName = localStorage.getItem("currentArtistName");
                 setPlaylistCreatorOpen(artistName && artistName !== "null");
             }).catch((err) => {
-                console.log('Something went wrong!', err);
-                alert(errorStr)
+                console.log('Something went wrong!', err, "Code URL: ", codeURL, accessTokenLog);
+                alert(errorStr + " Login Issue")
             });
         }
     }, [userLogin, accessTokenLog]);
 
     // Remove the access code that was in the URL after auth
     useEffect(() => {
-        window.history.pushState({}, null, "/")
+        if(userLogin) {
+            window.history.pushState({}, null, "/")
+        }
     }, [userLogin]);
 
     // Hahaha every hook after this gets messy
