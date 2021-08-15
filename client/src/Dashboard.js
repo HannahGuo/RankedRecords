@@ -263,6 +263,7 @@ export default function Dashboard({code}) {
 
             <h5>Filters</h5>
             <p>Filter out any songs with the following words (NOT case-sensitive, and any song with your filters in its name will be removed):</p>
+            <p>You can add your own custom filters by typing them in!</p>
             <Creatable
                 id="filterSelect"
                 placeholder="Select filters (type to add custom)"
