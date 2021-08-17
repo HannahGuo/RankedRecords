@@ -2,7 +2,15 @@ import React from 'react'
 import { Table, Popup, Button } from 'semantic-ui-react'
 import "./CustomTable.css"
 
-const CustomTable = ({data, artistID, loading, sortMethod}) => {
+function swapDir(dir) {
+  if(dir === "ascending") {
+    return "descending";
+  } else {
+    return "ascending";
+  }
+}
+
+const CustomTable = ({data, artistID, loading, sortMethod, sortedDir, setSortedDir}) => {
   if(loading || !artistID || (!data[0] || !data[0].artists)) {
     return <div className="defaultTableDiv">Results will appear here!</div>;
   }
@@ -11,10 +19,13 @@ const CustomTable = ({data, artistID, loading, sortMethod}) => {
     return <div className="defaultTableDiv">No results found.</div>
   }
     
-  return <Table celled padded id="customTable">
+  return <Table celled padded id="customTable" sortable>
     <Table.Header>
       <Table.Row>
-        <Table.HeaderCell>
+        <Table.HeaderCell
+          sorted={sortedDir}
+          onClick={() => setSortedDir(swapDir(sortedDir))}
+          >
           {sortMethod === "popularity" ? 
           <>Popularity 
           <Popup trigger={<Button circular basic inverted id="popButton" icon='question circle' aria-label="about-popularity"/>}>

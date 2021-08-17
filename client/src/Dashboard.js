@@ -64,6 +64,7 @@ export default function Dashboard({code}) {
     const [trackMax, setTrackMax] = useState("All");
 
     const [sortMethod, setSortMethod] = useState("popularity");
+    const [sortedDir, setSortedDir] = useState("descending");
 
     const [filteredPlaylist, setFilteredPlaylist] = useState([null]);
 
@@ -124,6 +125,8 @@ export default function Dashboard({code}) {
         setDoneLoadingTracks(false);
         setDoneLoadingTracksPop(false);
         setDoneLoadingFinalTrackList(false);
+
+        setSortedDir("descending");
     }
 
     function handleChange(e, data) {
@@ -171,27 +174,28 @@ export default function Dashboard({code}) {
         window.open("https://accounts.spotify.com/logout", '_blank');
     }
 
+    // this function needs to be rewritten and reorganized. 
     function createPlaylist() {
         let today = new Date().toISOString().slice(0, 10);
 
         // default max popularity
         let playlistTitle = `The ${artistName} Master Playlist`;
         let playlistDescBeginning = `All of ${artistName}'s songs,`;
-        let playlistDescRanked = "ranked by popularity.";
+        let playlistDescRanked = `ranked ${sortedDir === "ascending" ? "in ascending " : "by "}popularity.`;
         let filteredStr = "";
 
         if(sortMethod === "popularity") {
             if(trackMax !== "All") {
-                playlistTitle = `${artistName}'s Top ${trackMax} Tracks`;
-                playlistDescBeginning = `${artistName}'s top ${trackMax} songs,`;
+                playlistTitle = `${artistName}'s ${sortedDir === "ascending" ? "Bottom" : "Top"} ${trackMax} Tracks`;
+                playlistDescBeginning = `${artistName}'s ${sortedDir === "ascending" ? "bottom" : "top"} ${trackMax} songs,`;
             }    
         } else if(sortMethod === "release_date") {
-            if(trackMax !== "All") {
-                playlistTitle = `${artistName}'s ${trackMax} Most Recent Tracks`;
-                playlistDescBeginning = `${artistName}'s ${trackMax} most recent songs.`;
-                playlistDescRanked = "";
+            if(trackMax === "All") {
+                playlistDescRanked = `in ${sortedDir === "ascending" ? "" : "reverse"} chronological release order.`;
             } else {
-                playlistDescRanked = "in chronological release order.";
+                playlistTitle = `${artistName}'s ${trackMax} ${sortedDir === "ascending" ? "Oldest" : "Latest"} Tracks`;
+                playlistDescBeginning = `${artistName}'s ${trackMax} ${sortedDir === "ascending" ? "oldest" : "latest"} songs.`;
+                playlistDescRanked = "";
             }
         }
 
@@ -258,7 +262,7 @@ export default function Dashboard({code}) {
         <div id="generationWidget">
             <h3>Playlist Generation Settings</h3>
 
-            <h5>Current Sort Method: {sortMethod === "release_date" ? "Chronology" : "Popularity"}</h5>
+            <h5>Current Sort Method: {sortMethod === "release_date" ? "Chronology" : "Popularity"} ({sortedDir})</h5>
             <p>Close this window to change sort method.</p>
 
             <h5>Filters</h5>
@@ -343,6 +347,7 @@ export default function Dashboard({code}) {
             let artistID = localStorage.getItem("currentArtistID");
             let artistImage = localStorage.getItem("currentArtistImage");
             let loadedSort = window.localStorage.getItem("sortMethod");
+            let loadedSortDir = window.localStorage.getItem("sortedDir");
 
             if(artistName && artistName !== "null") {
                 setArtistName(artistName);
@@ -358,12 +363,17 @@ export default function Dashboard({code}) {
                 counter++;
             }
 
-            if(loadedSort && artistImage !== "null") {
+            if(loadedSort && loadedSort !== "null") {
                 setSortMethod(loadedSort);
                 counter++;
             }
 
-            if(counter === 4) {
+            if(loadedSortDir && loadedSortDir !== "null") {
+                setSortedDir(loadedSortDir);
+                counter++;
+            }
+
+            if(counter >= 4) {
                 let newObj = {
                     image: {src: artistImage},
                     key: artistName + artistID,
@@ -380,6 +390,7 @@ export default function Dashboard({code}) {
             localStorage.setItem("currentArtistImage", null);
             localStorage.setItem("userAuthToken", null);
             localStorage.setItem("sortMethod", null);
+            localStorage.setItem("sortedDir", null);
 
             // would expire after, needs to be fixed
             // if(localStorage.getItem("userAuthToken")) {
@@ -417,13 +428,6 @@ export default function Dashboard({code}) {
             });
         }
     }, [userLogin, accessTokenLog]);
-
-    // Remove the access code that was in the URL after auth
-    useEffect(() => {
-        if(userLogin) {
-            window.history.pushState({}, null, "/")
-        }
-    }, [userLogin]);
 
     // Hahaha every hook after this gets messy
     // This one loads the search results - it's a little laggy because of how many queries are being made
@@ -590,7 +594,7 @@ export default function Dashboard({code}) {
                                                     oldTrack.name.toLowerCase() === track.name.toLowerCase());
                 checkDupes.sort((a, b) => { 
                     if(sortMethod === "release_date") {
-                        return Date.parse(a[sortMethod])- Date.parse(b[sortMethod])
+                        return Date.parse(a[sortMethod]) - Date.parse(b[sortMethod])
                     } else {
                         return b[sortMethod]- a[sortMethod]
                     }
@@ -616,7 +620,40 @@ export default function Dashboard({code}) {
     // And now we can allow further actions :) 
     useEffect(() => {
         if(doneLoadingFinalTrackList) setDisableEntering(false);
-    }, [doneLoadingFinalTrackList])
+    }, [doneLoadingFinalTrackList]);
+
+    // Remove the access code that was in the URL after auth
+    useEffect(() => {
+        if(userLogin) {
+            window.history.pushState({}, null, "/")
+        }
+    }, [userLogin]);
+
+    useEffect(() => {
+        if(sortMethod === "release_date") {
+            if(sortedDir === "ascending") {
+                setFinalTrackList(finalTrackList => finalTrackList.slice().sort((a, b) => {
+                    return Date.parse(a[sortMethod]) - Date.parse(b[sortMethod])
+                }));
+            } else if(sortedDir === "descending") {
+                setFinalTrackList(finalTrackList => finalTrackList.slice().sort((a, b) => {
+                    return Date.parse(b[sortMethod]) - Date.parse(a[sortMethod])
+                }));
+            }
+        } else {
+            if(sortedDir === "ascending") {
+                setFinalTrackList(finalTrackList => finalTrackList.slice().sort((a, b) => {
+                    return a[sortMethod]- b[sortMethod]
+                }));
+            } else if(sortedDir === "descending") {
+                setFinalTrackList(finalTrackList => finalTrackList.slice().sort((a, b) => {
+                    return b[sortMethod]- a[sortMethod]
+                }));
+            }
+        }
+
+        localStorage.setItem("sortedDir", sortedDir);
+    }, [doneLoadingFinalTrackList, sortedDir, sortMethod]);
 
     return (
     <div>
@@ -762,7 +799,8 @@ export default function Dashboard({code}) {
 
         {doneLoadingFinalTrackList && <div className={"centeredMessageDiv"}>{finalTrackList.length} tracks loaded.</div>}
 
-        <CustomTable loading={artistID && !doneLoadingFinalTrackList} data={finalTrackList} artistID={artistID} sortMethod={sortMethod}/>
+        <CustomTable loading={artistID && !doneLoadingFinalTrackList} data={finalTrackList} 
+                     artistID={artistID} sortMethod={sortMethod} sortedDir={sortedDir} setSortedDir={setSortedDir}/>
 
         <div id="footer">
             <hr/>
