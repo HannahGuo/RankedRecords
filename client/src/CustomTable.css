@@ -8,19 +8,24 @@
     color: white;
     border: 0em;
     text-decoration: none;
-    white-space: pre-wrap;      /* CSS3 */   
-    white-space: -moz-pre-wrap; /* Firefox */    
-    white-space: -pre-wrap;     /* Opera <7 */   
-    white-space: -o-pre-wrap;   /* Opera 7 */    
-    word-wrap: break-word;      /* IE */ 
+    white-space: pre-wrap;
+    /* CSS3 */
+    white-space: -moz-pre-wrap;
+    /* Firefox */
+    white-space: -pre-wrap;
+    /* Opera <7 */
+    white-space: -o-pre-wrap;
+    /* Opera 7 */
+    word-wrap: break-word;
+    /* IE */
 }
 
-#customTable > thead > tr > th {
+#customTable>thead>tr>th {
     color: #A6A6A6;
     border-bottom: 0.05em solid #A6A6A6;
 }
 
-#customTable > tbody > tr > td> a:hover {
+#customTable>tbody>tr>td>a:hover {
     text-decoration: underline;
     cursor: pointer;
 }

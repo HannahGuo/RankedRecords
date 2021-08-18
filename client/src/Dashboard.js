@@ -8,6 +8,7 @@ import CustomTable from "./CustomTable";
 import Login from "./Login"
 import { FAQModalContent } from "./ModalContent";
 import { PopularityTip } from "./PopularityTip";
+import { sortOptions, defaultFilterOptions, errorStr} from "./constants";
 import useAuth from "./hooks/useAuth"
 
 import 'react-toastify/dist/ReactToastify.css';
@@ -24,8 +25,6 @@ const spotifyApi = new SpotifyWebApi({
 // "what was I doing"
 
 // Honestly I would not look at this file if I were you. Just appreciate the magic it does :) 
-
-const errorStr = `Please try refreshing the page - your session may have timed out. If the problem persists, please contact the developer.`;
 
 export default function Dashboard({code}) {    
     const [firstLoginModalOpen, setFirstLoginModalOpen] = useState(true)
@@ -71,29 +70,6 @@ export default function Dashboard({code}) {
 
     const accessTokenReg = useAuth(code, false)
     const accessTokenLog = useAuth(codeURL, true);
-
-    const sortOptions = [
-        {
-          key: 'popularity',
-          text: 'Popularity',
-          value: 'popularity',
-        },
-        {
-            key: 'chronology',
-            text: 'Chronology',
-            value: 'release_date',
-          },
-  
-    ]
-
-    const defaultFilterOptions = [
-        {label: 'remix', value: 'remix'},
-        {label: 'commentary', value: 'commentary'},
-        {label: 'karaoke', value: 'karaoke'},
-        {label: 'instrumental', value: 'instrumental'},
-        {label: 'acoustic', value: 'acoustic'},
-        {label: 'voice memo', value: 'voice memo'},
-    ];
 
     const toastContent = (message) => toast(message, {
         position: "top-right",

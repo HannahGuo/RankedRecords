@@ -167,7 +167,7 @@
     }
 }
 
-@media screen and (max-width: 766px){
+@media screen and (max-width: 766px) {
     #loginButton {
         margin-bottom: 15px;
     }
@@ -229,7 +229,7 @@ ol {
 }
 
 #generateButton:hover,
-#loginButton:hover{
+#loginButton:hover {
     transition: all 0.3s ease;
     background-color: #5e4791;
     color: white;
