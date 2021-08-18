@@ -1,12 +1,13 @@
 import React, {useState, useEffect} from "react"
 import SpotifyWebApi from "spotify-web-api-node"
-import { Dropdown, Button, Popup, Modal, Icon, Image, Label, Form, Radio } from 'semantic-ui-react'
+import { Dropdown, Button, Modal, Icon, Image, Label, Form, Radio } from 'semantic-ui-react'
 import { ToastContainer, toast } from 'react-toastify';
 import Creatable from 'react-select/creatable';
 
 import CustomTable from "./CustomTable";
 import Login from "./Login"
 import { FAQModalContent } from "./ModalContent";
+import { PopularityTip } from "./PopularityTip";
 import useAuth from "./hooks/useAuth"
 
 import 'react-toastify/dist/ReactToastify.css';
@@ -685,14 +686,7 @@ export default function Dashboard({code}) {
             <div id="greenGradiant"></div>
             <h1>Ranked Records</h1>
             <div id="header-desc">Find all the Spotify songs by your favourite artists, ranked by chronology or popularity
-                <Popup trigger={<Button circular basic inverted id="popButton" icon='question circle' aria-label="about-popularity"/>}>
-                    <Popup.Content>
-                    <b>From the Spotify Web API: </b>
-                    <p>The popularity of a track is a value between 0 and 100, with 100 being the most popular.</p>
-                    <p>It is calculated by algorithm and is based, in the most part, on the total number of plays the track has had and how recent those plays are.</p>
-                    <p><em>To learn more, check out the <b>FAQ</b> section below.</em></p>
-                    </Popup.Content>
-                </Popup>
+                <PopularityTip/>
             </div>
 
             {disableEntering && 
