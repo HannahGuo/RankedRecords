@@ -1,0 +1,19 @@
+#titleHeaderDiv {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2em;
+    font-family: "Cabin", sans-serif;
+}
+
+#titleHeaderDiv>h2 {
+    font-weight: normal;
+    margin-top: 0px;
+}
+
+#titleHeaderDiv h1 h2 {
+    font-size: 26px;
+    font-family: "Cabin", sans-serif;
+}

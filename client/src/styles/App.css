@@ -1,0 +1,46 @@
+@font-face {
+  font-family: 'Cabin';
+  src: local('Cabin'), url("../static/Cabin/Cabin/Cabin-Regular.ttf") format('truetype');
+  font-display: swap;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: black;
+  color: white;
+  font-family: "Cabin", sans-serif;
+  font-size: 1.2em;
+}
+
+header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: center;
+  flex-direction: column;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+span {
+  font-family: "Cabin", sans-serif;
+  letter-spacing: 0.02em;
+}
+
+h1 {
+  font-size: 36px;
+  font-weight: bold;
+}
+
+h2 {
+  font-size: 26px;
+  font-weight: bold;
+}

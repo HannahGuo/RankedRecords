@@ -1,7 +1,6 @@
 import React from 'react'
 import { Table } from 'semantic-ui-react'
-import { PopularityTip } from './PopularityTip';
-import "./CustomTable.css"
+import "./styles/CustomTable.css"
 
 function swapDir(dir) {
   if(dir === "ascending") {
@@ -28,7 +27,7 @@ const CustomTable = ({data, artistID, loading, sortMethod, sortedDir, setSortedD
           onClick={() => setSortedDir(swapDir(sortedDir))}
           >
           {sortMethod === "popularity" ? 
-          <>Popularity <PopularityTip/>
+          <>Popularity
           </> : <>Release Date<br/>(YYYY-MM-DD)</>}
         </Table.HeaderCell>
         <Table.HeaderCell>Song Name</Table.HeaderCell>
