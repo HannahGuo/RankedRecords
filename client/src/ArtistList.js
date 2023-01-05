@@ -1,75 +1,26 @@
-import { useState, memo } from 'react';
-import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
-
-const initial = Array.from({ length: 0 }, (v, k) => k).map(k => {
-	const custom = {
-	  id: `id-${k}`,
-	  content: `Artist ${k}`
-	};
-  
-	return custom;
-  });
-  
-  const reorder = (list, startIndex, endIndex) => {
-	const result = Array.from(list);
-	const [removed] = result.splice(startIndex, 1);
-	result.splice(endIndex, 0, removed);
-  
-	return result;
-  };
-
-function Artist({ artist, index }) {
-	return (
-	  <Draggable draggableId={artist.id} index={index}>
-		{provided => (
-		  <div class="artistDiv"
-			ref={provided.innerRef}
-			{...provided.draggableProps}
-			{...provided.dragHandleProps}
-		  >
-			{artist.content}
-		  </div>
-		)}
-	  </Draggable>
-	);
-  }
-  
-  const Artists = memo(function Artists({ artists }) {
-	return artists.map((artist, index) => (
-	  <Artist artist={artist} index={index} key={artist.id} />
-	));
-  });
-
+import "./styles/ArtistList.css"
+import { useSelector, useDispatch } from 'react-redux'
+import { Icon, Button } from "semantic-ui-react";
+import { removeArtist } from "./features/artistlist";
 
 export default function ArtistList() {
-	const [state, setState] = useState({ artists: initial });
+	const artistListSelector = useSelector(state => state.artistList.aList);
+    const artistDispatch = useDispatch();
 
-	function onDragEnd(result) {
-	  if (!result.destination) {
-		return;
-	  }
-  
-	  if (result.destination.index === result.source.index) {
-		return;
-	  }
-  
-	  const artists = reorder(
-		state.artists,
-		result.source.index,
-		result.destination.index
-	  );
-  
-	  setState({ artists });
+	return <div id="selectedArtistListDiv">
+			{artistListSelector.map((val) => {
+				let curArtistObj = val[0];
+				return <div key={curArtistObj.key} className="artistDiv">
+						<img src={curArtistObj.image.src}/>
+						<span>{curArtistObj.text}</span>
+						<Button basic icon circular={true} compact={true} 
+								onClick={() => artistDispatch(removeArtist(curArtistObj))}
+								>
+							<Icon name="remove"/>
+						</Button>
+					</div>
+			}
+		)
 	}
-
-	return <DragDropContext onDragEnd={onDragEnd}>
-			<Droppable droppableId="list">
-				{provided => (
-				<div id="selectedArtistListDiv" ref={provided.innerRef} {...provided.droppableProps}>
-					<Artists artists={state.artists} />
-					{provided.placeholder}
-				</div>
-				)}
-			</Droppable>
-		</DragDropContext>
+	</div>;
 }

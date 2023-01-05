@@ -23,20 +23,6 @@
 	padding: 50px;
 }
 
-.artistDiv {
-	width: 200px;
-	color: black;
-	border-radius: 50px;
-	padding: 10px;
-	background-color: white;
-	margin-top: 8px;
-	margin-right: 0;
-}
-
-.artistDiv:hover {
-	cursor: grab;
-}
-
 #selectedArtistListDiv {
 	display: flex;
 	flex-direction: column;
