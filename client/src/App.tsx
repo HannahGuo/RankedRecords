@@ -9,6 +9,7 @@ import { Provider } from 'react-redux';
 import { useEffect } from 'react';
 import useAuth from './hooks/useAuth';
 import { spotifyApi } from './constants';
+import SongTable from './SongTable';
 
 export default function App() {
   useEffect(() => {
@@ -24,6 +25,7 @@ export default function App() {
           <Title/>
           <ControlBox/>
         </header>
+        <SongTable/>
       </div>
     </Provider>
   );

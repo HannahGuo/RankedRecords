@@ -4,7 +4,7 @@ import { Dropdown } from 'semantic-ui-react';
 import { spotifyApi } from './constants';
 import { useState, useEffect } from 'react';
 import {useDispatch} from 'react-redux';
-import { addtoEnd } from './features/artistlist';
+import { addtoEnd } from './features/artistList';
 
 export default function SearchBar() {
     const errorStr = `Please try refreshing the page - your session may have timed out. If the problem persists, please contact the developer.`;
@@ -17,31 +17,31 @@ export default function SearchBar() {
 
     const artistDispatch = useDispatch();
 
-    function handleChange(e, data) {
+    function handleChange(e: React.ChangeEvent<HTMLInputElement>, data :any) {
         resetFields();
-        // setDisableEntering(true);
 
-        let selectedArtist = data.options.filter(x => x.value === data.value);
+        let selectedArtist = data.options.filter((x : ArtistObj) => x.value === data.value);
 
-        console.log({selectedArtist});
         artistDispatch(addtoEnd(selectedArtist));
         
         setDefaultDropVal(undefined);
     }
     
-    function handleSearchChange(e, data) {
+    function handleSearchChange(e: React.ChangeEvent<HTMLInputElement>) {
         setSearchValue(e.target.value);
     }
     
-    function handleClose(e, data) {
+    function handleClose() {
         setSearchValue(undefined);
     }
     
     function resetFields() {
-        // setArtistResults([]);
+        setArtistResults([]);
+        setSearchValue(undefined);
+        setDefaultDropVal(undefined);
     }
     
-    function customSearch(options, query) {
+    function customSearch(options:any, query:string) {
         if(query === "") return [];
         return options;
     }
@@ -50,27 +50,26 @@ export default function SearchBar() {
         if(disableEntering) return;
         if(!searchValue || searchValue === "") return;
 
-        spotifyApi.searchArtists(searchValue, {limit: 5}).then(res => {            
-            if(res === [] || !res.body) return;
+        spotifyApi.searchArtists(searchValue, {limit: 5}).then((res:SpotifyResponse) => {            
+            if(!res.body) return;
 
             let filteringArtists = [];
             
-            res.body.artists.items.forEach((item) => {
+            res.body.artists.items.forEach((item : SpotifyArtistObj) => {
                 let currentArtist = (({name, id}) => ({name, id}))(item);
-                    
-                const { name: key, name: text, id: value, ...rest } = currentArtist;
-                const new_obj = { key, text, value, ...rest }
 
-                new_obj.image = {};
-                new_obj.image.src = item.images[0] === undefined ? "" : item.images[0].url;
-
-                new_obj.key = new_obj.key + item.id;
+                const new_obj : ArtistObj = { 
+                                image: {src: item.images[0] === undefined ? "" : item.images[0].url},
+                                text: currentArtist.name, 
+                                key: currentArtist.id + currentArtist.name,
+                                value: currentArtist.id
+                }
 
                 filteringArtists.push(new_obj);
             });
             
             setArtistResults(filteringArtists);
-        }).catch((err) => {
+        }).catch((err: ErrorMessage) => {
             console.log({err})
             alert(errorStr)
         })

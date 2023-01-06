@@ -1,8 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
-import artistlist from '../features/artistlist'
-  
+import artistList from '../features/artistList'
+import listSettings from '../features/listSettings'
+import songsList from '../features/songsList'
+
 export default configureStore({
 	reducer: {
-		artistList: artistlist
+		artistList: artistList,
+		listSettings: listSettings,
+		songsList: songsList
 	}
 })

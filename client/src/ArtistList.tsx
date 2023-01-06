@@ -1,10 +1,10 @@
 import "./styles/ArtistList.css"
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch, RootStateOrAny } from 'react-redux'
 import { Icon, Button } from "semantic-ui-react";
-import { removeArtist } from "./features/artistlist";
+import { removeArtist } from "./features/artistList";
 
 export default function ArtistList() {
-	const artistListSelector = useSelector(state => state.artistList.aList);
+	const artistListSelector = useSelector((state: RootStateOrAny)  => state.artistList.aList);
     const artistDispatch = useDispatch();
 
 	return <div id="selectedArtistListDiv">
