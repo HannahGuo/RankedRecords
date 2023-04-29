@@ -2,11 +2,17 @@ import {
   createSlice
 } from '@reduxjs/toolkit'
 
+interface ListSettings {
+	aList: ArtistObj[];
+}
+
+const initialState: ListSettings = {
+  aList: [],
+}
+
 export const artistSlice = createSlice({
   name: 'artistList',
-  initialState: {
-    aList: [],
-  },
+  initialState: initialState,
   reducers: {
     addtoEnd: (state, action) => {
       // Prevent duplicates

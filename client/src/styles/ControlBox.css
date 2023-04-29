@@ -1,46 +1,30 @@
 #controlBoxDiv {
 	display: flex;
 	justify-content: space-around;
-	width: 80%;
 
-	border: double 6px transparent;
-	border-radius: 30px;
-	background-image: linear-gradient(black, black),
-		linear-gradient(to bottom, black, #4c3285);
-	background-origin: border-box;
-	background-clip: content-box, border-box;
-	border-top: 0px;
+	border-bottom: 3px solid #4c3285;
+	
+	padding-bottom: 15px;
+	margin: 20px 0px;
 }
 
 #controlBoxDiv>#searchAndButtonsDiv {
-	padding: 50px;
 	flex: 1;
-}
-
-#controlBoxDiv>#artistsListDiv {
-	text-align: right;
-	flex: 1;
-	padding: 50px;
-}
-
-#selectedArtistListDiv {
-	display: flex;
-	flex-direction: column;
-	align-items: flex-end;
+	padding: 15px 10px;
 }
 
 #controlButtonsDiv {
 	display: flex;
 	justify-content: space-between;
 	position: relative;
-	margin-top: 20px;
+	margin-top: 25px;
 }
 
 .buttonDark {
 	background-image: linear-gradient(to bottom, black, #4c3285);
 	padding: 10px;
 	border-radius: 1.5em;
-	width: 45%;
+	width: 48%;
 	text-align: center;
 }
 

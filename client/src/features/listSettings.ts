@@ -1,25 +1,42 @@
-// import {
-// 	createSlice
-// } from '@reduxjs/toolkit'
+import {
+	createSlice
+} from '@reduxjs/toolkit'
 
-// export const listSettingsSlice = createSlice({
-// 	name: 'listSettings',
-// 	initialState: {
-// 		sortMethod: "chronology", // popularity, chronology
-// 		sortDirection: "ascending", // ascending, descending
-// 	},
-// 	reducers: {
-// 		changeSortMethod: (state, action) => {
-// 			state.sortMetod = action.payload;
-// 		},
-// 		changeSortDirection: (state, action) => {
-// 			state.sortDirection = action.payload;
-// 		},
-// 	},
-// })
+export const enum SortMethod {
+	POPULARITY = "popularity",
+	CHRONOLOGY = "chronology"
+}
 
-// export const {
-// 	changeSortMethod,
-// 	changeSortDirection
-// } = listSettingsSlice.actions
-// export default listSettingsSlice.reducer
+export const enum SortDirection {
+	ASCENDING = "ascending",
+	DESCENDING = "descending"
+}
+
+interface ListSettings {
+	sortMethod: SortMethod,
+	sortDirection: SortDirection
+}
+
+const initialState: ListSettings = {
+	sortMethod: SortMethod.CHRONOLOGY,
+	sortDirection: SortDirection.ASCENDING,
+}
+
+export const listSettingsSlice = createSlice({
+	name: 'listSettings',
+	initialState,
+	reducers: {
+		changeSortMethod: (state, action) => {
+			state.sortMethod = action.payload;
+		},
+		changeSortDirection: (state, action) => {
+			state.sortDirection = action.payload;
+		},
+	},
+})
+
+export const {
+	changeSortMethod,
+	changeSortDirection
+} = listSettingsSlice.actions
+export default listSettingsSlice.reducer

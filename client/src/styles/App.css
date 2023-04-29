@@ -19,7 +19,6 @@ body {
 header {
   display: flex;
   justify-content: center;
-  align-items: center;
   flex-direction: center;
   flex-direction: column;
 }
@@ -41,6 +40,45 @@ h1 {
 }
 
 h2 {
-  font-size: 26px;
+  font-size: 22px;
   font-weight: bold;
+}
+
+h3 {
+  margin-top: 0px;
+  font-weight: 400;
+  font-size: 18px;
+}
+
+#app {
+  display: flex;
+}
+
+#leftBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 35%;
+  padding: 3em;
+  border-right: 7px solid #4c3285;
+  border-image: 
+    linear-gradient(
+      to bottom, 
+      #4C3285, 
+      rgba(0, 0, 0, 0)
+    ) 1 100%;
+  min-height: 100vh;
+}
+
+#rightBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 65%;
+  padding: 1em;
+  overflow-y: scroll;
+}
+
+body ::-webkit-scrollbar-thumb {
+  background: #404040;
 }

@@ -5,6 +5,7 @@ import { spotifyApi } from './constants';
 import { useState, useEffect } from 'react';
 import {useDispatch} from 'react-redux';
 import { addtoEnd } from './features/artistList';
+import useToFetchSongs from './hooks/useToFetchSongs';
 
 export default function SearchBar() {
     const errorStr = `Please try refreshing the page - your session may have timed out. If the problem persists, please contact the developer.`;
@@ -14,15 +15,17 @@ export default function SearchBar() {
     const [searchValue, setSearchValue] = useState("");
 
     const [artistResults, setArtistResults] = useState([]);
+    const [artistID, setArtistID] = useState(undefined);
 
     const artistDispatch = useDispatch();
+    useToFetchSongs(artistID);
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement>, data :any) {
         resetFields();
-
-        let selectedArtist = data.options.filter((x : ArtistObj) => x.value === data.value);
+        let selectedArtist = data.options.filter((x : ArtistObj) => x.id === data.value);
 
         artistDispatch(addtoEnd(selectedArtist));
+        setArtistID((selectedArtist[0] as ArtistObj).id);
         
         setDefaultDropVal(undefined);
     }
@@ -59,12 +62,14 @@ export default function SearchBar() {
                 let currentArtist = (({name, id}) => ({name, id}))(item);
 
                 const new_obj : ArtistObj = { 
-                                image: {src: item.images[0] === undefined ? "" : item.images[0].url},
-                                text: currentArtist.name, 
                                 key: currentArtist.id + currentArtist.name,
-                                value: currentArtist.id
+                                value: currentArtist.id,
+                                text: currentArtist.name,
+                                image: {src: item.images[0] === undefined ? "" : item.images[0].url},
+                                name: currentArtist.name, 
+                                id: currentArtist.id,
+                                url: item.external_urls.spotify
                 }
-
                 filteringArtists.push(new_obj);
             });
             
@@ -73,7 +78,7 @@ export default function SearchBar() {
             console.log({err})
             alert(errorStr)
         })
-
+        
     }, [disableEntering, searchValue]);
 
 

@@ -1,10 +1,7 @@
 #titleHeaderDiv {
-    text-align: center;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 2em;
+    align-items: start;
     font-family: "Cabin", sans-serif;
 }
 

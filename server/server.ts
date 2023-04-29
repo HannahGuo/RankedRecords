@@ -39,11 +39,14 @@ app.post("/", (req, res) => {
 
 app.post("/login", (req, res) => {
 	const code = req.body.code
+
 	const spotifyApi = new SpotifyWebApi({
 		clientId: clientId,
 		clientSecret: secret,
 		redirectUri: redirectUri
 	})
+
+	console.log({code});
 
 	spotifyApi.authorizationCodeGrant(code)
 		.then(data => {
@@ -54,9 +57,7 @@ app.post("/login", (req, res) => {
 			})
 		})
 		.catch(err => {
-			console.log({
-				err
-			})
+			console.log({err})
 			res.sendStatus(400)
 		})
 });

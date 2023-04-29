@@ -5,20 +5,26 @@ import {
   export const songsSlice = createSlice({
 	name: 'songsList',
 	initialState: {
-	  sList: [],
+	// an object of objects where it goes [artist id]: [songs]
+	  sList: {},
 	},
 	reducers: {
+	  addLoadingArtist: (state, action) => {
+		state.sList[action.payload] = [];
+	  },
+
 	  addArtistSongs: (state, action) => {
-		// Prevent duplicates
-		let artistIndex = state.sList.findIndex(x => x[0].key === action.payload[0].key);
+		state.sList[action.payload[0]] = action.payload[1];
 	  },
 	  removeArtistSongs: (state, action) => {
-
+		delete state.sList[action.payload];
 	  }
 	},
   })
   
   export const {
-
+	addArtistSongs,
+	removeArtistSongs,
+	addLoadingArtist
   } = songsSlice.actions
   export default songsSlice.reducer

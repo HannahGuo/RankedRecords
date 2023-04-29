@@ -7,54 +7,74 @@ import {
 } from '../constants';
 
 import {
-	useSelector,
-	RootStateOrAny
+	useDispatch,
 } from 'react-redux'
+
+import { addArtistSongs, addLoadingArtist } from "../features/songsList";
 
 const errorStr = `Please try refreshing the page - your session may have timed out. If the problem persists, please contact the developer.`;
 
-function areSongsSame(album1:AlbumObj, album2:SpotifyAlbumObj) {
+function areAlbumsSame(album1:AlbumObj, album2:SpotifyAlbumObj) {
 	// technically could be done by iterating through whole list, but this is faster and works most cases
-	return album1.name === album2.name && album1.release_date === album2.release_date && album1.total_tracks === album2.total_tracks;
+	return album1.name === album2.name && 
+		album1.release_date === album2.release_date && album1.total_tracks === album2.total_tracks;
 }
 
-export default function useToFetchSongs() {
-	const artistListSelector = useSelector((state: RootStateOrAny) => state.artistList.aList);
-	const songsListSelector = useSelector((state: RootStateOrAny) => state.songsList.sList);
-
-	const [artistID, setArtistID] = useState("");
+export default function useToFetchSongs(artistID: String) {	
 	const [artistAlbumOffset, setArtistAlbumOffset] = useState(0);
-	const [doneLoadingAlbums, setDoneLoadingAlbums] = useState(false);
 	const [albumList, setAlbumList] = useState([]);
+	const [doneLoadingAlbums, setDoneLoadingAlbums] = useState(false);
 
 	const [albumTrackOffset, setAlbumTrackOffset] = useState(0);
+    const [albumTrackList, setAlbumTrackList] = useState([]);
 	const [doneLoadingTracks, setDoneLoadingTracks] = useState(false);
-    const [trackList, setTrackList] = useState([]);
 
+	const [trackOffset, setTrackOffset] = useState(0);
 	const [trackListPop, setTrackListPop] = useState([]);
-    const [trackOffset, setTrackOffset] = useState(0);
     const [doneLoadingTracksPop, setDoneLoadingTracksPop] = useState(false);
 
-	useEffect(() => {
-		artistListSelector.forEach((artist : ArtistObj) => {
-			let songListArtistIDs = songsListSelector.map(x => x[0].artistID);
-			if(!songListArtistIDs.includes(artist[0].value)){
-				setArtistID(artist[0].value);
-				return;
-			}
-		})
-	}, [
-		artistListSelector
-	])
+	const [finalTrackList, setFinalTrackList] = useState([]);
+    const [doneLoadingFinalTrackList, setDoneLoadingFinalTrackList] = useState(false);
+
+	const [curArtistID, setCurArtistID] = useState(undefined);
+	const dispatch = useDispatch();
+
+	function resetStates() {
+		setArtistAlbumOffset(0);
+		setAlbumList([]);
+		setDoneLoadingAlbums(false);
+
+		setAlbumTrackOffset(0);
+		setAlbumTrackList([]);
+		setDoneLoadingTracks(false);
+
+		setTrackOffset(0);
+		setTrackListPop([]);
+		setDoneLoadingTracksPop(false);
+
+		setFinalTrackList([]);
+		setDoneLoadingFinalTrackList(false);
+	}
 
 	useEffect(() => {
+		if(artistID == undefined) return;
 		if(artistID.length == 0) return;
+
+		if(artistID != curArtistID) {
+			resetStates();
+			setCurArtistID(artistID);
+			return;
+		}
+
+
 		if (doneLoadingAlbums || artistAlbumOffset === -1) {
 			setDoneLoadingAlbums(true);
 			return;
 		}
 
-		spotifyApi.getArtistAlbums(artistID, {
+		dispatch(addLoadingArtist(artistID));
+
+		spotifyApi.getArtistAlbums(curArtistID, {
 			"offset": artistAlbumOffset
 		}).then((res: SpotifyResponse) => {
 			res.body.items.forEach((album : SpotifyAlbumObj) => {
@@ -81,13 +101,13 @@ export default function useToFetchSongs() {
 			});
 			alert(errorStr)
 		});
-	}, [artistID, artistAlbumOffset]);
+	}, [artistID, curArtistID, artistAlbumOffset]);
 
 	useEffect(() => {
 		// https://stackoverflow.com/questions/2218999/how-to-remove-all-duplicates-from-an-array-of-objects
 		setAlbumList(albumList.filter((value, index, self) =>
 				index === self.findIndex((t) => (
-					areSongsSame(t, value)
+					areAlbumsSame(t, value)
 				))
 		))
 	}, [doneLoadingAlbums]);
@@ -105,8 +125,8 @@ export default function useToFetchSongs() {
         spotifyApi.getAlbums(albumArr).then((res: SpotifyResponse) => {
             res.body.albums.forEach((album:SpotifyAlbumWithTracksObj) => {
                 album.tracks.items.forEach(track => {
-                    if(track.artists.filter((x: SpotifyTrackObj) => x.id === artistID).length > 0) {
-                        setTrackList(existingTracks => [...existingTracks, track.id])
+                    if(track.artists.filter((x: SpotifyTrackObj) => x.id === curArtistID).length > 0) {
+                        setAlbumTrackList(existingTracks => [...existingTracks, track.id])
                     }
                 })
             });
@@ -122,19 +142,19 @@ export default function useToFetchSongs() {
         })
 
         return () => {albumArr = []};
-    }, [doneLoadingAlbums, albumTrackOffset, albumList, artistID])
+    }, [doneLoadingAlbums, albumTrackOffset])
 
 	useEffect(() => {
         if(!doneLoadingTracks) return;
 
-        let trackArr = trackList.slice(trackOffset, trackOffset + 50);
+        let trackArr = albumTrackList.slice(trackOffset, trackOffset + 50);
 
-        if(trackArr.length === 0 || trackOffset === -1 || trackList.length === 0 || doneLoadingTracksPop) {
+        if(trackArr.length === 0 || trackOffset === -1 || albumTrackList.length === 0 || doneLoadingTracksPop) {
             setDoneLoadingTracksPop(true);
             return;
         }
 
-        if(trackList.length === 0) {
+        if(albumTrackList.length === 0) {
             return;
         }
 
@@ -166,7 +186,49 @@ export default function useToFetchSongs() {
         })
 
         return () => {trackArr = []};
-    }, [doneLoadingTracks, trackOffset, doneLoadingTracksPop, trackList]);
+    }, [doneLoadingTracks, trackOffset, trackListPop]);
 
-	return trackListPop;
+	useEffect(() => {
+        if(!doneLoadingTracksPop) return;
+
+        let tempArr = [];
+
+        trackListPop.forEach((track) => {
+            if(!tempArr.find(curTrack => curTrack.name.toLowerCase() === track.name.toLowerCase())) {
+                let checkDupes = trackListPop.filter(oldTrack => 
+                                                    oldTrack.name.toLowerCase() === track.name.toLowerCase());
+                checkDupes.sort((a, b) => { 
+					let sortMethod = "release_date"
+					return Date.parse(a[sortMethod]) - Date.parse(b[sortMethod])
+                });
+
+				checkDupes[0].artists.sort((a, b) => {
+					if(a.id === curArtistID) return -1;
+					if(b.id === curArtistID) return 1;
+					return 0;
+				});
+
+                tempArr.push(checkDupes[0])
+            }
+        })
+
+		setFinalTrackList(tempArr);
+
+		setDoneLoadingFinalTrackList(true);
+        // tempArr.sort((a, b) => {
+        //     if(sortMethod === "release_date") {
+        //         return Date.parse(b[sortMethod])- Date.parse(a[sortMethod])
+        //     } else {
+        //         return b[sortMethod]- a[sortMethod]
+        //     }
+        // });
+        return () => {tempArr = []}
+    }, [doneLoadingTracksPop])
+
+	useEffect(() => {
+		if(!doneLoadingFinalTrackList) return;
+		dispatch(addArtistSongs([curArtistID, finalTrackList]));	
+	}, [doneLoadingFinalTrackList]);
+
+	// return trackListPop;
 }

@@ -1,0 +1,32 @@
+#firstLoginModal {
+	color: black;
+}
+
+#loginButton {
+	background-color: #1DB954;
+	color: white;
+}
+
+#loginButtonsDiv {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.Toastify__toast-body {
+    font-family: "Cabin", sans-serif;
+    color: black;
+}
+
+.Toastify__toast.Toastify__toast--default {
+    border-radius: 50px;
+    min-height: unset;
+}
+
+.Toastify__toast-container--top-right.Toastify__toast-container {
+    width: 15em;
+}
+
+.Toastify__close-button--default {
+    display: none;
+}

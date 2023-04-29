@@ -1,8 +1,13 @@
 type ArtistObj = {
 	key: string,
+	id: string,
+	name: string,
+	image: {src: string}
+	url: string,
+
+	// for the semantic ui dropdown
 	value: string,
 	text: string,
-	image: {src: string}
 }
 
 type AlbumObj = {
@@ -13,7 +18,11 @@ type AlbumObj = {
 }
 
 type ArtistDBObj = {
-
+	id: string,
+	name: string,
+	image: string,
+	songs: any,
+	url: string,
 }
 
 type SongObj = {
