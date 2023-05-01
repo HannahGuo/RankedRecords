@@ -2,9 +2,9 @@ import {
 	createSlice
 } from '@reduxjs/toolkit'
 
-export const enum SortMethod {
+export enum SortMethod {
 	POPULARITY = "popularity",
-	CHRONOLOGY = "chronology"
+	CHRONOLOGY = "release_date"
 }
 
 export const enum SortDirection {
@@ -12,14 +12,16 @@ export const enum SortDirection {
 	DESCENDING = "descending"
 }
 
-interface ListSettings {
+export interface ListSettings {
 	sortMethod: SortMethod,
-	sortDirection: SortDirection
+	sortDirection: SortDirection,
+	filterOptions?: string[]
 }
 
 const initialState: ListSettings = {
 	sortMethod: SortMethod.CHRONOLOGY,
-	sortDirection: SortDirection.ASCENDING,
+	sortDirection: SortDirection.DESCENDING,
+	filterOptions: []
 }
 
 export const listSettingsSlice = createSlice({
@@ -29,14 +31,26 @@ export const listSettingsSlice = createSlice({
 		changeSortMethod: (state, action) => {
 			state.sortMethod = action.payload;
 		},
+		toggleSortDirection: (state) => {
+			if(state.sortDirection === SortDirection.ASCENDING) {
+				state.sortDirection = SortDirection.DESCENDING;
+			} else {
+				state.sortDirection = SortDirection.ASCENDING;
+			}
+		},
 		changeSortDirection: (state, action) => {
 			state.sortDirection = action.payload;
 		},
+		setFilters: (state, action) => {
+			state.filterOptions = action.payload;
+		}
 	},
 })
 
 export const {
 	changeSortMethod,
-	changeSortDirection
+	toggleSortDirection,
+	changeSortDirection,
+	setFilters
 } = listSettingsSlice.actions
 export default listSettingsSlice.reducer

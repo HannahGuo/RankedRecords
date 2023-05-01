@@ -32,3 +32,56 @@
 	color: #cfc4e9;
 	cursor: pointer;
 }
+
+#purpleBackground {
+	background-color: #4c3285;
+	color: white;
+}
+
+.ui.modal>.actions {
+	display:flex;
+	align-items: center;
+	justify-content: center;
+}
+
+#optionsModal>.content {
+	color: black;
+	padding: 20px;
+}
+
+#optionsModalDiv {
+	display: flex;
+	justify-content: left;
+	flex-direction: row;
+}
+
+#optionsModalDiv>div {
+	margin-top: 10px;
+}
+
+#optionsModalDiv>div:last-child {
+	margin-left: 10px;
+}
+
+#playlistModal {
+	color: black;
+}
+
+#summaryHead {
+	margin: 10px 0px;
+}
+
+#playlistModalWarning { 
+	color: red;
+	text-align: center;
+	font-weight: bold;
+}
+
+#playlistCreatedModal { 
+	color: black;
+}
+
+#playlistCreatedModal a {
+	color: #4c3285;
+	text-decoration: underline;
+}

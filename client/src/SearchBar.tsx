@@ -3,7 +3,7 @@ import './styles/SearchBar.css';
 import { Dropdown } from 'semantic-ui-react';
 import { spotifyApi } from './constants';
 import { useState, useEffect } from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import { addtoEnd } from './features/artistList';
 import useToFetchSongs from './hooks/useToFetchSongs';
 
@@ -18,16 +18,24 @@ export default function SearchBar() {
     const [artistID, setArtistID] = useState(undefined);
 
     const artistDispatch = useDispatch();
+
+    const curSongLoading : boolean = useSelector((state: any) => state.songsList.isLoading);
+
+    useEffect(() => {
+        setDisableEntering(curSongLoading);
+
+        if(!curSongLoading){ 
+            resetFields();
+        }
+    }, [curSongLoading]);
+
     useToFetchSongs(artistID);
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement>, data :any) {
-        resetFields();
         let selectedArtist = data.options.filter((x : ArtistObj) => x.id === data.value);
 
         artistDispatch(addtoEnd(selectedArtist));
         setArtistID((selectedArtist[0] as ArtistObj).id);
-        
-        setDefaultDropVal(undefined);
     }
     
     function handleSearchChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -35,13 +43,14 @@ export default function SearchBar() {
     }
     
     function handleClose() {
-        setSearchValue(undefined);
+        setSearchValue("");
     }
     
     function resetFields() {
+        setSearchValue("");
         setArtistResults([]);
-        setSearchValue(undefined);
         setDefaultDropVal(undefined);
+        setArtistID(undefined);
     }
     
     function customSearch(options:any, query:string) {
@@ -79,7 +88,7 @@ export default function SearchBar() {
             alert(errorStr)
         })
         
-    }, [disableEntering, searchValue]);
+    }, [disableEntering, searchValue, errorStr]);
 
 
 	return <Dropdown fluid selection deburr closeOnChange
@@ -91,10 +100,10 @@ export default function SearchBar() {
                     onSearchChange={handleSearchChange}
                     onClose={handleClose}
                     id={"searchDropdown"}
-                    disabled={disableEntering}
                     selectOnNavigation={false}
                     searchQuery={searchValue}
                     value={defaultDropVal}
+                    disabled={disableEntering}
                     label={"search-artists"}
 	/>;
 }

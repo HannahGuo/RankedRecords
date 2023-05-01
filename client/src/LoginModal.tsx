@@ -63,7 +63,7 @@ export default function LoginModal() {
                 alert(errorStr + " Login Issue")
             });
         }
-    }, [accessTokenLog]);
+    }, [accessTokenLog, dispatch]);
 
     return (
         <>

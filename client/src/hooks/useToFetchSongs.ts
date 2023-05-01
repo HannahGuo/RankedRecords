@@ -10,7 +10,7 @@ import {
 	useDispatch,
 } from 'react-redux'
 
-import { addArtistSongs, addLoadingArtist } from "../features/songsList";
+import { addArtistSongs, addLoadingArtist, setLoadingStatus } from "../features/songsList";
 
 const errorStr = `Please try refreshing the page - your session may have timed out. If the problem persists, please contact the developer.`;
 
@@ -63,9 +63,9 @@ export default function useToFetchSongs(artistID: String) {
 		if(artistID != curArtistID) {
 			resetStates();
 			setCurArtistID(artistID);
+			dispatch(setLoadingStatus(true));
 			return;
 		}
-
 
 		if (doneLoadingAlbums || artistAlbumOffset === -1) {
 			setDoneLoadingAlbums(true);
@@ -167,6 +167,7 @@ export default function useToFetchSongs(artistID: String) {
                                 "popularity": track.popularity, 
                                 "artists": track.artists,
                                 "ext_spotify_url": track.external_urls.spotify,
+								"duration_ms": track.duration_ms,
                                 "available_markets" : track.available_markets,
                                 "release_date" : track.album.release_date,
                                 "uri" : track.uri}]
@@ -193,42 +194,47 @@ export default function useToFetchSongs(artistID: String) {
 
         let tempArr = [];
 
-        trackListPop.forEach((track) => {
-            if(!tempArr.find(curTrack => curTrack.name.toLowerCase() === track.name.toLowerCase())) {
-                let checkDupes = trackListPop.filter(oldTrack => 
-                                                    oldTrack.name.toLowerCase() === track.name.toLowerCase());
-                checkDupes.sort((a, b) => { 
+        trackListPop.forEach((track: SpotifyTrackWithPopObj) => {
+            if(!tempArr.find((curTrack: SpotifyTrackWithPopObj) => 
+					curTrack.name.toLowerCase() === track.name.toLowerCase()
+					&& curTrack.duration_ms === track.duration_ms)) {
+                // all tracks with this type
+				let checkDupes = trackListPop.filter(oldTrack => 
+                                                    oldTrack.name.toLowerCase() === track.name.toLowerCase() &&
+													oldTrack.duration_ms === track.duration_ms);
+
+				// we filter out based on popularity, and then set the release date to the earliest one
+                let earliestRelease = checkDupes.sort((a, b) => { 
 					let sortMethod = "release_date"
 					return Date.parse(a[sortMethod]) - Date.parse(b[sortMethod])
                 });
 
-				checkDupes[0].artists.sort((a, b) => {
+				// find the one with the highest popularity:
+				let mostPopular = checkDupes.sort((a, b) => b.popularity - a.popularity)[0];
+
+				let clonedObject = {...mostPopular}
+				clonedObject = {...clonedObject, "release_date": earliestRelease[0]["release_date"]}
+
+				// sort the artists so that the current artist is first
+				clonedObject.artists.sort((a, b) => {
 					if(a.id === curArtistID) return -1;
 					if(b.id === curArtistID) return 1;
 					return 0;
 				});
 
-                tempArr.push(checkDupes[0])
+                tempArr.push(clonedObject)
             }
         })
 
 		setFinalTrackList(tempArr);
 
 		setDoneLoadingFinalTrackList(true);
-        // tempArr.sort((a, b) => {
-        //     if(sortMethod === "release_date") {
-        //         return Date.parse(b[sortMethod])- Date.parse(a[sortMethod])
-        //     } else {
-        //         return b[sortMethod]- a[sortMethod]
-        //     }
-        // });
         return () => {tempArr = []}
     }, [doneLoadingTracksPop])
 
 	useEffect(() => {
 		if(!doneLoadingFinalTrackList) return;
+		dispatch(setLoadingStatus(false));
 		dispatch(addArtistSongs([curArtistID, finalTrackList]));	
-	}, [doneLoadingFinalTrackList]);
-
-	// return trackListPop;
+	}, [doneLoadingFinalTrackList, finalTrackList, curArtistID, dispatch]);
 }

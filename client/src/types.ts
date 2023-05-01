@@ -157,3 +157,7 @@ type SpotifyAlbumWithTracksObj = {
 	type: string,
 	uri: string
 }
+
+type SpotifyPlaylistObj = {
+	external_urls: any,
+}

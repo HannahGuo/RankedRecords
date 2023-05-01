@@ -12,7 +12,7 @@
     white-space: -moz-pre-wrap; /* Firefox */    
     white-space: -pre-wrap;     /* Opera <7 */   
     white-space: -o-pre-wrap;   /* Opera 7 */    
-    word-wrap: break-word;      /* IE */ 
+    word-wrap:normal;      /* IE */ 
 }
 
 #customTable > thead > tr > th {
@@ -33,4 +33,9 @@
     text-align: center;
     color: #A6A6A6;
     padding: 3em 0em;
+}
+
+#popButton {
+    box-shadow: none !important;
+    padding: 5px;
 }

@@ -1,0 +1,14 @@
+#footer-links {
+    display: flex;
+    justify-content: center;
+    margin: 20px auto;
+}
+
+#footer-links a {
+    text-decoration: none;
+}
+
+#footer {
+	text-align: center;
+	padding-top: 20px;
+}

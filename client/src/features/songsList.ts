@@ -7,6 +7,7 @@ import {
 	initialState: {
 	// an object of objects where it goes [artist id]: [songs]
 	  sList: {},
+	  isLoading: false
 	},
 	reducers: {
 	  addLoadingArtist: (state, action) => {
@@ -18,6 +19,9 @@ import {
 	  },
 	  removeArtistSongs: (state, action) => {
 		delete state.sList[action.payload];
+	  },
+	  setLoadingStatus: (state, action) => {
+		state.isLoading = action.payload;
 	  }
 	},
   })
@@ -25,6 +29,7 @@ import {
   export const {
 	addArtistSongs,
 	removeArtistSongs,
-	addLoadingArtist
+	addLoadingArtist,
+	setLoadingStatus
   } = songsSlice.actions
   export default songsSlice.reducer

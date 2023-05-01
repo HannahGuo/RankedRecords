@@ -82,3 +82,7 @@ h3 {
 body ::-webkit-scrollbar-thumb {
   background: #404040;
 }
+
+#artistDivs {
+  border-bottom: 3px solid #4c3285;
+}

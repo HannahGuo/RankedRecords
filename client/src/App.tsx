@@ -11,6 +11,7 @@ import ArtistBox from './ArtistBox';
 import RecArtistBox from './RecArtistBox';
 import LoginModal from './LoginModal';
 import { useRef, useEffect } from 'react';
+import Footer from './Footer';
 
 
 
@@ -25,7 +26,7 @@ export default function App() {
       const resizeObserver = new ResizeObserver((entries) => {
         for (const entry of entries) {
           if (entry.target === leftDivRef.current) {
-            rightDivRef.current.style.maxHeight = `${entry.contentRect.height}px`;
+            rightDivRef.current.style.height = `${entry.contentRect.height}px`;
           }
         }
       });
@@ -51,6 +52,7 @@ export default function App() {
             <ArtistBox/>
             <RecArtistBox/>
           </div>
+          <Footer/>
         </header>
         </div>
         <div id="rightBox" ref={rightDivRef}>

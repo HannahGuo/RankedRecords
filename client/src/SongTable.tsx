@@ -1,23 +1,30 @@
-import { RootStateOrAny, useSelector } from "react-redux";
 import { Table } from 'semantic-ui-react'
 import "./styles/SongTable.css"
+import useToSortSongs from "./hooks/useToSortSongs";
+import {useSelector, useDispatch} from "react-redux";
+import { ListSettings, toggleSortDirection } from './features/listSettings';
+import { PopularityTip } from './PopularityTip';
 
 export default function SongTable() {
-	const songsListSelector = useSelector((state: RootStateOrAny) => state.songsList.sList);
-
-	const allSongs = Object.values(songsListSelector).flat();
+  const listSettings : ListSettings = useSelector((state: any) => state.listSettings);
+	const allSongs = useToSortSongs();
+  const dispatch = useDispatch();
 	
 	return <Table celled padded id="customTable" sortable>
     <Table.Header>
       <Table.Row>
-        <Table.HeaderCell
-          // sorted={sortedDir}
-          // onClick={() => setSortedDir(swapDir(sortedDir))}
+        <Table.HeaderCell sorted={listSettings.sortDirection}
+          onClick={() => dispatch(toggleSortDirection())}
+          width={3}
           >
-          {<>Release Date<br/>(YYYY-MM-DD)</>}
+          {
+           listSettings.sortMethod === "popularity" 
+           ? <>Popularity <PopularityTip/></> : 
+            <>Release Date<br/>(YYYY-MM-DD)</>
+          }
         </Table.HeaderCell>
-        <Table.HeaderCell>Song Name</Table.HeaderCell>
-        <Table.HeaderCell>Artist(s)</Table.HeaderCell>
+        <Table.HeaderCell width={7}>Song Name</Table.HeaderCell>
+        <Table.HeaderCell width={4}>Artist(s)</Table.HeaderCell>
       </Table.Row>
     </Table.Header>
 
@@ -25,16 +32,18 @@ export default function SongTable() {
       {allSongs.map(((songEntry: SongObj) => {
         return <Table.Row key={songEntry.name + songEntry.popularity}>
         <Table.Cell>
-            {songEntry.release_date}
+            {listSettings.sortMethod === "popularity" ? 
+            songEntry.popularity : 
+            songEntry.release_date}
         </Table.Cell>
-        <Table.Cell singleLine>
+        <Table.Cell>
           <a href={songEntry.ext_spotify_url} target="_blank" rel="noreferrer">{songEntry.name}</a>
         </Table.Cell>
         <Table.Cell>
           {songEntry.artists.map((artist : SpotifyArtistObj) => {
             return <a key={`artistLink for ${artist.name} for song ${songEntry.name}`}
                       href={artist.external_urls.spotify} target="_blank" rel="noreferrer">{artist.name}</a>;
-          }).reduce((prev, curr) => [prev, ', ', curr])}
+          }).reduce((prev: String, curr: String) => [prev, ', ', curr])}
         </Table.Cell>
       </Table.Row>
 

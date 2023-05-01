@@ -3,11 +3,14 @@ import { useSelector, useDispatch, RootStateOrAny } from 'react-redux'
 import { Icon, Button, Popup } from "semantic-ui-react";
 import { removeArtist } from "./features/artistList";
 import { removeArtistSongs } from "./features/songsList";
+import useToSortSongs from "./hooks/useToSortSongs";
 
 export default function ArtistList() {
 	const artistListSelector = useSelector((state: RootStateOrAny)  => state.artistList.aList);
 	const songsListSelector = useSelector((state: RootStateOrAny) => state.songsList.sList);
     const artistDispatch = useDispatch();
+
+	const allSongs = useToSortSongs();
 
 	return <div id="selectedArtistListDiv">
 			{artistListSelector.length === 0 ? <div id="noArtistDiv"><em>No artists selected, use search above to add some!</em></div> : null}
@@ -19,7 +22,12 @@ export default function ArtistList() {
 
 						{songsListSelector[curArtistObj.id] != null && 
 						songsListSelector[curArtistObj.id].length > 0 ? 
-							<><span>({songsListSelector[curArtistObj.id].length} songs)</span>
+							<><span>({
+								allSongs.reduce((accumulator, song) => {
+									return song.artists.some((artist: SpotifyArtistObj) => 
+											artist.name === curArtistObj.name) ? accumulator + 1 : accumulator;
+								  }, 0)								  
+								} songs)</span>
 							<Button basic icon circular={true} compact={true} 
 									onClick={() => { 
 										artistDispatch(removeArtist(curArtistObj))
