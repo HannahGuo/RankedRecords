@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Icon, Modal } from 'semantic-ui-react';
+import { Button, Icon, Modal, Popup } from 'semantic-ui-react';
 import "./styles/Footer.css"
 
 function FAQModalContent() {
@@ -45,7 +45,7 @@ function FAQModalContent() {
             </li>
         </ol>
         <br/>
-        <p>You also might notice that there is some grouping while loading (first step goes up  in 20s, third step goes up in 50s, etc.)
+        <p>You also might notice that there is some grouping while loading (first step goes up in 20s, third step goes up in 50s, etc.)
             This is to reduce the number of Spotify API calls - it's still a sizeable amount though.</p>
 
         <h4>🎶 Why does the number of songs loaded differ from the amount displayed in the final table?</h4>
@@ -60,14 +60,12 @@ export default function Footer() {
 	const [faqOpen, setFaqOpen] = useState(false);
 
 	return <div id="footer">
-            <div>Made with ❤ by <a href="https://hannahguo.me/" target="_blank" rel="noreferrer">Hannah Guo️</a></div>
-
             <div id="footer-links">
                 <Modal closeIcon 
                     open={faqOpen}
                     onClose={() => setFaqOpen(false)}
                     onOpen={() => setFaqOpen(true)}
-                    trigger={<Button basic inverted color="grey"><Icon name="question"/>FAQs</Button>}>
+                    trigger={<Button circular basic icon inverted color="grey"><Icon name="question"/></Button>}>
                     <Modal.Header>💿 Ranked Records FAQs</Modal.Header>
                     <Modal.Content scrolling>
                         <Modal.Description>
@@ -77,19 +75,35 @@ export default function Footer() {
                 </Modal>
                 <div>
                     <a href="https://github.com/HannahGuo/RankedRecords" target="_blank" rel="noreferrer">
-                        <Button basic inverted color="grey"><Icon name="github"/>Github</Button>
+                    <Popup
+                        trigger={<Button circular basic icon inverted color="grey"><Icon name="github"/></Button>}
+                        content='Github'
+                        position='top center'
+                        inverted
+                        />
                     </a>
                 </div>
                 <div>
                     <a href="https://github.com/HannahGuo/RankedRecords/releases" target="_blank" rel="noreferrer">
-                        <Button basic inverted color="grey"><Icon name="newspaper outline"/>What's New?</Button>
+                    <Popup
+                        trigger={<Button circular basic icon inverted color="grey"><Icon name="newspaper outline"/></Button>}
+                        content='Latest Updates'
+                        position='top center'
+                        inverted
+                        />
                     </a>
                 </div>
                 <div>
                     <a href="https://forms.gle/nigc6Bwdq5hZETRY9" target="_blank" rel="noreferrer">
-                        <Button basic inverted color="grey"><Icon name="inbox"/>Contact</Button>
+                    <Popup
+                        trigger={<Button circular basic icon inverted color="grey"><Icon name="inbox"/></Button>}
+                        content='Feedback Form'
+                        position='top center'
+                        inverted
+                        />
                     </a>
                 </div>
             </div>
+            <div>Made with ❤ by <a href="https://hannahguo.me/" target="_blank" rel="noreferrer">Hannah Guo️</a></div>
 		</div>
 }

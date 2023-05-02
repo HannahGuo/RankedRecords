@@ -3,7 +3,13 @@
 }
 
 #loginButton {
-	background-color: #1DB954;
+	background-color: #4c3285;
+	color: white;
+}
+
+#loginButton:hover {
+	/*make background color same shade but darker color*/
+	background-color: #3a256b;
 	color: white;
 }
 

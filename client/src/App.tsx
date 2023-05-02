@@ -10,39 +10,17 @@ import SongTable from './SongTable';
 import ArtistBox from './ArtistBox';
 import RecArtistBox from './RecArtistBox';
 import LoginModal from './LoginModal';
-import { useRef, useEffect } from 'react';
 import Footer from './Footer';
-import useToFetchSongs from './hooks/useToFetchSongs';
+import ScrollToTop from 'react-scroll-to-top';
 
 export default function App() {
   document.title = "Ranked Records"
-
-  const leftDivRef = useRef(null);
-  const rightDivRef = useRef(null);
-
-  useEffect(() => {
-    if (leftDivRef.current && rightDivRef.current) {
-      const resizeObserver = new ResizeObserver((entries) => {
-        for (const entry of entries) {
-          if (entry.target === leftDivRef.current) {
-            rightDivRef.current.style.height = `${entry.contentRect.height}px`;
-          }
-        }
-      });
-
-      resizeObserver.observe(leftDivRef.current);
-
-      return () => {
-        resizeObserver.disconnect();
-      };
-    }
-  }, []);
   
   return (
     <Provider store={store}>
       <div id="app">
         <LoginModal/>
-        <div id="leftBox" ref={leftDivRef}>
+        <div id="leftBox">
         <header>
           <Title/>
           <ControlBox/>
@@ -53,10 +31,11 @@ export default function App() {
           <Footer/>
         </header>
         </div>
-        <div id="rightBox" ref={rightDivRef}>
+        <div id="rightBox">
           <SongTable/>
         </div>
       </div>
+      <ScrollToTop smooth color="white" className="customScroll"/>
     </Provider>
   );
 }

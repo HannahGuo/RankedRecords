@@ -11,7 +11,7 @@ import {
 	useDispatch, useSelector, RootStateOrAny
 } from 'react-redux'
 
-import { addArtistSongs, addLoadingArtist, setLoadingStatus } from "../features/songsList";
+import { LoadingStages, addArtistSongs, addLoadingArtist, resetLoadingTotals, setLoadingStatus, updateLoadingStatus } from "../features/songsList";
 import { updateArtistID } from "../features/artistList";
 
 function areAlbumsSame(album1:AlbumObj, album2:SpotifyAlbumObj) {
@@ -56,6 +56,8 @@ export default function useToFetchSongs() {
 
 		setFinalTrackList([]);
 		setDoneLoadingFinalTrackList(false);
+
+		dispatch(resetLoadingTotals());
 	}
 
 	useEffect(() => {
@@ -68,7 +70,10 @@ export default function useToFetchSongs() {
 			return;
 		}
 
+		dispatch(setLoadingStatus(true));
 		dispatch(addLoadingArtist(curArtistID.toString()));
+
+		dispatch(updateLoadingStatus([LoadingStages.ALBUMS, artistAlbumOffset]));
 
 		spotifyApi.getArtistAlbums(curArtistID, {
 			"offset": artistAlbumOffset
@@ -92,15 +97,12 @@ export default function useToFetchSongs() {
 			}
 
 		}).catch((err: ErrorMessage) => {
-			console.log({
-				err
-			});
+			console.log({err});
 			alert(errorStr)
 		});
 	}, [curArtistID, artistAlbumOffset]);
 
 	useEffect(() => {
-		// https://stackoverflow.com/questions/2218999/how-to-remove-all-duplicates-from-an-array-of-objects
 		setAlbumList(albumList.filter((value, index, self) =>
 				index === self.findIndex((t) => (
 					areAlbumsSame(t, value)
@@ -118,6 +120,7 @@ export default function useToFetchSongs() {
             return;
         }
         
+		dispatch(updateLoadingStatus([LoadingStages.TRACKS, albumTrackOffset]));
         spotifyApi.getAlbums(albumArr).then((res: SpotifyResponse) => {
             res.body.albums.forEach((album:SpotifyAlbumWithTracksObj) => {
                 album.tracks.items.forEach(track => {
@@ -154,10 +157,12 @@ export default function useToFetchSongs() {
             return;
         }
 
+		dispatch(updateLoadingStatus([LoadingStages.TRACKS_POP, trackOffset]));
         spotifyApi.getTracks(trackArr).then((res: SpotifyResponse) => {
             res.body.tracks.forEach((track: SpotifyTrackWithPopObj) => {
                 setTrackListPop(oldTrack => {
                     if(track.external_urls.spotify) {
+						// todo: could use external id's here
                         return [...oldTrack, 
                                 {"name": track.name, 
                                 "popularity": track.popularity, 
@@ -191,6 +196,7 @@ export default function useToFetchSongs() {
         let tempArr = [];
 
         trackListPop.forEach((track: SpotifyTrackWithPopObj) => {
+
             if(!tempArr.find((curTrack: SpotifyTrackWithPopObj) => 
 					curTrack.name.toLowerCase() === track.name.toLowerCase()
 					&& curTrack.duration_ms === track.duration_ms)) {

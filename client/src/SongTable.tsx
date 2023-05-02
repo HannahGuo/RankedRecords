@@ -9,8 +9,8 @@ export default function SongTable() {
   const listSettings : ListSettings = useSelector((state: any) => state.listSettings);
 	const allSongs = useToSortSongs();
   const dispatch = useDispatch();
-	
-	return <Table celled padded id="customTable" sortable>
+
+return <Table celled padded id="customTable" sortable>
     <Table.Header>
       <Table.Row>
         <Table.HeaderCell sorted={listSettings.sortDirection}
@@ -28,9 +28,9 @@ export default function SongTable() {
       </Table.Row>
     </Table.Header>
 
-    <Table.Body>
+    <Table.Body key={`songtablewith ${allSongs.length}`}>
       {allSongs.map(((songEntry: SongObj) => {
-        return <Table.Row key={songEntry.name + songEntry.popularity}>
+        return <Table.Row key={songEntry.duration_ms + songEntry.name}>
         <Table.Cell>
             {listSettings.sortMethod === "popularity" ? 
             songEntry.popularity : 
@@ -46,7 +46,6 @@ export default function SongTable() {
           }).reduce((prev: String, curr: String) => [prev, ', ', curr])}
         </Table.Cell>
       </Table.Row>
-
       }))}
       
     </Table.Body>

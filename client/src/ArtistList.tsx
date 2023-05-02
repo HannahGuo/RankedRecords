@@ -2,7 +2,7 @@ import "./styles/ArtistList.css"
 import { useSelector, useDispatch, RootStateOrAny } from 'react-redux'
 import { Icon, Button, Popup } from "semantic-ui-react";
 import { removeArtist } from "./features/artistList";
-import { removeArtistSongs } from "./features/songsList";
+import { LoadingStages, removeArtistSongs } from "./features/songsList";
 import useToSortSongs from "./hooks/useToSortSongs";
 
 export default function ArtistList() {
@@ -11,6 +11,8 @@ export default function ArtistList() {
     const artistDispatch = useDispatch();
 
 	const allSongs = useToSortSongs();
+
+	const loadingStats = useSelector((state: RootStateOrAny) => state.songsList.loadingStages);
 
 	return <div id="selectedArtistListDiv" className="artistListDiv">
 			{artistListSelector.length === 0 ? <div id="noArtistDiv"><em>No artists selected, use search above to add some!</em></div> : null}
@@ -39,7 +41,10 @@ export default function ArtistList() {
 							: <Button basic icon circular={true} compact={true} className="normalPointer">
 								<Popup
 									trigger={<Icon className="normalPointer" loading name='spinner' />}
-									content='Loading all songs... this may take a few seconds.'
+									content={`Loading all songs... this may take a few seconds.
+									Albums found: ${loadingStats[LoadingStages.ALBUMS]}, 
+									Albums loaded: ${loadingStats[LoadingStages.TRACKS]}, 
+									Songs loaded: ${loadingStats[LoadingStages.TRACKS_POP]}`}
 									position='right center'
 									inverted
 								/>

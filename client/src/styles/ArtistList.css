@@ -27,13 +27,6 @@
 	margin-left: 10px;
 }
 
-.artistListDiv {
-	display: flex;
-	flex-direction: row;
-	align-items: flex-start;
-	flex-wrap: wrap;
-}
-
 #noArtistDiv {
 	color: #cfc4e9;
 }
@@ -48,4 +41,23 @@
 
 .greyName {
 	color: #919191;
+}
+
+@media (max-width: 576px) {
+    .artistListDiv {
+		display: flex;
+		flex-direction: row;
+		align-items: flex-start;
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+}
+
+@media (min-width: 577px) {
+    .artistListDiv {
+		display: flex;
+		flex-direction: row;
+		align-items: flex-start;
+		flex-wrap: wrap;
+	}
 }

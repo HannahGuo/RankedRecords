@@ -3,12 +3,24 @@ import {
 	createSlice
 } from '@reduxjs/toolkit'
 
+export enum LoadingStages {
+	ALBUMS = "albums",
+	TRACKS = "tracks",
+	TRACKS_POP = "tracks_pop"
+}
+
 export const songsSlice = createSlice({
 	name: 'songsList',
 	initialState: {
 		// an object of objects where it goes [artist id]: [songs]
 		sList: {},
-		isLoading: false
+		isLoading: false,
+		loadingStages: {
+			// [current, total]
+			"albums": 0,
+			"tracks": 0,
+			"tracks_pop": 0
+		}
 	},
 	reducers: {
 		addLoadingArtist: (state, action: PayloadAction < string > ) => {
@@ -23,6 +35,16 @@ export const songsSlice = createSlice({
 		},
 		setLoadingStatus: (state, action:PayloadAction<boolean>) => {
 			state.isLoading = action.payload;
+		},
+		updateLoadingStatus: (state, action:PayloadAction<[string, Number]>) => {	
+			state.loadingStages[action.payload[0]] = action.payload[1];
+		},
+		resetLoadingTotals: (state) => {
+			state.loadingStages = {
+				"albums": 0,
+				"tracks": 0,
+				"tracks_pop": 0
+			}
 		}
 	},
 })
@@ -31,6 +53,8 @@ export const {
 	addArtistSongs,
 	removeArtistSongs,
 	addLoadingArtist,
-	setLoadingStatus
+	setLoadingStatus,
+	updateLoadingStatus,
+	resetLoadingTotals
 } = songsSlice.actions
 export default songsSlice.reducer

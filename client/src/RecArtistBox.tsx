@@ -1,4 +1,3 @@
-import ArtistList from './ArtistList';
 import RecArtistList from './RecArtistList';
 import './styles/RecArtistBox.css';
 

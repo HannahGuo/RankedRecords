@@ -25,7 +25,7 @@ export const artistSlice = createSlice({
       }
     },
     removeArtist: (state, action:PayloadAction<string>) => {
-      let artistIndex = state.aList.findIndex(x => x[0].id === action.payload);
+      let artistIndex = state.aList.findIndex(x => x.id === action.payload);
       state.aList.splice(artistIndex, 1);
     },
     updateArtistID: (state, action:PayloadAction<string>) => {

@@ -7,6 +7,8 @@ import { addtoEnd, updateArtistID } from "./features/artistList";
 
 export default function RecArtistList() {
 	const artistListSelector = useSelector((state: RootStateOrAny)  => state.artistList.aList);
+	const isLoading = useSelector((state: RootStateOrAny)  => state.songsList.isLoading);
+
 	const [numArtists, setNumArtists] = useState(0);
 	const [artistRecs, setArtistRecs] = useState({});
 	const dispatch = useDispatch();
@@ -54,7 +56,7 @@ export default function RecArtistList() {
 		} else if(artistListSelector.length < numArtists) {
 			// artist was removed
 			const artistRecKeys = Object.keys(artistRecs);
-			const curArtists = artistListSelector.map((val: any) => val[0].id);
+			const curArtists = artistListSelector.map((val: any) => val.id);
 			for(let i = 0; i < artistRecKeys.length; i++) {
 				if(!curArtists.includes(artistRecKeys[i])) {
 					delete artistRecs[artistRecKeys[i]];
@@ -75,7 +77,7 @@ export default function RecArtistList() {
 					return <div key={curArtistObj.key} className="artistDiv">
 							<img src={curArtistObj.image.src}/>
 							<span className="artistName greyName">{curArtistObj.name}</span>
-							<Button basic icon circular={true} compact={true} 
+							<Button basic icon circular={true} compact={true} disabled={isLoading}
 									onClick={() => {
 										dispatch(addtoEnd(curArtistObj));
 										dispatch(updateArtistID(curArtistObj.id));

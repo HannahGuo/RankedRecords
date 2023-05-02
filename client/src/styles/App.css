@@ -54,29 +54,52 @@ h3 {
   display: flex;
 }
 
-#leftBox {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 35%;
-  padding: 3em;
-  border-right: 7px solid #4c3285;
-  border-image: 
-    linear-gradient(
-      to bottom, 
-      #4C3285, 
-      rgba(0, 0, 0, 0)
-    ) 1 100%;
-  min-height: 100vh;
+@media (max-width: 576px) {
+  #app {
+    flex-direction: column;
+  }
+
+  #leftBox {
+    padding: 20px;
+    text-align: center;
+  }
+
+  #rightBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1em;
+  }
 }
 
-#rightBox {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 65%;
-  padding: 1em;
-  overflow-y: scroll;
+@media (min-width: 577px) {
+  #leftBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 35%;
+    padding: 3em;
+    border-right: 7px solid #4c3285;
+    border-image: 
+      linear-gradient(
+        to bottom, 
+        #4C3285, 
+        rgba(0, 0, 0, 0)
+      ) 1 100%;
+    min-height: 100vh;
+  }
+  
+  #rightBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 65%;
+    padding: 1em;
+  }
+}
+
+.ui.modal>.actions {
+  padding: 1rem !important;
 }
 
 body ::-webkit-scrollbar-thumb {
@@ -85,4 +108,20 @@ body ::-webkit-scrollbar-thumb {
 
 #artistDivs {
   border-bottom: 3px solid #4c3285;
+}
+
+.customScroll {
+  padding: 4px;
+  width: 50px !important;
+  height: 50px !important;
+  background-color: black !important;
+  box-shadow: none !important;
+}
+
+.ui.modal .scrolling.content {
+  color: black;
+}
+
+ol {
+  margin-left: 20px;
 }

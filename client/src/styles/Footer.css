@@ -1,6 +1,6 @@
 #footer-links {
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     margin: 20px auto;
 }
 
@@ -10,5 +10,5 @@
 
 #footer {
 	text-align: center;
-	padding-top: 20px;
+	padding-top: 10px;
 }

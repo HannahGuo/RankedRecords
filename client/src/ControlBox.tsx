@@ -27,8 +27,6 @@ export default function ControlBox() {
 	const artistList = useSelector((state: RootStateOrAny)  => state.artistList.aList);
 	const songsList = useToSortSongs();
 
-	const [artistID, setArtistID] = useState(undefined);
-
 	const sortMethodDropdown = [
 		{
 			key: SortMethod.POPULARITY,

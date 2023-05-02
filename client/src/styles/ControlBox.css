@@ -3,7 +3,7 @@
 	justify-content: space-around;
 
 	border-bottom: 3px solid #4c3285;
-	
+
 	padding-bottom: 15px;
 	margin: 20px 0px;
 }
@@ -39,7 +39,7 @@
 }
 
 .ui.modal>.actions {
-	display:flex;
+	display: flex;
 	align-items: center;
 	justify-content: center;
 }
@@ -49,18 +49,8 @@
 	padding: 20px;
 }
 
-#optionsModalDiv {
-	display: flex;
-	justify-content: left;
-	flex-direction: row;
-}
-
 #optionsModalDiv>div {
 	margin-top: 10px;
-}
-
-#optionsModalDiv>div:last-child {
-	margin-left: 10px;
 }
 
 #playlistModal {
@@ -71,17 +61,38 @@
 	margin: 10px 0px;
 }
 
-#playlistModalWarning { 
+#playlistModalWarning {
 	color: red;
 	text-align: center;
 	font-weight: bold;
 }
 
-#playlistCreatedModal { 
+#playlistCreatedModal {
 	color: black;
 }
 
 #playlistCreatedModal a {
 	color: #4c3285;
 	text-decoration: underline;
+	word-wrap: break-word;
+}
+
+@media (max-width: 576px) {
+	#optionsModalDiv {
+		display: flex;
+		justify-content: left;
+		flex-direction: column;
+	}
+}
+
+@media (min-width: 577px) {
+	#optionsModalDiv {
+		display: flex;
+		justify-content: left;
+		flex-direction: row;
+	}
+
+	#optionsModalDiv>div:last-child {
+		margin-left: 10px;
+	}	
 }
