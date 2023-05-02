@@ -12,26 +12,25 @@ export default function ArtistList() {
 
 	const allSongs = useToSortSongs();
 
-	return <div id="selectedArtistListDiv">
+	return <div id="selectedArtistListDiv" className="artistListDiv">
 			{artistListSelector.length === 0 ? <div id="noArtistDiv"><em>No artists selected, use search above to add some!</em></div> : null}
 			{artistListSelector.map((val: ArtistObj) => {
-				let curArtistObj = val[0];
-				return <div key={curArtistObj.key} className="artistDiv">
-						<img src={curArtistObj.image.src}/>
-						<span className="artistName">{curArtistObj.name}</span>
+				return <div key={val.key} className="artistDiv">
+						<img src={val.image.src}/>
+						<span className="artistName">{val.name}</span>
 
-						{songsListSelector[curArtistObj.id] != null && 
-						songsListSelector[curArtistObj.id].length > 0 ? 
+						{songsListSelector[val.id] != null && 
+						songsListSelector[val.id].length > 0 ? 
 							<><span>({
 								allSongs.reduce((accumulator, song) => {
 									return song.artists.some((artist: SpotifyArtistObj) => 
-											artist.name === curArtistObj.name) ? accumulator + 1 : accumulator;
+											artist.name === val.name) ? accumulator + 1 : accumulator;
 								  }, 0)								  
 								} songs)</span>
 							<Button basic icon circular={true} compact={true} 
 									onClick={() => { 
-										artistDispatch(removeArtist(curArtistObj))
-										artistDispatch(removeArtistSongs(curArtistObj.id))
+										artistDispatch(removeArtist(val.id))
+										artistDispatch(removeArtistSongs(val.id))
 									}}
 									>
 								<Icon name="remove"/>

@@ -2,7 +2,7 @@ type ArtistObj = {
 	key: string,
 	id: string,
 	name: string,
-	image: {src: string}
+	image?: {src: string}
 	url: string,
 
 	// for the semantic ui dropdown

@@ -9,6 +9,7 @@ import { SortMethod, changeSortMethod,
 import Creatable from 'react-select/creatable';
 import { defaultFilterOptions, errorStr, spotifyApi } from './constants';
 import useToSortSongs from './hooks/useToSortSongs';
+import useToFetchSongs from './hooks/useToFetchSongs';
 
 //https://stackoverflow.com/questions/196972/convert-string-to-title-case-with-javascript
 function toTitleCase(str: String) {
@@ -25,6 +26,8 @@ export default function ControlBox() {
 	const userSettings = useSelector((state: RootStateOrAny)  => state.spotifyUserSettings.user);
 	const artistList = useSelector((state: RootStateOrAny)  => state.artistList.aList);
 	const songsList = useToSortSongs();
+
+	const [artistID, setArtistID] = useState(undefined);
 
 	const sortMethodDropdown = [
 		{
@@ -92,7 +95,7 @@ export default function ControlBox() {
 		let playlistDesc = `Artists: ${artistString} | Sorted Order: ${sortMethod}`;
 		
 		if(filters.length > 0) {
-			playlistDesc = `Artists: ${artistString} | Filters: ${filters} | Sorted in ${sortMethod} order`;
+			playlistDesc = `Artists: ${artistString} | Filters: ${filters} | Sorted in ${sortMethod} order.`;
 		}
 
         spotifyApi.createPlaylist(`${playlistTitle}`, {
@@ -117,6 +120,7 @@ export default function ControlBox() {
         });
     }
 
+	useToFetchSongs();
 
 	return <div id="controlBoxDiv">
 		<div id="searchAndButtonsDiv">
@@ -174,7 +178,6 @@ export default function ControlBox() {
 					</Modal.Actions>
                 </Modal>
 				</>
-
 				<>
 				<Modal closeIcon 
 					id="playlistModal"

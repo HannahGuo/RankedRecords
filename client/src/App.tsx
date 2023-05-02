@@ -12,8 +12,7 @@ import RecArtistBox from './RecArtistBox';
 import LoginModal from './LoginModal';
 import { useRef, useEffect } from 'react';
 import Footer from './Footer';
-
-
+import useToFetchSongs from './hooks/useToFetchSongs';
 
 export default function App() {
   document.title = "Ranked Records"
@@ -38,7 +37,6 @@ export default function App() {
       };
     }
   }, []);
-
   
   return (
     <Provider store={store}>

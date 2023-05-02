@@ -3,16 +3,16 @@ import {
 	useEffect
 } from "react";
 import {
+	errorStr,
 	spotifyApi
 } from '../constants';
 
 import {
-	useDispatch,
+	useDispatch, useSelector, RootStateOrAny
 } from 'react-redux'
 
 import { addArtistSongs, addLoadingArtist, setLoadingStatus } from "../features/songsList";
-
-const errorStr = `Please try refreshing the page - your session may have timed out. If the problem persists, please contact the developer.`;
+import { updateArtistID } from "../features/artistList";
 
 function areAlbumsSame(album1:AlbumObj, album2:SpotifyAlbumObj) {
 	// technically could be done by iterating through whole list, but this is faster and works most cases
@@ -20,7 +20,7 @@ function areAlbumsSame(album1:AlbumObj, album2:SpotifyAlbumObj) {
 		album1.release_date === album2.release_date && album1.total_tracks === album2.total_tracks;
 }
 
-export default function useToFetchSongs(artistID: String) {	
+export default function useToFetchSongs() {	
 	const [artistAlbumOffset, setArtistAlbumOffset] = useState(0);
 	const [albumList, setAlbumList] = useState([]);
 	const [doneLoadingAlbums, setDoneLoadingAlbums] = useState(false);
@@ -36,7 +36,9 @@ export default function useToFetchSongs(artistID: String) {
 	const [finalTrackList, setFinalTrackList] = useState([]);
     const [doneLoadingFinalTrackList, setDoneLoadingFinalTrackList] = useState(false);
 
-	const [curArtistID, setCurArtistID] = useState(undefined);
+	// const artistListSelector = useSelector((state: RootStateOrAny)  => state.artistList.aList);
+	const curArtistID = useSelector((state: RootStateOrAny)  => state.artistList.curArtistID);
+
 	const dispatch = useDispatch();
 
 	function resetStates() {
@@ -57,22 +59,16 @@ export default function useToFetchSongs(artistID: String) {
 	}
 
 	useEffect(() => {
-		if(artistID == undefined) return;
-		if(artistID.length == 0) return;
-
-		if(artistID != curArtistID) {
-			resetStates();
-			setCurArtistID(artistID);
-			dispatch(setLoadingStatus(true));
+		if(curArtistID === undefined || curArtistID.length === 0) {
 			return;
 		}
-
+		
 		if (doneLoadingAlbums || artistAlbumOffset === -1) {
 			setDoneLoadingAlbums(true);
 			return;
 		}
 
-		dispatch(addLoadingArtist(artistID));
+		dispatch(addLoadingArtist(curArtistID.toString()));
 
 		spotifyApi.getArtistAlbums(curArtistID, {
 			"offset": artistAlbumOffset
@@ -101,7 +97,7 @@ export default function useToFetchSongs(artistID: String) {
 			});
 			alert(errorStr)
 		});
-	}, [artistID, curArtistID, artistAlbumOffset]);
+	}, [curArtistID, artistAlbumOffset]);
 
 	useEffect(() => {
 		// https://stackoverflow.com/questions/2218999/how-to-remove-all-duplicates-from-an-array-of-objects
@@ -236,5 +232,7 @@ export default function useToFetchSongs(artistID: String) {
 		if(!doneLoadingFinalTrackList) return;
 		dispatch(setLoadingStatus(false));
 		dispatch(addArtistSongs([curArtistID, finalTrackList]));	
-	}, [doneLoadingFinalTrackList, finalTrackList, curArtistID, dispatch]);
+		dispatch(updateArtistID(undefined));
+		resetStates();
+	}, [doneLoadingFinalTrackList, finalTrackList, curArtistID]);
 }

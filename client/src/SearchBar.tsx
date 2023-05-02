@@ -4,8 +4,7 @@ import { Dropdown } from 'semantic-ui-react';
 import { spotifyApi } from './constants';
 import { useState, useEffect } from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import { addtoEnd } from './features/artistList';
-import useToFetchSongs from './hooks/useToFetchSongs';
+import { addtoEnd, updateArtistID } from './features/artistList';
 
 export default function SearchBar() {
     const errorStr = `Please try refreshing the page - your session may have timed out. If the problem persists, please contact the developer.`;
@@ -15,7 +14,6 @@ export default function SearchBar() {
     const [searchValue, setSearchValue] = useState("");
 
     const [artistResults, setArtistResults] = useState([]);
-    const [artistID, setArtistID] = useState(undefined);
 
     const artistDispatch = useDispatch();
 
@@ -29,13 +27,11 @@ export default function SearchBar() {
         }
     }, [curSongLoading]);
 
-    useToFetchSongs(artistID);
-
     function handleChange(e: React.ChangeEvent<HTMLInputElement>, data :any) {
-        let selectedArtist = data.options.filter((x : ArtistObj) => x.id === data.value);
+        let selectedArtist = data.options.filter((x : ArtistObj) => x.id === data.value)[0];
 
         artistDispatch(addtoEnd(selectedArtist));
-        setArtistID((selectedArtist[0] as ArtistObj).id);
+        artistDispatch(updateArtistID((selectedArtist as ArtistObj).id));
     }
     
     function handleSearchChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -49,8 +45,7 @@ export default function SearchBar() {
     function resetFields() {
         setSearchValue("");
         setArtistResults([]);
-        setDefaultDropVal(undefined);
-        setArtistID(undefined);
+        setDefaultDropVal("");
     }
     
     function customSearch(options:any, query:string) {
