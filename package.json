@@ -1,0 +1,20 @@
+{
+  "name": "rankedrecords",
+  "version": "1.0.0",
+  "description": "1. cd into client folder and run `npm install` then `npm start`\r    1. This will start the react app on localhost:3000\r 2. cd into server folder and run `npm install` then `node server.ts`\r    1. This will start the server on localhost:5000",
+  "main": "./server/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "cd ./server && node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HannahGuo/RankedRecords.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HannahGuo/RankedRecords/issues"
+  },
+  "homepage": "https://github.com/HannahGuo/RankedRecords#readme"
+}
