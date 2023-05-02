@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { Button, Icon, Modal } from 'semantic-ui-react'
 import {CURRENT_URL, clientID, errorStr, spotifyApi} from "./constants";
-import { useDispatch, useSelector, RootStateOrAny } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import "./styles/LoginModal.css"
 import { setStartAuth, setUser } from "./features/spotifyUserSettings";
 import useAuth from "./hooks/useAuth";
@@ -39,8 +39,8 @@ const toastContent = (message: String) => toast(message, {
 
 export default function LoginModal() {
     const dispatch = useDispatch();
-    const accessTokenLog = useSelector((state: RootStateOrAny)  => state.spotifyUserSettings.accessToken);
-    const startAuth = useSelector((state: RootStateOrAny)  => state.spotifyUserSettings.startAuth);
+    const accessTokenLog = useSelector((state: any)  => state.spotifyUserSettings.accessToken);
+    const startAuth = useSelector((state: any)  => state.spotifyUserSettings.startAuth);
 
     const auth_url = createAuthURL(auth_settings);
     const [firstLoginModalOpen, setFirstLoginModalOpen] = useState(true)

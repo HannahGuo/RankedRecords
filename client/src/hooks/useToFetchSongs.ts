@@ -7,9 +7,7 @@ import {
 	spotifyApi
 } from '../constants';
 
-import {
-	useDispatch, useSelector, RootStateOrAny
-} from 'react-redux'
+import { useDispatch, useSelector} from 'react-redux'
 
 import { LoadingStages, addArtistSongs, addLoadingArtist, resetLoadingTotals, setLoadingStatus, updateLoadingStatus } from "../features/songsList";
 import { updateArtistID } from "../features/artistList";
@@ -36,8 +34,8 @@ export default function useToFetchSongs() {
 	const [finalTrackList, setFinalTrackList] = useState([]);
     const [doneLoadingFinalTrackList, setDoneLoadingFinalTrackList] = useState(false);
 
-	// const artistListSelector = useSelector((state: RootStateOrAny)  => state.artistList.aList);
-	const curArtistID = useSelector((state: RootStateOrAny)  => state.artistList.curArtistID);
+	// const artistListSelector = useSelector((state: any)  => state.artistList.aList);
+	const curArtistID = useSelector((state: any)  => state.artistList.curArtistID);
 
 	const dispatch = useDispatch();
 

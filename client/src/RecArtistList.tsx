@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import "./styles/ArtistList.css"
-import { useSelector, RootStateOrAny, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { spotifyApi } from "./constants";
 import { Button, Icon } from "semantic-ui-react";
 import { addtoEnd, updateArtistID } from "./features/artistList";
 
 export default function RecArtistList() {
-	const artistListSelector = useSelector((state: RootStateOrAny)  => state.artistList.aList);
-	const isLoading = useSelector((state: RootStateOrAny)  => state.songsList.isLoading);
+	const artistListSelector = useSelector((state: any)  => state.artistList.aList);
+	const isLoading = useSelector((state: any)  => state.songsList.isLoading);
 
 	const [numArtists, setNumArtists] = useState(0);
 	const [artistRecs, setArtistRecs] = useState({});

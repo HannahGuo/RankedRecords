@@ -1,18 +1,18 @@
 import "./styles/ArtistList.css"
-import { useSelector, useDispatch, RootStateOrAny } from 'react-redux'
+import { useSelector, useDispatch} from 'react-redux'
 import { Icon, Button, Popup } from "semantic-ui-react";
 import { removeArtist } from "./features/artistList";
 import { LoadingStages, removeArtistSongs } from "./features/songsList";
 import useToSortSongs from "./hooks/useToSortSongs";
 
 export default function ArtistList() {
-	const artistListSelector = useSelector((state: RootStateOrAny)  => state.artistList.aList);
-	const songsListSelector = useSelector((state: RootStateOrAny) => state.songsList.sList);
+	const artistListSelector = useSelector((state: any)  => state.artistList.aList);
+	const songsListSelector = useSelector((state: any) => state.songsList.sList);
     const artistDispatch = useDispatch();
 
 	const allSongs = useToSortSongs();
 
-	const loadingStats = useSelector((state: RootStateOrAny) => state.songsList.loadingStages);
+	const loadingStats = useSelector((state: any) => state.songsList.loadingStages);
 
 	return <div id="selectedArtistListDiv" className="artistListDiv">
 			{artistListSelector.length === 0 ? <div id="noArtistDiv"><em>No artists selected, use search above to add some!</em></div> : null}

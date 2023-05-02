@@ -3,7 +3,7 @@ import SearchBar from './SearchBar';
 import { useState } from 'react';
 import { Dropdown, Button, Modal, Image } from 'semantic-ui-react'
 import { useDispatch } from 'react-redux';
-import { RootStateOrAny, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { SortMethod, changeSortMethod, 
 	changeSortDirection, SortDirection, setFilters } from './features/listSettings';
 import Creatable from 'react-select/creatable';
@@ -22,9 +22,9 @@ export default function ControlBox() {
     const [newPlaylist, setNewPlaylist] = useState<SpotifyPlaylistObj>(null);
     const [playlistCreatedModalOpen, setPlaylistCreatedModalOpen] = useState(false);
 
-	const listSettings = useSelector((state: RootStateOrAny)  => state.listSettings);
-	const userSettings = useSelector((state: RootStateOrAny)  => state.spotifyUserSettings.user);
-	const artistList = useSelector((state: RootStateOrAny)  => state.artistList.aList);
+	const listSettings = useSelector((state: any)  => state.listSettings);
+	const userSettings = useSelector((state: any)  => state.spotifyUserSettings.user);
+	const artistList = useSelector((state: any)  => state.artistList.aList);
 	const songsList = useToSortSongs();
 
 	const sortMethodDropdown = [
