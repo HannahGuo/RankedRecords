@@ -23,11 +23,11 @@ export const songsSlice = createSlice({
 		}
 	},
 	reducers: {
-		addLoadingArtist: (state, action: PayloadAction < string > ) => {
+		addLoadingArtist: (state, action: PayloadAction <string> ) => {
 			state.sList[action.payload] = [];
 		},
-
-		addArtistSongs: (state, action: PayloadAction < [string, SongObj[]] > ) => {
+		addArtistSongs: (state, action: PayloadAction <[string, SongObj[]]> ) => {
+			if(action.payload[0] == undefined) return;
 			state.sList[action.payload[0]] = action.payload[1];
 		},
 		removeArtistSongs: (state, action: PayloadAction<string>) => {

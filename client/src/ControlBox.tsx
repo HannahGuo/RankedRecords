@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import { SortMethod, changeSortMethod, 
 	changeSortDirection, SortDirection, setFilters } from './features/listSettings';
 import Creatable from 'react-select/creatable';
-import { defaultFilterOptions, errorStr, spotifyApi } from './constants';
+import { defaultFilterOptions, errorStr, pluralize, spotifyApi } from './constants';
 import useToSortSongs from './hooks/useToSortSongs';
 import useToFetchSongs from './hooks/useToFetchSongs';
 
@@ -82,7 +82,7 @@ export default function ControlBox() {
 
 	let artistString = artistList.length > 0 ? artistList.flat().map((artist: any) => artist.name).join(", "):"None Selected";
 	let numSongs = songsList.length;
-	let filters = listSettings.filterOptions.length !== 0 ? listSettings.filterOptions.join(", "): "None Selected";
+	let filters = listSettings.filterOptions.length !== 0 ? listSettings.filterOptions.join(", "): "None selected";
 	let sortMethod = listSettings.sortDirection + " " + getTextByKey(listSettings.sortMethod).toLowerCase();
 
 	function createPlaylist() {
@@ -90,10 +90,10 @@ export default function ControlBox() {
 
         let playlistTitle = `${userSettings.display_name}'s Ranked Records Playlist`;
 
-		let playlistDesc = `Artists: ${artistString} | Sorted Order: ${sortMethod}`;
+		let playlistDesc = `${pluralize(artistList.length, "Artist")}: ${artistString} | Sorted Order: ${sortMethod}`;
 		
-		if(filters.length > 0) {
-			playlistDesc = `Artists: ${artistString} | Filters: ${filters} | Sorted in ${sortMethod} order.`;
+		if(listSettings.filterOptions.length > 0) {
+			playlistDesc = `${pluralize(artistList.length, "Artist")}: ${artistString} | ${pluralize(listSettings.filterOptions.length, "Filter")}: ${filters} | Sorted in ${sortMethod} order.`;
 		}
 
         spotifyApi.createPlaylist(`${playlistTitle}`, {
@@ -188,7 +188,8 @@ export default function ControlBox() {
 						<div>
 							{userDisplay}
 							<br/>
-							<div id="summaryHead">Here is a summary of your playlist. If you'd like to make changes, close this window and continue editing your settings.</div>							<strong>Artists: </strong> {artistString}<br/>
+							<div id="summaryHead">Here is a summary of your playlist. If you'd like to make changes, close this window and continue editing your settings.</div>							
+							<strong>{pluralize(artistList.length, "Artist")}: </strong> {artistString}<br/>
 							<strong>Total Number of Songs: </strong> {numSongs}<br/>
 							<strong>Ordering: </strong> {toTitleCase(sortMethod)}<br/>
 							<strong>Filters: </strong> {filters}<br/>

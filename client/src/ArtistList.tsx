@@ -4,15 +4,17 @@ import { Icon, Button, Popup } from "semantic-ui-react";
 import { removeArtist } from "./features/artistList";
 import { LoadingStages, removeArtistSongs } from "./features/songsList";
 import useToSortSongs from "./hooks/useToSortSongs";
+import { pluralize } from "./constants";
 
 export default function ArtistList() {
 	const artistListSelector = useSelector((state: any)  => state.artistList.aList);
-	const songsListSelector = useSelector((state: any) => state.songsList.sList);
     const artistDispatch = useDispatch();
 
 	const allSongs = useToSortSongs();
 
 	const loadingStats = useSelector((state: any) => state.songsList.loadingStages);
+	const isLoading = useSelector((state: any) => state.songsList.isLoading);
+	const curID = useSelector((state: any) => state.artistList.curArtistID);
 
 	return <div id="selectedArtistListDiv" className="artistListDiv">
 			{artistListSelector.length === 0 ? <div id="noArtistDiv"><em>No artists selected, use search above to add some!</em></div> : null}
@@ -21,14 +23,16 @@ export default function ArtistList() {
 						<img src={val.image.src}/>
 						<span className="artistName">{val.name}</span>
 
-						{songsListSelector[val.id] != null && 
-						songsListSelector[val.id].length > 0 ? 
+						{(!(isLoading && curID == val.id) || curID != val.id) ? 
 							<><span>({
 								allSongs.reduce((accumulator, song) => {
 									return song.artists.some((artist: SpotifyArtistObj) => 
 											artist.name === val.name) ? accumulator + 1 : accumulator;
 								  }, 0)								  
-								} songs)</span>
+								} {pluralize(allSongs.reduce((accumulator, song) => {
+									return song.artists.some((artist: SpotifyArtistObj) => 
+											artist.name === val.name) ? accumulator + 1 : accumulator;
+								  }, 0), "song")})</span>
 							<Button basic icon circular={true} compact={true} 
 									onClick={() => { 
 										artistDispatch(removeArtist(val.id))

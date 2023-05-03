@@ -19,3 +19,7 @@ export const defaultFilterOptions = [
   {label: 'acoustic', value: 'acoustic'},
   {label: 'voice memo', value: 'voice memo'},
 ];
+
+export const pluralize = (num: number, word: string) => {
+  return num === 1 ? word : word + 's';
+}
