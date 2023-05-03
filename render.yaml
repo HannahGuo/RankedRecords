@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: ranked-records
+    env: node
+    buildCommand: "cd client && npm install && npm run build && cd .. && npm install"
+    startCommand: "node server.js"
