@@ -16,7 +16,7 @@ app.use(express.urlencoded({
 	extended: true
 }));
 app.use(express.json()) // To parse the incoming requests with JSON payloads
-app.use(express.static(path.join(__dirname, 'client/build')));
+app.use(express.static(path.join(__dirname, '../client/build')));
 
 app.post("/", (req, res) => {
 	const code = req.body.code;
