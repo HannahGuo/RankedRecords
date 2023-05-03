@@ -16,7 +16,7 @@ app.use(express.urlencoded({
 	extended: true
 }));
 app.use(express.json()) // To parse the incoming requests with JSON payloads
-app.use(express.static(path.join(__dirname, '../client/build')));
+app.use(express.static(path.resolve(__dirname, '../client/build')));
 
 app.post("/", (req, res) => {
 	const code = req.body.code;
@@ -46,7 +46,7 @@ app.post("/login", (req, res) => {
 		redirectUri: redirectUri
 	})
 
-	console.log({code});
+	// console.log({code});
 
 	spotifyApi.authorizationCodeGrant(code)
 		.then(data => {
@@ -57,13 +57,15 @@ app.post("/login", (req, res) => {
 			})
 		})
 		.catch(err => {
-			console.log({err})
+			console.log({
+				err
+			})
 			res.sendStatus(400)
 		})
 });
 
 app.get('*', (req, res) => {
-	res.sendFile(path.join(__dirname + '/client/build/index.html'));
+	res.sendFile(path.resolve(__dirname, '../client/build/index.html'));
 });
 
 const port = process.env.PORT || 3001;
