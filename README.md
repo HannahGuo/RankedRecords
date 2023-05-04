@@ -1,8 +1,12 @@
 # Ranked Records
 
-Welcome to Ranked Records 2.0!
+![Ranked Records](RRDesk.png)
 
-If you're reading this, the current version is still in beta as I bug test and work out a few quirks before official launch. Feel free to play around with it, and to report any bugs either using the [feedback form](https://docs.google.com/forms/d/e/1FAIpQLSfuvloB2JpKfFJ1BMfxofnguX7seRUcm8TCa1O59jnErDJmzA/viewform) or by opening an issue on this repo.
+*If you're reading this, the current version is still in beta as I bug test and work out a few quirks before official launch. Feel free to play around with it, and to report any bugs either using the [feedback form](https://docs.google.com/forms/d/e/1FAIpQLSfuvloB2JpKfFJ1BMfxofnguX7seRUcm8TCa1O59jnErDJmzA/viewform) or by opening an issue on this repo.*
+
+Ranked Records is a web application that lets you create playlists that include **all** songs from an artist, ordered by either popularity or release date. It supports adding mulitple artists, and uses Spotify artist recommendations to suggest similar ones.
+
+The project is hosted with Render, at [https://ranked-records.onrender.com/](https://ranked-records.onrender.com/). 
 
 ## Development Notes
 Mainly things for myself later, but this repo is cloneable and runnable if you want to play around with it.
@@ -19,3 +23,12 @@ The following variables need to be set:
 - PORT
 - LOGIN_URL
 - REACT_APP_CURRENT_URL
+
+## Issues
+If you have feedback/issues/feature requests, you can create an issue or [submit it in this Google Form](https://docs.google.com/forms/d/e/1FAIpQLSfuvloB2JpKfFJ1BMfxofnguX7seRUcm8TCa1O59jnErDJmzA/viewform).
+
+## References
+I referenced [this YouTube tutorial](https://www.youtube.com/watch?v=Xcet6msf3eE) to get started.
+
+## Contributing
+Contributing for this project is currently **closed**. However, I do plan on adding it in the future, so you can star this repository to get notified when that happens!
