@@ -28,7 +28,7 @@ export default function useAuth(startAuth: Boolean) {
 				window.history.pushState({}, null, "/")
 			}).catch((err) => { 
 				console.log("home err log", err,);
-				alert("An error occurred, please try refreshing the page or contacting the developer")
+				alert("An error occurred. If you were not prompted for a login, please enable pop-ups and try again. Otherwise, try refreshing the page or contacting the developer if the problem persists.")
 			})
 		}
 	}, [startAuth])
