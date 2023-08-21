@@ -57,7 +57,7 @@ export default function SearchBar() {
         if(disableEntering) return;
         if(!searchValue || searchValue === "") return;
 
-        spotifyApi.searchArtists(searchValue, {limit: 5}).then((res:SpotifyResponse) => {            
+        spotifyApi.searchArtists(searchValue, {limit: 50}).then((res:SpotifyResponse) => {            
             if(!res.body) return;
 
             let filteringArtists = [];

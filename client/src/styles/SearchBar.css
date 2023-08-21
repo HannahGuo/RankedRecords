@@ -6,3 +6,7 @@
 .ui.selection.active.dropdown>.menu {
 	border-radius: 0em 0em 1.5em 1.5em;
 }
+
+body ::-webkit-scrollbar-track {
+	margin-bottom: 20px !important;
+}

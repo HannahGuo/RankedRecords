@@ -14,7 +14,7 @@ Mainly things for myself later, but this repo is cloneable and runnable if you w
 ### Run Instructions
 1. cd into client folder and run `npm install` then `npm start`
    - This will start the react app on localhost:3000
-2. cd into server folder and run `npm install` then `node server.ts`
+2. cd into server folder and run `npm install` then `node server.js`
    - This will start the server on localhost:3001
 
 ### Environment Configurations
