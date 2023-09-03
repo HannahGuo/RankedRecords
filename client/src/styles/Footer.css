@@ -12,3 +12,7 @@
 	text-align: center;
 	padding-top: 10px;
 }
+
+i.icon.coffee:before {
+    margin-left: -0.1em
+}

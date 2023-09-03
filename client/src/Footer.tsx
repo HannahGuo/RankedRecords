@@ -15,11 +15,18 @@ function FAQModalContent() {
             Any playlists that are generated are by default public on your Spotify profile - but if you'd like, you can change it to private (and alter the title/description).
         </p>
 
+        <h4>🎶 Why did I need to give Spotify permissions?</h4>
+        <p>
+            All Spotify 3rd party apps need permissions to operate. Ranked Records requests profile information and public playlist modification (to create playlists), which are necessary for the project 
+            to function. You can remove these permissions at any time at <a href="https://spotify.com/account" rel="noreferrer" target="_blank">spotify.com/account</a> 
+        <br/><br/>
+        </p>
+
         <h4>🎶 Why is the top 10 list here different than the top 10 on Spotify?</h4>
         <p>This app sorts <em>every song</em> from an artist, which Spotify doesn't always account for. The lists are generally pretty similar though.</p>
 
-        <h4>🎶 Why does the site sort by popularity and not another stat, like listens?</h4>
-        <p>Spotify's API doesn't have listens 😢</p>
+        <h4>🎶 Can we sort based on # of listens?</h4>
+        <p>Spotify's API doesn't have listens unfortuanetly 😢</p>
 
         <h4>🎶 Why are there so many albums?</h4>
         <p>An "album" here also includes singles, features and any album they've appeared on.</p>
@@ -88,6 +95,16 @@ export default function Footer() {
                     <Popup
                         trigger={<Button circular basic icon inverted color="grey"><Icon name="newspaper outline"/></Button>}
                         content='Latest Updates'
+                        position='top center'
+                        inverted
+                        />
+                    </a>
+                </div>
+                <div>
+                    <a href="https://ko-fi.com/hannahguo" target="_blank" rel="noreferrer">
+                    <Popup
+                        trigger={<Button circular basic icon inverted color="grey"><Icon name="coffee"/></Button>}
+                        content='Ko-fi Page'
                         position='top center'
                         inverted
                         />
