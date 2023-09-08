@@ -2,11 +2,11 @@
 
 ![Ranked Records](RRDesk.png)
 
-*If you're reading this, the current version is still in beta as I bug test and work out a few quirks before official launch. Feel free to play around with it, and to report any bugs either using the [feedback form](https://docs.google.com/forms/d/e/1FAIpQLSfuvloB2JpKfFJ1BMfxofnguX7seRUcm8TCa1O59jnErDJmzA/viewform) or by opening an issue on this repo.*
-
 Ranked Records is a web application that lets you create playlists that include **all** songs from an artist, ordered by either popularity or release date. It supports adding mulitple artists, and uses Spotify artist recommendations to suggest similar ones.
 
 The project is hosted with Render, at [https://ranked-records.onrender.com/](https://ranked-records.onrender.com/). 
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/D1D8OI6CH)
 
 ## Development Notes
 Mainly things for myself later, but this repo is cloneable and runnable if you want to play around with it.
