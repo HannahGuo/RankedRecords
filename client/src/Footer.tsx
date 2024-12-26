@@ -1,126 +1,272 @@
-import { useState } from 'react';
-import { Button, Icon, Modal, Popup } from 'semantic-ui-react';
+import { useState } from "react"
+import { Button, Icon, Modal, Popup } from "semantic-ui-react"
 import "./styles/Footer.css"
 
 function FAQModalContent() {
-    return <>
-        <h4>🎶 What's the point of this site?</h4>
-        <p><a href="https://community.spotify.com/t5/Live-Ideas/Desktop-Full-Discography-Reinstatement/idi-p/5178453" rel="noreferrer" target="_blank" className="blackLink">Spotify does not have an easy method of retrieving all of an artist's songs</a> 
-        &nbsp; This site does that, while adding playlist creation with some snazzy filters and sort options.</p>
+	return (
+		<>
+			<h4>🎶 What's the point of this site?</h4>
+			<p>
+				<a
+					href="https://community.spotify.com/t5/Live-Ideas/Desktop-Full-Discography-Reinstatement/idi-p/5178453"
+					rel="noreferrer"
+					target="_blank"
+					className="blackLink"
+				>
+					Spotify does not have an easy method of retrieving all of an
+					artist's songs
+				</a>
+				&nbsp; This site does that, while adding playlist creation with
+				some snazzy filters and sort options.
+			</p>
 
-        <h4>🎶 Do you collect my data?</h4>
-        <p>
-            Nope. Regardless if you authenticate with Spotify or not, I don't store anything on my end. The project is also completely open source so you can see what's running the app. 
-        <br/><br/>
-            Any playlists that are generated are by default public on your Spotify profile - but if you'd like, you can change it to private (and alter the title/description).
-        </p>
+			<h4>🎶 Do you collect my data?</h4>
+			<p>
+				Nope. Regardless if you authenticate with Spotify or not, I
+				don't store anything on my end. The project is also completely
+				open source so you can see what's running the app.
+				<br />
+				<br />
+				Any playlists that are generated are by default public on your
+				Spotify profile - but if you'd like, you can change it to
+				private (and alter the title/description).
+			</p>
 
-        <h4>🎶 Why did I need to give Spotify permissions?</h4>
-        <p>
-            All Spotify 3rd party apps need permissions to operate. Ranked Records requests profile information and public playlist modification (to create playlists), which are necessary for the project 
-            to function. You can remove these permissions at any time at <a href="https://spotify.com/account" rel="noreferrer" target="_blank">spotify.com/account</a> 
-        <br/><br/>
-        </p>
+			<h4>🎶 Why did I need to give Spotify permissions?</h4>
+			<p>
+				All Spotify 3rd party apps need permissions to operate. Ranked
+				Records requests profile information and public playlist
+				modification (to create playlists), which are necessary for the
+				project to function. You can remove these permissions at any
+				time at{" "}
+				<a
+					href="https://spotify.com/account"
+					rel="noreferrer"
+					target="_blank"
+				>
+					spotify.com/account
+				</a>
+				<br />
+				<br />
+			</p>
 
-        <h4>🎶 Why is the top 10 list here different than the top 10 on Spotify?</h4>
-        <p>This app sorts <em>every song</em> from an artist, which Spotify doesn't always account for. The lists are generally pretty similar though.</p>
+			<h4>
+				🎶 Why is the top 10 list here different than the top 10 on
+				Spotify?
+			</h4>
+			<p>
+				This app sorts <em>every song</em> from an artist, which Spotify
+				doesn't always account for. The lists are generally pretty
+				similar though.
+			</p>
 
-        <h4>🎶 Can we sort based on # of listens?</h4>
-        <p>Spotify's API doesn't have listens unfortuanetly 😢</p>
+			<h4>🎶 Can we sort based on # of listens?</h4>
+			<p>Spotify's API doesn't have listens unfortuanetly 😢</p>
 
-        <h4>🎶 Why are there so many albums?</h4>
-        <p>An "album" here also includes singles, features and any album they've appeared on.</p>
+			<h4>🎶 Why are there so many albums?</h4>
+			<p>
+				An "album" here also includes singles, features and any album
+				they've appeared on.
+			</p>
 
-        <h4>🎶 Why does it take so long for the songs to load?</h4>
-        <p>This application making three types of requests:</p>
-        <ol>
-            <li>
-                <strong>GET all albums from an artist</strong>
-                <p>All songs from an artist can't be retrieved directly, but albums can.</p>
-            </li>
+			<h4>🎶 Why does it take so long for the songs to load?</h4>
+			<p>This application making three types of requests:</p>
+			<ol>
+				<li>
+					<strong>GET all albums from an artist</strong>
+					<p>
+						All songs from an artist can't be retrieved directly,
+						but albums can.
+					</p>
+				</li>
 
-            <li>
-                <strong>GET all tracks off the albums</strong>
-                <p>This would be the last step... if popularity were stored in the tracks retrieved from the album. 
-                    Unfortunately, those can only be accessed by directly getting the track. 
-                    Instead, the application stores all the IDs of all the album songs for the next step.</p>
-            </li>
+				<li>
+					<strong>GET all tracks off the albums</strong>
+					<p>
+						This would be the last step... if popularity were stored
+						in the tracks retrieved from the album. Unfortunately,
+						those can only be accessed by directly getting the
+						track. Instead, the application stores all the IDs of
+						all the album songs for the next step.
+					</p>
+				</li>
 
-            <li>
-                <strong>GET all tracks by ID</strong>
-                <p>Using the track IDs from the previous step, the application gets all the tracks (with popularity and release date) which are then sorted, filtered and displayed.</p>
-            </li>
-        </ol>
-        <br/>
-        <p>You also might notice that there is some grouping while loading (first step goes up in 20s, third step goes up in 50s, etc.)
-            This is to reduce the number of Spotify API calls - it's still a sizeable amount though.</p>
+				<li>
+					<strong>GET all tracks by ID</strong>
+					<p>
+						Using the track IDs from the previous step, the
+						application gets all the tracks (with popularity and
+						release date) which are then sorted, filtered and
+						displayed.
+					</p>
+				</li>
+			</ol>
+			<br />
+			<p>
+				You also might notice that there is some grouping while loading
+				(first step goes up in 20s, third step goes up in 50s, etc.)
+				This is to reduce the number of Spotify API calls - it's still a
+				sizeable amount though.
+			</p>
 
-        <h4>🎶 Why does the number of songs loaded differ from the amount displayed in the final table?</h4>
-        <p>I do some filtering to make sure there aren't any repeats (taking the track with the higher popularity score or first occurance chronologically).</p>
+			<h4>
+				🎶 Why does the number of songs loaded differ from the amount
+				displayed in the final table?
+			</h4>
+			<p>
+				I do some filtering to make sure there aren't any repeats
+				(taking the track with the higher popularity score or first
+				occurance chronologically).
+			</p>
 
-        <h4>🎶 My question isn't here!</h4>
-        <p>Contact me <a className="blackLink" href="https://forms.gle/nigc6Bwdq5hZETRY9" target="_blank" rel="noreferrer">here</a> and I'll try my best to answer!</p>
-    </>;
+			<h4>🎶 My question isn't here!</h4>
+			<p>
+				Contact me{" "}
+				<a
+					className="blackLink"
+					href="https://forms.gle/nigc6Bwdq5hZETRY9"
+					target="_blank"
+					rel="noreferrer"
+				>
+					here
+				</a>{" "}
+				and I'll try my best to answer!
+			</p>
+		</>
+	)
 }
 
 export default function Footer() {
-	const [faqOpen, setFaqOpen] = useState(false);
+	const [faqOpen, setFaqOpen] = useState(false)
 
-	return <div id="footer">
-            <div id="footer-links">
-                <Modal closeIcon 
-                    open={faqOpen}
-                    onClose={() => setFaqOpen(false)}
-                    onOpen={() => setFaqOpen(true)}
-                    trigger={<Button circular basic icon inverted color="grey"><Icon name="question"/></Button>}>
-                    <Modal.Header>💿 Ranked Records FAQs</Modal.Header>
-                    <Modal.Content scrolling>
-                        <Modal.Description>
-                            <FAQModalContent/>
-                        </Modal.Description>
-                    </Modal.Content>
-                </Modal>
-                <div>
-                    <a href="https://github.com/HannahGuo/RankedRecords" target="_blank" rel="noreferrer">
-                    <Popup
-                        trigger={<Button circular basic icon inverted color="grey"><Icon name="github"/></Button>}
-                        content='Github'
-                        position='top center'
-                        inverted
-                        />
-                    </a>
-                </div>
-                <div>
-                    <a href="https://github.com/HannahGuo/RankedRecords/releases" target="_blank" rel="noreferrer">
-                    <Popup
-                        trigger={<Button circular basic icon inverted color="grey"><Icon name="newspaper outline"/></Button>}
-                        content='Latest Updates'
-                        position='top center'
-                        inverted
-                        />
-                    </a>
-                </div>
-                <div>
-                    <a href="https://ko-fi.com/hannahguo" target="_blank" rel="noreferrer">
-                    <Popup
-                        trigger={<Button circular basic icon inverted color="grey"><Icon name="coffee"/></Button>}
-                        content='Ko-fi Page'
-                        position='top center'
-                        inverted
-                        />
-                    </a>
-                </div>
-                <div>
-                    <a href="https://forms.gle/nigc6Bwdq5hZETRY9" target="_blank" rel="noreferrer">
-                    <Popup
-                        trigger={<Button circular basic icon inverted color="grey"><Icon name="inbox"/></Button>}
-                        content='Feedback Form'
-                        position='top center'
-                        inverted
-                        />
-                    </a>
-                </div>
-            </div>
-            <div>Made with ❤ by <a href="https://hannahguo.me/" target="_blank" rel="noreferrer">Hannah Guo️</a></div>
+	return (
+		<div id="footer">
+			<div id="footer-links">
+				<Modal
+					closeIcon
+					open={faqOpen}
+					onClose={() => setFaqOpen(false)}
+					onOpen={() => setFaqOpen(true)}
+					trigger={
+						<Button circular basic icon inverted color="grey">
+							<Icon name="question" />
+						</Button>
+					}
+				>
+					<Modal.Header>💿 Ranked Records FAQs</Modal.Header>
+					<Modal.Content scrolling>
+						<Modal.Description>
+							<FAQModalContent />
+						</Modal.Description>
+					</Modal.Content>
+				</Modal>
+				<div>
+					<a
+						href="https://github.com/HannahGuo/RankedRecords"
+						target="_blank"
+						rel="noreferrer"
+					>
+						<Popup
+							trigger={
+								<Button
+									circular
+									basic
+									icon
+									inverted
+									color="grey"
+								>
+									<Icon name="github" />
+								</Button>
+							}
+							content="Github"
+							position="top center"
+							inverted
+						/>
+					</a>
+				</div>
+				<div>
+					<a
+						href="https://github.com/HannahGuo/RankedRecords/releases"
+						target="_blank"
+						rel="noreferrer"
+					>
+						<Popup
+							trigger={
+								<Button
+									circular
+									basic
+									icon
+									inverted
+									color="grey"
+								>
+									<Icon name="newspaper outline" />
+								</Button>
+							}
+							content="Latest Updates"
+							position="top center"
+							inverted
+						/>
+					</a>
+				</div>
+				<div>
+					<a
+						href="https://ko-fi.com/hannahguo"
+						target="_blank"
+						rel="noreferrer"
+					>
+						<Popup
+							trigger={
+								<Button
+									circular
+									basic
+									icon
+									inverted
+									color="grey"
+								>
+									<Icon name="coffee" />
+								</Button>
+							}
+							content="Ko-fi Page"
+							position="top center"
+							inverted
+						/>
+					</a>
+				</div>
+				<div>
+					<a
+						href="https://forms.gle/nigc6Bwdq5hZETRY9"
+						target="_blank"
+						rel="noreferrer"
+					>
+						<Popup
+							trigger={
+								<Button
+									circular
+									basic
+									icon
+									inverted
+									color="grey"
+								>
+									<Icon name="inbox" />
+								</Button>
+							}
+							content="Feedback Form"
+							position="top center"
+							inverted
+						/>
+					</a>
+				</div>
+			</div>
+			<div>
+				Made with ❤ by{" "}
+				<a
+					href="https://hannahguo.me/"
+					target="_blank"
+					rel="noreferrer"
+				>
+					Hannah Guo️
+				</a>
+			</div>
 		</div>
+	)
 }

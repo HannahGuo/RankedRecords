@@ -1,51 +1,51 @@
-import {
-	PayloadAction,
-	createSlice
-} from '@reduxjs/toolkit'
+import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 
 export enum LoadingStages {
 	ALBUMS = "albums",
 	TRACKS = "tracks",
-	TRACKS_POP = "tracks_pop"
+	TRACKS_POP = "tracks_pop",
 }
 
 export const songsSlice = createSlice({
-	name: 'songsList',
+	name: "songsList",
 	initialState: {
 		// an object of objects where it goes [artist id]: [songs]
 		sList: {},
 		isLoading: false,
 		loadingStages: {
 			// [current, total]
-			"albums": 0,
-			"tracks": 0,
-			"tracks_pop": 0
-		}
+			albums: 0,
+			tracks: 0,
+			tracks_pop: 0,
+		},
 	},
 	reducers: {
-		addLoadingArtist: (state, action: PayloadAction <string> ) => {
-			state.sList[action.payload] = [];
+		addLoadingArtist: (state, action: PayloadAction<string>) => {
+			state.sList[action.payload] = []
 		},
-		addArtistSongs: (state, action: PayloadAction <[string, SongObj[]]> ) => {
-			if(action.payload[0] == undefined) return;
-			state.sList[action.payload[0]] = action.payload[1];
+		addArtistSongs: (state, action: PayloadAction<[string, SongObj[]]>) => {
+			if (action.payload[0] == undefined) return
+			state.sList[action.payload[0]] = action.payload[1]
 		},
 		removeArtistSongs: (state, action: PayloadAction<string>) => {
-			delete state.sList[action.payload];
+			delete state.sList[action.payload]
 		},
-		setLoadingStatus: (state, action:PayloadAction<boolean>) => {
-			state.isLoading = action.payload;
+		setLoadingStatus: (state, action: PayloadAction<boolean>) => {
+			state.isLoading = action.payload
 		},
-		updateLoadingStatus: (state, action:PayloadAction<[string, Number]>) => {	
-			state.loadingStages[action.payload[0]] = action.payload[1];
+		updateLoadingStatus: (
+			state,
+			action: PayloadAction<[string, Number]>,
+		) => {
+			state.loadingStages[action.payload[0]] = action.payload[1]
 		},
 		resetLoadingTotals: (state) => {
 			state.loadingStages = {
-				"albums": 0,
-				"tracks": 0,
-				"tracks_pop": 0
+				albums: 0,
+				tracks: 0,
+				tracks_pop: 0,
 			}
-		}
+		},
 	},
 })
 
@@ -55,6 +55,6 @@ export const {
 	addLoadingArtist,
 	setLoadingStatus,
 	updateLoadingStatus,
-	resetLoadingTotals
+	resetLoadingTotals,
 } = songsSlice.actions
 export default songsSlice.reducer

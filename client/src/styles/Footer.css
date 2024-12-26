@@ -1,11 +1,11 @@
 #footer-links {
-    display: flex;
-    justify-content: space-evenly;
-    margin: 20px auto;
+	display: flex;
+	justify-content: space-evenly;
+	margin: 20px auto;
 }
 
 #footer-links a {
-    text-decoration: none;
+	text-decoration: none;
 }
 
 #footer {
@@ -14,5 +14,5 @@
 }
 
 i.icon.coffee:before {
-    margin-left: -0.1em
+	margin-left: -0.1em;
 }

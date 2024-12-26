@@ -8,7 +8,7 @@
 	margin: 20px 0px;
 }
 
-#controlBoxDiv>#searchAndButtonsDiv {
+#controlBoxDiv > #searchAndButtonsDiv {
 	flex: 1;
 	padding: 15px 10px;
 }
@@ -38,18 +38,18 @@
 	color: white;
 }
 
-.ui.modal>.actions {
+.ui.modal > .actions {
 	display: flex;
 	align-items: center;
 	justify-content: center;
 }
 
-#optionsModal>.content {
+#optionsModal > .content {
 	color: black;
 	padding: 20px;
 }
 
-#optionsModalDiv>div {
+#optionsModalDiv > div {
 	margin-top: 10px;
 }
 
@@ -92,7 +92,7 @@
 		flex-direction: row;
 	}
 
-	#optionsModalDiv>div:last-child {
+	#optionsModalDiv > div:last-child {
 		margin-left: 10px;
-	}	
+	}
 }

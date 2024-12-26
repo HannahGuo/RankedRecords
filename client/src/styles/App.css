@@ -1,26 +1,28 @@
 @font-face {
-  font-family: 'Cabin';
-  src: local('Cabin'), url("../static/Cabin/Cabin/Cabin-Regular.ttf") format('truetype');
-  font-display: swap;
+	font-family: "Cabin";
+	src:
+		local("Cabin"),
+		url("../static/Cabin/Cabin/Cabin-Regular.ttf") format("truetype");
+	font-display: swap;
 }
 
 * {
-  margin: 0;
-  padding: 0;
+	margin: 0;
+	padding: 0;
 }
 
 body {
-  background-color: black;
-  color: white;
-  font-family: "Cabin", sans-serif;
-  font-size: 1.2em;
+	background-color: black;
+	color: white;
+	font-family: "Cabin", sans-serif;
+	font-size: 1.2em;
 }
 
 header {
-  display: flex;
-  justify-content: center;
-  flex-direction: center;
-  flex-direction: column;
+	display: flex;
+	justify-content: center;
+	flex-direction: center;
+	flex-direction: column;
 }
 
 h1,
@@ -30,98 +32,94 @@ h4,
 h5,
 h6,
 span {
-  font-family: "Cabin", sans-serif;
-  letter-spacing: 0.02em;
+	font-family: "Cabin", sans-serif;
+	letter-spacing: 0.02em;
 }
 
 h1 {
-  font-size: 36px;
-  font-weight: bold;
+	font-size: 36px;
+	font-weight: bold;
 }
 
 h2 {
-  font-size: 22px;
-  font-weight: bold;
+	font-size: 22px;
+	font-weight: bold;
 }
 
 h3 {
-  margin-top: 0px;
-  font-weight: 400;
-  font-size: 18px;
+	margin-top: 0px;
+	font-weight: 400;
+	font-size: 18px;
 }
 
 #app {
-  display: flex;
+	display: flex;
 }
 
 @media (max-width: 576px) {
-  #app {
-    flex-direction: column;
-  }
+	#app {
+		flex-direction: column;
+	}
 
-  #leftBox {
-    padding: 20px;
-    text-align: center;
-  }
+	#leftBox {
+		padding: 20px;
+		text-align: center;
+	}
 
-  #rightBox {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 1em;
-  }
+	#rightBox {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		padding: 1em;
+	}
 }
 
 @media (min-width: 577px) {
-  #leftBox {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 35%;
-    padding: 3em;
-    border-right: 7px solid #4c3285;
-    border-image: 
-      linear-gradient(
-        to bottom, 
-        #4C3285, 
-        rgba(0, 0, 0, 0)
-      ) 1 100%;
-    min-height: 100vh;
-  }
-  
-  #rightBox {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 65%;
-    padding: 1em;
-  }
+	#leftBox {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		width: 35%;
+		padding: 3em;
+		border-right: 7px solid #4c3285;
+		border-image: linear-gradient(to bottom, #4c3285, rgba(0, 0, 0, 0)) 1
+			100%;
+		min-height: 100vh;
+	}
+
+	#rightBox {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		width: 65%;
+		padding: 1em;
+	}
 }
 
-.ui.modal>.actions {
-  padding: 1rem !important;
+.ui.modal > .actions {
+	padding: 1rem !important;
 }
 
 body ::-webkit-scrollbar-thumb {
-  background: #404040;
+	background: #404040;
 }
 
 #artistDivs {
-  border-bottom: 3px solid #4c3285;
+	border-bottom: 3px solid #4c3285;
 }
 
 .customScroll {
-  padding: 4px;
-  width: 50px !important;
-  height: 50px !important;
-  background-color: black !important;
-  box-shadow: none !important;
+	padding: 4px;
+	width: 50px !important;
+	height: 50px !important;
+	background-color: black !important;
+	box-shadow: none !important;
 }
 
 .ui.modal .scrolling.content {
-  color: black;
+	color: black;
 }
 
 ol {
-  margin-left: 20px;
+	margin-left: 20px;
 }

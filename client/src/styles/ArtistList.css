@@ -44,7 +44,7 @@
 }
 
 @media (max-width: 576px) {
-    .artistListDiv {
+	.artistListDiv {
 		display: flex;
 		flex-direction: row;
 		align-items: flex-start;
@@ -54,7 +54,7 @@
 }
 
 @media (min-width: 577px) {
-    .artistListDiv {
+	.artistListDiv {
 		display: flex;
 		flex-direction: row;
 		align-items: flex-start;

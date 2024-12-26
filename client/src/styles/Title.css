@@ -1,27 +1,27 @@
-#titleHeaderDiv>h2 {
-    font-weight: normal;
-    margin-top: 0px;
+#titleHeaderDiv > h2 {
+	font-weight: normal;
+	margin-top: 0px;
 }
 
 #titleHeaderDiv h1 h2 {
-    font-size: 26px;
-    font-family: "Cabin", sans-serif;
+	font-size: 26px;
+	font-family: "Cabin", sans-serif;
 }
 
 @media (max-width: 576px) {
-    #titleHeaderDiv {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        font-family: "Cabin", sans-serif;
-    }
+	#titleHeaderDiv {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		font-family: "Cabin", sans-serif;
+	}
 }
 
 @media (min-width: 577px) {
-    #titleHeaderDiv {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        font-family: "Cabin", sans-serif;
-    }
+	#titleHeaderDiv {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		font-family: "Cabin", sans-serif;
+	}
 }
