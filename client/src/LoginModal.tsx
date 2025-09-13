@@ -112,9 +112,9 @@ export default function LoginModal() {
 							target="_blank"
 							rel="noreferrer"
 						>
-							More details on the Product Hunt page
+							More details can be found on the Product Hunt page
 						</a>
-						, connect with Spotify below to get started!
+						. Connect with Spotify below to get started!
 					</p>
 				</Modal.Content>
 				<Modal.Actions>
