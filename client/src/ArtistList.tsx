@@ -1,10 +1,10 @@
-import "./styles/ArtistList.css"
-import { useSelector, useDispatch } from "react-redux"
-import { Icon, Button, Popup } from "semantic-ui-react"
+import { useDispatch, useSelector } from "react-redux"
+import { Button, Icon, Popup } from "semantic-ui-react"
+import { pluralize } from "./constants"
 import { removeArtist } from "./features/artistList"
 import { LoadingStages, removeArtistSongs } from "./features/songsList"
 import useToSortSongs from "./hooks/useToSortSongs"
-import { pluralize } from "./constants"
+import "./styles/ArtistList.css"
 
 export default function ArtistList() {
 	const artistListSelector = useSelector(
@@ -30,10 +30,11 @@ export default function ArtistList() {
 			{artistListSelector.map((val: ArtistObj) => {
 				return (
 					<div key={val.key} className="artistDiv">
-						<img src={val.image.src} />
+						<img src={val.image.src} alt={val.key + "image"} />
 						<span className="artistName">{val.name}</span>
 
-						{!(isLoading && curID == val.id) || curID != val.id ? (
+						{!(isLoading && curID === val.id) ||
+						curID !== val.id ? (
 							<>
 								<span>
 									(
@@ -55,7 +56,7 @@ export default function ArtistList() {
 												: accumulator
 										}, 0),
 										"song",
-									)}
+									) + ` found`}
 									)
 								</span>
 								<Button

@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
 import { Button, Icon, Modal } from "semantic-ui-react"
 import { CURRENT_URL, clientID, errorStr, spotifyApi } from "./constants"
-import { useDispatch, useSelector } from "react-redux"
-import "./styles/LoginModal.css"
 import { setStartAuth, setUser } from "./features/spotifyUserSettings"
 import useAuth from "./hooks/useAuth"
+import "./styles/LoginModal.css"
 
 import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
@@ -100,11 +100,22 @@ export default function LoginModal() {
 				<Modal.Content>
 					<h1>Welcome to Ranked Records! 💿</h1>
 					<p>
-						This site lets you view <strong>all</strong> the songs
-						by your favorite artists. Select artists, choose a sort
-						order and make your playlist!
+						This site lets you make playlists with{" "}
+						<strong>all</strong> the songs by your favorite artists.
+						Combine multiple artists, sort by popularity or
+						chronology, and add filters to make the perfect
+						playlist!
+						<br />
+						<br />
+						<a
+							href="https://www.producthunt.com/products/ranked-records"
+							target="_blank"
+							rel="noreferrer"
+						>
+							More details on the Product Hunt page
+						</a>
+						, connect with Spotify below to get started!
 					</p>
-					<p>Connect with Spotify to get started!</p>
 				</Modal.Content>
 				<Modal.Actions>
 					<div id="loginButtonsDiv">

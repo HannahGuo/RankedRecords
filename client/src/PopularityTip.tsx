@@ -13,6 +13,7 @@ export function PopularityTip() {
 					aria-label="about-popularity"
 				/>
 			}
+			mouseEnterDelay={300}
 		>
 			<Popup.Content>
 				<b>From the Spotify Web API: </b>

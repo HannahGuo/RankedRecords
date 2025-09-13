@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react"
-import "./styles/ArtistList.css"
-import { useSelector, useDispatch } from "react-redux"
-import { spotifyApi } from "./constants"
+import { useDispatch, useSelector } from "react-redux"
 import { Button, Icon } from "semantic-ui-react"
+import { spotifyApi } from "./constants"
 import { addtoEnd, updateArtistID } from "./features/artistList"
+import "./styles/ArtistList.css"
 
 export default function RecArtistList() {
 	const artistListSelector = useSelector(
@@ -98,38 +98,39 @@ export default function RecArtistList() {
 				</div>
 			) : null}
 
-			{artistListSelector.length == 0 ? (
-				<></>
-			) : (
-				Object.keys(artistRecs).map((recID: any) => {
-					let curArtistRecs = artistRecs[recID]
-					return curArtistRecs.map((curArtistObj: ArtistObj) => {
-						return (
-							<div key={curArtistObj.key} className="artistDiv">
-								<img src={curArtistObj.image.src} />
-								<span className="artistName greyName">
-									{curArtistObj.name}
-								</span>
-								<Button
-									basic
-									icon
-									circular={true}
-									compact={true}
-									disabled={isLoading}
-									onClick={() => {
-										dispatch(addtoEnd(curArtistObj))
-										dispatch(
-											updateArtistID(curArtistObj.id),
-										)
-									}}
+			{artistListSelector.length === 0
+				? undefined
+				: Object.keys(artistRecs).map((recID: any) => {
+						let curArtistRecs = artistRecs[recID]
+						return curArtistRecs.map((curArtistObj: ArtistObj) => {
+							return (
+								<div
+									key={curArtistObj.key}
+									className="artistDiv"
 								>
-									<Icon name="add" />
-								</Button>
-							</div>
-						)
-					})
-				})
-			)}
+									<img src={curArtistObj.image.src} />
+									<span className="artistName greyName">
+										{curArtistObj.name}
+									</span>
+									<Button
+										basic
+										icon
+										circular={true}
+										compact={true}
+										disabled={isLoading}
+										onClick={() => {
+											dispatch(addtoEnd(curArtistObj))
+											dispatch(
+												updateArtistID(curArtistObj.id),
+											)
+										}}
+									>
+										<Icon name="add" />
+									</Button>
+								</div>
+							)
+						})
+				  })}
 		</div>
 	)
 }

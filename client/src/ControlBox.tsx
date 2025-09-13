@@ -1,25 +1,24 @@
-import "./styles/ControlBox.css"
-import SearchBar from "./SearchBar"
 import { useState } from "react"
-import { Dropdown, Button, Modal, Image } from "semantic-ui-react"
-import { useDispatch } from "react-redux"
-import { useSelector } from "react-redux"
-import {
-	SortMethod,
-	changeSortMethod,
-	changeSortDirection,
-	SortDirection,
-	setFilters,
-} from "./features/listSettings"
+import { useDispatch, useSelector } from "react-redux"
 import Creatable from "react-select/creatable"
+import { Button, Dropdown, Image, Modal } from "semantic-ui-react"
 import {
 	defaultFilterOptions,
 	errorStr,
 	pluralize,
 	spotifyApi,
 } from "./constants"
-import useToSortSongs from "./hooks/useToSortSongs"
+import {
+	SortDirection,
+	SortMethod,
+	changeSortDirection,
+	changeSortMethod,
+	setFilters,
+} from "./features/listSettings"
 import useToFetchSongs from "./hooks/useToFetchSongs"
+import useToSortSongs from "./hooks/useToSortSongs"
+import SearchBar from "./SearchBar"
+import "./styles/ControlBox.css"
 
 //https://stackoverflow.com/questions/196972/convert-string-to-title-case-with-javascript
 function toTitleCase(str: String) {
@@ -91,7 +90,7 @@ export default function ControlBox() {
 		return found ? found.text : undefined
 	}
 
-	let userDisplay = <></>
+	let userDisplay = undefined
 	if (
 		userSettings != null &&
 		userSettings.images[0] &&
@@ -127,10 +126,19 @@ export default function ControlBox() {
 
 		let playlistTitle = `${userSettings.display_name}'s Ranked Records Playlist`
 
-		let playlistDesc = `${pluralize(artistList.length, "Artist")}: ${artistString} | Sorted Order: ${sortMethod}`
+		let playlistDesc = `${pluralize(
+			artistList.length,
+			"Artist",
+		)}: ${artistString} | Sorted Order: ${sortMethod}`
 
 		if (listSettings.filterOptions.length > 0) {
-			playlistDesc = `${pluralize(artistList.length, "Artist")}: ${artistString} | ${pluralize(listSettings.filterOptions.length, "Filter")}: ${filters} | Sorted in ${sortMethod} order.`
+			playlistDesc = `${pluralize(
+				artistList.length,
+				"Artist",
+			)}: ${artistString} | ${pluralize(
+				listSettings.filterOptions.length,
+				"Filter",
+			)}: ${filters} | Sorted in ${sortMethod} order.`
 		}
 
 		spotifyApi
@@ -187,8 +195,6 @@ export default function ControlBox() {
 						>
 							<Modal.Header>⚙️ Playlist Options </Modal.Header>
 							<Modal.Content>
-								<em>Options are saved automatically</em>
-								<br />
 								<Modal.Description>
 									<div id="optionsModalDiv">
 										<div>
@@ -222,14 +228,8 @@ export default function ControlBox() {
 									</div>
 									<h5>Filters</h5>
 									<p>
-										Filter out any songs with the following
-										words (NOT case-sensitive, and any song
-										with your filters in its name will be
-										removed):
-									</p>
-									<p>
-										You can add your own custom filters by
-										typing them in!
+										Filter out songs with the following
+										words or phrase (not case-sensitive):
 									</p>
 									<Creatable
 										id="filterSelect"
@@ -249,12 +249,31 @@ export default function ControlBox() {
 								</Modal.Description>
 							</Modal.Content>
 							<Modal.Actions>
-								<Button
-									id="purpleBackground"
-									onClick={() => setOptionsModalOpen(false)}
+								<div
+									style={{
+										display: "flex",
+										flexDirection: "column",
+										justifyContent: "space-between",
+										alignItems: "center",
+										color: "gray",
+										textAlign: "center",
+										width: "100%",
+									}}
 								>
-									Return to Song List
-								</Button>
+									<Button
+										id="purpleBackground"
+										onClick={() =>
+											setOptionsModalOpen(false)
+										}
+									>
+										Return to Song List
+									</Button>
+									<br />
+									<em>
+										Options are automatically saved and will
+										reflect in the right-side song list.
+									</em>
+								</div>
 							</Modal.Actions>
 						</Modal>
 					</>
@@ -303,35 +322,45 @@ export default function ControlBox() {
 									<br />
 									<div id="playlistModalWarning">
 										{artistList.length === 0 ||
-										songsList.length === 0 ? (
-											"You have no songs selected! Close this window and add some songs to your playlist."
-										) : (
-											<></>
-										)}
+										songsList.length === 0
+											? "You have no songs selected! Close this window and add some songs to your playlist."
+											: undefined}
 									</div>
 								</div>
 							</Modal.Content>
 							<Modal.Actions>
-								{artistList.length === 0 ||
-								songsList.length === 0 ? (
-									<></>
-								) : (
-									<Button
-										id="purpleBackground"
-										onClick={() => {
-											createPlaylist()
-											setPlaylistModalOpen(false)
-											setPlaylistCreatedModalOpen(true)
-										}}
-									>
-										Create Playlist
-									</Button>
-								)}
-								<Button
-									onClick={() => setPlaylistModalOpen(false)}
+								<div
+									style={{
+										display: "flex",
+										flexDirection: "column",
+										width: "fit-content",
+									}}
 								>
-									Return to Song List
-								</Button>
+									{artistList.length === 0 ||
+									songsList.length === 0 ? undefined : (
+										<Button
+											id="purpleBackground"
+											style={{ marginBottom: "10px" }}
+											onClick={() => {
+												createPlaylist()
+												setPlaylistModalOpen(false)
+												setPlaylistCreatedModalOpen(
+													true,
+												)
+											}}
+										>
+											Create Playlist and Add to Spotify
+											Account
+										</Button>
+									)}
+									<Button
+										onClick={() =>
+											setPlaylistModalOpen(false)
+										}
+									>
+										Return to Song List
+									</Button>
+								</div>
 							</Modal.Actions>
 						</Modal>
 					</>
